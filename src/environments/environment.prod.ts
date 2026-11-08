@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://api.orca-crm.com/api',
+  apiUrl: 'https://api.orcaxtech.com/api',
 };
