@@ -1,0 +1,345 @@
+@if (rcService.isDialerOpen()) {
+  <!-- Floating Softphone Container (Bottom-Left in RTL) -->
+  <div class="fixed bottom-4 left-4 z-50 select-none animate-in fade-in slide-in-from-bottom-4 duration-200">
+    
+    <!-- MINIMIZED PILL VIEW -->
+    @if (rcService.isMinimized()) {
+      <div (click)="rcService.toggleMinimize()"
+        class="flex items-center gap-3 px-4 py-2.5 bg-slate-900 text-white rounded-full shadow-2xl border border-slate-700/60 cursor-pointer hover:bg-slate-800 transition-all hover:scale-105">
+        <div class="relative">
+          <span class="material-symbols-outlined text-[20px] text-emerald-400"
+            [class.animate-bounce]="rcService.callState() !== 'idle'">
+            phone_in_talk
+          </span>
+          <span class="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+        </div>
+        <div class="flex items-center gap-2 text-xs">
+          <span class="font-bold">RingCentral</span>
+          @if (rcService.callState() !== 'idle') {
+            <span class="text-emerald-400 font-mono">{{ formatDuration(rcService.callDuration()) }}</span>
+          } @else {
+            <span class="text-slate-400">متاح</span>
+          }
+        </div>
+        <button type="button" (click)="rcService.closeDialer(); $event.stopPropagation()"
+          class="p-1 rounded-full text-slate-400 hover:text-white hover:bg-white/10 transition-colors">
+          <span class="material-symbols-outlined text-[16px]">close</span>
+        </button>
+      </div>
+    }
+
+    <!-- FULL DIALER MODAL VIEW -->
+    @if (!rcService.isMinimized()) {
+      <div class="w-80 sm:w-88 bg-surface-container-lowest rounded-2xl shadow-2xl border border-surface-container-high overflow-hidden flex flex-col backdrop-blur-xl">
+        
+        <!-- Header -->
+        <div class="p-3.5 bg-slate-900 text-white flex items-center justify-between">
+          <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center">
+              <span class="material-symbols-outlined text-[20px]">phone_in_talk</span>
+            </div>
+            <div>
+              <div class="flex items-center gap-1.5">
+                <span class="font-headline-sm text-xs font-bold leading-none">
+                  {{ rcService.selectedLine()?.label || 'هاتف RingCentral' }}
+                </span>
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              </div>
+              <span class="text-[10px] text-slate-400 block mt-0.5" dir="ltr">
+                {{ rcService.selectedLine()?.phone_number || activeConfig()?.main_phone_number || 'US Telephony & SMS' }}
+              </span>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-1 text-slate-400">
+            <button type="button" (click)="rcService.toggleMinimize()"
+              class="w-7 h-7 rounded-lg hover:bg-white/10 hover:text-white flex items-center justify-center transition-colors"
+              title="تصغير">
+              <span class="material-symbols-outlined text-[18px]">remove</span>
+            </button>
+            <button type="button" (click)="rcService.closeDialer()"
+              class="w-7 h-7 rounded-lg hover:bg-white/10 hover:text-white flex items-center justify-center transition-colors"
+              title="إغلاق">
+              <span class="material-symbols-outlined text-[18px]">close</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <div class="flex items-center border-b border-surface-container bg-surface-container-low text-xs font-semibold">
+          <button type="button" (click)="selectTab('keypad')"
+            class="flex-1 py-2.5 text-center flex items-center justify-center gap-1.5 transition-colors border-b-2"
+            [class.border-primary-container]="rcService.activeTab() === 'keypad'"
+            [class.text-primary-container]="rcService.activeTab() === 'keypad'"
+            [class.border-transparent]="rcService.activeTab() !== 'keypad'"
+            [class.text-on-surface-variant]="rcService.activeTab() !== 'keypad'">
+            <span class="material-symbols-outlined text-[16px]">dialpad</span>
+            <span>لوحة الاتصال</span>
+          </button>
+
+          <button type="button" (click)="selectTab('call-log')"
+            class="flex-1 py-2.5 text-center flex items-center justify-center gap-1.5 transition-colors border-b-2"
+            [class.border-primary-container]="rcService.activeTab() === 'call-log'"
+            [class.text-primary-container]="rcService.activeTab() === 'call-log'"
+            [class.border-transparent]="rcService.activeTab() !== 'call-log'"
+            [class.text-on-surface-variant]="rcService.activeTab() !== 'call-log'">
+            <span class="material-symbols-outlined text-[16px]">history</span>
+            <span>سجل المكالمات</span>
+          </button>
+
+          <button type="button" (click)="selectTab('sms')"
+            class="flex-1 py-2.5 text-center flex items-center justify-center gap-1.5 transition-colors border-b-2"
+            [class.border-primary-container]="rcService.activeTab() === 'sms'"
+            [class.text-primary-container]="rcService.activeTab() === 'sms'"
+            [class.border-transparent]="rcService.activeTab() !== 'sms'"
+            [class.text-on-surface-variant]="rcService.activeTab() !== 'sms'">
+            <span class="material-symbols-outlined text-[16px]">sms</span>
+            <span>رسالة SMS</span>
+          </button>
+        </div>
+
+        <!-- TAB CONTENT 1: KEYPAD & CALL VIEW -->
+        @if (rcService.activeTab() === 'keypad') {
+          <div class="p-4 flex flex-col justify-between min-h-[380px]">
+            
+            <!-- ACTIVE CALL OVERLAY -->
+            @if (rcService.callState() !== 'idle') {
+              <div class="flex-1 flex flex-col items-center justify-center space-y-6 py-6 animate-in zoom-in-95 duration-200">
+                <!-- Avatar with pulsing rings -->
+                <div class="relative flex items-center justify-center">
+                  <div class="w-20 h-20 rounded-full bg-emerald-500/20 animate-ping absolute"></div>
+                  <div class="w-20 h-20 rounded-full bg-gradient-to-tr from-emerald-600 to-teal-500 text-white flex items-center justify-center shadow-lg relative z-10">
+                    <span class="material-symbols-outlined text-[36px]">call</span>
+                  </div>
+                </div>
+
+                <!-- Call Status & Callee Number -->
+                <div class="text-center">
+                  <div class="font-bold text-base text-on-surface font-mono tracking-wide" dir="ltr">
+                    {{ rcService.activeCallNumber() }}
+                  </div>
+                  <div class="text-xs text-on-surface-variant mt-1 flex items-center justify-center gap-1">
+                    @if (rcService.callState() === 'calling') {
+                      <span class="material-symbols-outlined animate-spin text-[14px] text-primary-container">progress_activity</span>
+                      <span>جاري الاتصال عبر خط RingCentral...</span>
+                    } @else if (rcService.callState() === 'connected') {
+                      <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                      <span class="font-mono text-emerald-600 font-bold text-sm">
+                        {{ formatDuration(rcService.callDuration()) }}
+                      </span>
+                    } @else if (rcService.callState() === 'ended') {
+                      <span class="text-rose-600 font-semibold">تم إنهاء المكالمة</span>
+                    }
+                  </div>
+                </div>
+
+                <!-- In-Call Actions -->
+                <div class="flex items-center gap-6 pt-4">
+                  <!-- Mute Button -->
+                  <button type="button" (click)="toggleMute()"
+                    class="w-12 h-12 rounded-full flex items-center justify-center transition-all cursor-pointer shadow-sm"
+                    [class.bg-surface-container-high]="!rcService.isMuted()"
+                    [class.text-on-surface]="!rcService.isMuted()"
+                    [class.bg-amber-500]="rcService.isMuted()"
+                    [class.text-white]="rcService.isMuted()"
+                    title="كتم الصوت">
+                    <span class="material-symbols-outlined text-[20px]">
+                      {{ rcService.isMuted() ? 'mic_off' : 'mic' }}
+                    </span>
+                  </button>
+
+                  <!-- End Call Button (Red) -->
+                  <button type="button" (click)="endCall()"
+                    class="w-14 h-14 rounded-full bg-rose-600 hover:bg-rose-700 text-white flex items-center justify-center shadow-lg transition-transform hover:scale-105 active:scale-95 cursor-pointer"
+                    title="إنهاء المكالمة">
+                    <span class="material-symbols-outlined text-[28px]">call_end</span>
+                  </button>
+                </div>
+              </div>
+            }
+
+            <!-- IDLE KEYPAD VIEW -->
+            @if (rcService.callState() === 'idle') {
+              <!-- Outbound Line Selector -->
+              @if (rcService.phoneLines().length > 1) {
+                <div class="mb-2.5 flex items-center justify-between gap-2 p-1.5 px-2.5 bg-surface-container-low rounded-lg border border-surface-container text-xs">
+                  <span class="text-[11px] text-on-surface-variant font-medium shrink-0">الاتصال من:</span>
+                  <select [ngModel]="rcService.selectedLine()?.id" (ngModelChange)="onSelectLine($event)"
+                    class="bg-transparent text-on-surface font-semibold text-xs focus:outline-none cursor-pointer truncate max-w-[190px]">
+                    @for (line of rcService.phoneLines(); track line.id) {
+                      <option [value]="line.id">
+                        {{ line.label }} ({{ line.phone_number }})
+                      </option>
+                    }
+                  </select>
+                </div>
+              }
+
+              <!-- Phone Display Field -->
+              <div class="relative mb-3">
+                <input type="tel" [(ngModel)]="phoneNumber" placeholder="أدخل رقم الهاتف..." dir="ltr"
+                  class="w-full h-11 px-3 pr-9 pl-9 rounded-xl bg-surface-container-low text-on-surface font-mono text-lg font-bold text-center tracking-wider focus:outline-none focus:ring-2 focus:ring-primary-container border border-surface-container-high" />
+                
+                @if (phoneNumber()) {
+                  <!-- Backspace button -->
+                  <button type="button" (click)="backspace()"
+                    class="absolute left-2.5 top-1/2 -translate-y-1/2 text-outline hover:text-on-surface p-1 transition-colors">
+                    <span class="material-symbols-outlined text-[18px]">backspace</span>
+                  </button>
+                  <!-- Clear button -->
+                  <button type="button" (click)="clearPhone()"
+                    class="absolute right-2.5 top-1/2 -translate-y-1/2 text-outline hover:text-on-surface p-1 transition-colors">
+                    <span class="material-symbols-outlined text-[16px]">close</span>
+                  </button>
+                }
+              </div>
+
+              <!-- 3x4 Keypad Grid -->
+              <div class="grid grid-cols-3 gap-2.5 mb-4">
+                @for (k of keys; track k.num) {
+                  <button type="button" (click)="appendDigit(k.num)"
+                    class="h-12 rounded-xl bg-surface-container-low hover:bg-surface-container active:scale-95 text-on-surface flex flex-col items-center justify-center transition-all cursor-pointer border border-surface-container">
+                    <span class="font-mono text-base font-bold leading-none">{{ k.num }}</span>
+                    @if (k.sub) {
+                      <span class="text-[9px] text-outline tracking-wider font-semibold leading-none mt-0.5">{{ k.sub }}</span>
+                    }
+                  </button>
+                }
+              </div>
+
+              <!-- Call Trigger Button (Green) -->
+              <button type="button" (click)="startCall()" [disabled]="!phoneNumber().trim()"
+                class="w-full h-12 rounded-xl bg-emerald-600 hover:bg-emerald-700 active:scale-98 text-white font-bold text-sm flex items-center justify-center gap-2 shadow-lg transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
+                <span class="material-symbols-outlined text-[22px]">phone</span>
+                <span>اتصال هاتف (RingCentral)</span>
+              </button>
+            }
+
+          </div>
+        }
+
+        <!-- TAB CONTENT 2: CALL LOG -->
+        @if (rcService.activeTab() === 'call-log') {
+          <div class="p-3 flex flex-col h-[380px]">
+            <div class="flex items-center justify-between pb-2 mb-2 border-b border-surface-container">
+              <span class="text-xs font-bold text-on-surface">سجل المكالمات الأخيرة</span>
+              <button type="button" (click)="loadCallLogs()" [disabled]="isLoadingLogs()"
+                class="p-1 rounded-lg hover:bg-surface-container text-outline hover:text-on-surface transition-colors cursor-pointer">
+                <span class="material-symbols-outlined text-[16px]" [class.animate-spin]="isLoadingLogs()">refresh</span>
+              </button>
+            </div>
+
+            <div class="flex-1 overflow-y-auto space-y-1.5 custom-scrollbar">
+              @if (isLoadingLogs()) {
+                <div class="py-12 text-center text-xs text-on-surface-variant flex flex-col items-center gap-2">
+                  <span class="material-symbols-outlined animate-spin text-[24px] text-primary-container">progress_activity</span>
+                  <span>جاري تحميل سجل المكالمات...</span>
+                </div>
+              } @else if (callLogs().length === 0) {
+                <div class="py-12 text-center text-xs text-on-surface-variant flex flex-col items-center gap-2">
+                  <span class="material-symbols-outlined text-[32px] text-outline">call_missed</span>
+                  <span>لا توجد سجلات مكالمات سابقة</span>
+                </div>
+              } @else {
+                @for (call of callLogs(); track call.id) {
+                  <div class="p-2.5 rounded-xl bg-surface-container-low hover:bg-surface-container flex items-center justify-between gap-2 text-xs transition-colors">
+                    <div class="flex items-center gap-2.5 min-w-0">
+                      <!-- Direction Icon -->
+                      <div class="w-7 h-7 rounded-lg flex items-center justify-center shrink-0"
+                        [class.bg-emerald-500/10]="call.direction === 'Outbound'"
+                        [class.text-emerald-600]="call.direction === 'Outbound'"
+                        [class.bg-blue-500/10]="call.direction === 'Inbound'"
+                        [class.text-blue-600]="call.direction === 'Inbound'">
+                        <span class="material-symbols-outlined text-[16px]">
+                          {{ call.direction === 'Outbound' ? 'call_made' : 'call_received' }}
+                        </span>
+                      </div>
+                      
+                      <div class="truncate">
+                        <span class="font-mono font-bold text-on-surface block truncate" dir="ltr">
+                          {{ call.direction === 'Outbound' ? call.to.phoneNumber : call.from.phoneNumber }}
+                        </span>
+                        <span class="text-[10px] text-outline">
+                          {{ formatDuration(call.duration) }} • {{ formatCallTime(call.startTime) }}
+                        </span>
+                      </div>
+                    </div>
+
+                    <!-- Redial button -->
+                    <button type="button" (click)="startCall(call.direction === 'Outbound' ? call.to.phoneNumber : call.from.phoneNumber)"
+                      class="w-7 h-7 rounded-lg bg-emerald-50 text-emerald-700 hover:bg-emerald-600 hover:text-white flex items-center justify-center transition-colors shrink-0"
+                      title="معاودة الاتصال">
+                      <span class="material-symbols-outlined text-[16px]">call</span>
+                    </button>
+                  </div>
+                }
+              }
+            </div>
+          </div>
+        }
+
+        <!-- TAB CONTENT 3: QUICK SMS -->
+        @if (rcService.activeTab() === 'sms') {
+          <div class="p-4 flex flex-col justify-between h-[380px]">
+            <div class="space-y-3">
+              @if (rcService.phoneLines().length > 1) {
+                <div>
+                  <label class="block text-xs font-semibold text-on-surface mb-1">الإرسال من الخط:</label>
+                  <select [ngModel]="rcService.selectedLine()?.id" (ngModelChange)="onSelectLine($event)"
+                    class="w-full h-8 px-2.5 rounded-lg bg-surface-container-low text-on-surface text-xs font-medium border border-surface-container-high focus:outline-none focus:border-primary-container cursor-pointer">
+                    @for (line of rcService.phoneLines(); track line.id) {
+                      <option [value]="line.id">
+                        {{ line.label }} ({{ line.phone_number }})
+                      </option>
+                    }
+                  </select>
+                </div>
+              }
+
+              <div>
+                <label class="block text-xs font-semibold text-on-surface mb-1">إلى رقم المشترك:</label>
+                <input type="tel" [(ngModel)]="smsTo" placeholder="+1 (555) 000-0000" dir="ltr"
+                  class="w-full h-9 px-3 rounded-lg bg-surface-container-low text-on-surface font-mono text-xs border border-surface-container-high focus:outline-none focus:border-primary-container" />
+              </div>
+
+              <div>
+                <div class="flex items-center justify-between mb-1">
+                  <label class="block text-xs font-semibold text-on-surface">نص الرسالة (SMS):</label>
+                  <span class="text-[10px] text-outline font-mono">{{ smsText().length }}/160</span>
+                </div>
+                <textarea [(ngModel)]="smsText" rows="4" maxlength="160"
+                  placeholder="اكتب نص الرسالة التي ستصل للعميل كرسالة SMS من رقم الشركة..."
+                  class="w-full p-2.5 rounded-lg bg-surface-container-low text-on-surface text-xs border border-surface-container-high focus:outline-none focus:border-primary-container resize-none custom-scrollbar"></textarea>
+              </div>
+
+              @if (smsStatusMessage(); as st) {
+                <div class="p-2.5 rounded-lg text-xs flex items-center gap-2"
+                  [class.bg-emerald-50]="st.type === 'success'"
+                  [class.text-emerald-800]="st.type === 'success'"
+                  [class.bg-rose-50]="st.type === 'error'"
+                  [class.text-rose-800]="st.type === 'error'">
+                  <span class="material-symbols-outlined text-[16px]">
+                    {{ st.type === 'success' ? 'check_circle' : 'error' }}
+                  </span>
+                  <span>{{ st.text }}</span>
+                </div>
+              }
+            </div>
+
+            <button type="button" (click)="sendSms()" [disabled]="isSendingSms() || !smsTo().trim() || !smsText().trim()"
+              class="w-full h-10 rounded-xl bg-primary-container text-on-primary font-bold text-xs flex items-center justify-center gap-2 shadow-sm transition-all cursor-pointer hover:bg-primary disabled:opacity-50 disabled:cursor-not-allowed">
+              @if (isSendingSms()) {
+                <span class="material-symbols-outlined animate-spin text-[16px]">progress_activity</span>
+              } @else {
+                <span class="material-symbols-outlined text-[16px]">send</span>
+              }
+              <span>إرسال رسالة SMS عبر RingCentral</span>
+            </button>
+          </div>
+        }
+
+      </div>
+    }
+
+  </div>
+}

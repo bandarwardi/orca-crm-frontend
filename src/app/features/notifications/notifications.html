@@ -1,0 +1,181 @@
+<div class="max-w-7xl mx-auto w-full space-y-space-md">
+  <!-- Top Action & Statistics Header Bar -->
+  <div class="flex flex-col md:flex-row md:items-center justify-between gap-space-sm bg-surface-container-lowest p-space-md rounded-xl shadow-sm">
+    <div class="flex items-center gap-space-sm">
+      <div class="w-12 h-12 rounded-xl bg-primary-container/10 flex items-center justify-center text-primary-container">
+        <span class="material-symbols-outlined text-[28px]" style="font-variation-settings: 'FILL' 1;">notifications_active</span>
+      </div>
+      <div class="flex flex-col">
+        <div class="flex items-center gap-space-xs">
+          <h1 class="font-headline-md text-headline-md text-on-surface">الإشعارات</h1>
+          @if (store.totalUnread() > 0) {
+            <span class="px-2.5 py-0.5 rounded-full bg-error text-on-error font-label-sm text-label-sm font-semibold tracking-wide">
+              {{ store.totalUnread() }} جديدة
+            </span>
+          }
+        </div>
+        <p class="font-body-sm text-body-sm text-on-surface-variant">
+          متابعة دقيقة لكل تنبيهات الاشتراكات، المهام المجدولة ومحادثات العملاء
+        </p>
+      </div>
+    </div>
+
+    <!-- Quick Global Actions -->
+    <div class="flex items-center gap-space-xs">
+      <button type="button" 
+              class="inline-flex items-center gap-1.5 px-space-sm py-2 rounded-lg bg-surface-container hover:bg-surface-container-high text-primary font-label-md text-label-md transition-colors"
+              (click)="store.markAllAsRead()">
+        <span class="material-symbols-outlined text-[18px]">done_all</span>
+        <span>تحديد الكل كمقروء</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Main Content Layout Grid -->
+  <div class="grid grid-cols-1 gap-space-md items-start">
+    
+    <!-- Notifications Feed -->
+    <div class="flex flex-col gap-space-md w-full">
+      
+      <!-- Filter Pills Bar -->
+      <div class="bg-surface-container-lowest p-space-xs rounded-xl shadow-sm flex items-center gap-1.5 overflow-x-auto select-none custom-scrollbar">
+        <button type="button" 
+                class="filter-tab px-space-sm py-2 rounded-lg font-label-md text-label-md flex items-center gap-1.5 transition-all whitespace-nowrap"
+                [ngClass]="store.filters.activeCategory() === 'all' ? 'bg-primary-container text-on-primary' : 'text-on-surface-variant hover:bg-surface-container-high'"
+                (click)="setCategory('all')">
+          <span>الكل</span>
+          <span class="px-1.5 py-0.5 rounded-full font-code-sm text-[11px]"
+                [ngClass]="store.filters.activeCategory() === 'all' ? 'bg-surface-container-lowest/20 text-on-primary' : 'bg-surface-container text-on-surface'">{{ store.items().length }}</span>
+        </button>
+        <button type="button" 
+                class="filter-tab px-space-sm py-2 rounded-lg font-label-md text-label-md flex items-center gap-1.5 transition-all whitespace-nowrap"
+                [ngClass]="store.filters.activeCategory() === 'followup' ? 'bg-primary-container text-on-primary' : 'text-on-surface-variant hover:bg-surface-container-high'"
+                (click)="setCategory('followup')">
+          <span>متابعات مستحقة</span>
+          <span class="px-1.5 py-0.5 rounded-full font-code-sm text-[11px]"
+                [ngClass]="store.filters.activeCategory() === 'followup' ? 'bg-surface-container-lowest/20 text-on-primary' : 'bg-surface-container text-on-surface'">{{ store.followupCount() }}</span>
+        </button>
+        <button type="button" 
+                class="filter-tab px-space-sm py-2 rounded-lg font-label-md text-label-md flex items-center gap-1.5 transition-all whitespace-nowrap"
+                [ngClass]="store.filters.activeCategory() === 'expiry' ? 'bg-primary-container text-on-primary' : 'text-on-surface-variant hover:bg-surface-container-high'"
+                (click)="setCategory('expiry')">
+          <span>اشتراكات تنتهي</span>
+          <span class="px-1.5 py-0.5 rounded-full font-code-sm text-[11px]"
+                [ngClass]="store.filters.activeCategory() === 'expiry' ? 'bg-surface-container-lowest/20 text-on-primary' : 'bg-surface-container text-on-surface'">{{ store.expiryCount() }}</span>
+        </button>
+        <button type="button" 
+                class="filter-tab px-space-sm py-2 rounded-lg font-label-md text-label-md flex items-center gap-1.5 transition-all whitespace-nowrap"
+                [ngClass]="store.filters.activeCategory() === 'messages' ? 'bg-primary-container text-on-primary' : 'text-on-surface-variant hover:bg-surface-container-high'"
+                (click)="setCategory('messages')">
+          <span>رسائل جديدة</span>
+          <span class="px-1.5 py-0.5 rounded-full font-code-sm text-[11px]"
+                [ngClass]="store.filters.activeCategory() === 'messages' ? 'bg-surface-container-lowest/20 text-on-primary' : 'bg-surface-container text-on-surface'">{{ store.messagesCount() }}</span>
+        </button>
+        <button type="button" 
+                class="filter-tab px-space-sm py-2 rounded-lg font-label-md text-label-md flex items-center gap-1.5 transition-all whitespace-nowrap"
+                [ngClass]="store.filters.activeCategory() === 'tasks' ? 'bg-primary-container text-on-primary' : 'text-on-surface-variant hover:bg-surface-container-high'"
+                (click)="setCategory('tasks')">
+          <span>مهام</span>
+          <span class="px-1.5 py-0.5 rounded-full font-code-sm text-[11px]"
+                [ngClass]="store.filters.activeCategory() === 'tasks' ? 'bg-surface-container-lowest/20 text-on-primary' : 'bg-surface-container text-on-surface'">{{ store.tasksCount() }}</span>
+        </button>
+      </div>
+
+      <!-- Notification List Feed -->
+      <div class="space-y-space-sm">
+        @for (group of store.groupedItems(); track group.label) {
+          <!-- Date Header -->
+          <div class="flex items-center gap-space-xs pt-1">
+            <span class="font-label-md text-label-md text-on-surface font-semibold">{{ group.label }}</span>
+            <span class="px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-code-sm text-[11px]">{{ group.items.length }} تنبيهات</span>
+            <div class="flex-1 h-px bg-surface-container-high"></div>
+          </div>
+          
+          @for (item of group.items; track item.id) {
+            @if (item.category === 'system' && item.isImportant) {
+              <!-- IMPORTANT SYSTEM NOTIFICATION -->
+              <div class="p-space-md rounded-xl bg-gradient-to-br from-primary to-primary-container text-on-primary shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-space-sm cursor-pointer"
+                   (click)="store.markAsRead(item.id)">
+                <div class="flex items-start gap-space-sm">
+                  <div class="w-10 h-10 rounded-lg bg-surface-container-lowest/20 flex items-center justify-center shrink-0">
+                    <span class="material-symbols-outlined text-[24px]">{{ item.icon }}</span>
+                  </div>
+                  <div class="flex flex-col">
+                    <div class="flex items-center gap-2 mb-1">
+                      <h3 class="font-headline-sm text-headline-sm font-bold text-on-primary">{{ item.title }}</h3>
+                      @if (item.tags && item.tags.length > 0) {
+                        <span class="px-2 py-0.5 rounded-full bg-surface-container-lowest/20 text-[11px] font-code-sm text-on-primary">{{ item.tags[0] }}</span>
+                      }
+                    </div>
+                    <p class="font-body-sm text-body-sm text-on-primary/90 leading-relaxed">{{ item.description }}</p>
+                  </div>
+                </div>
+                <div class="shrink-0 self-end md:self-center">
+                  <span class="px-2.5 py-1 rounded-md bg-surface-container-lowest/20 text-on-primary font-code-sm text-[11px]">{{ item.timeLabel }}</span>
+                </div>
+              </div>
+            } @else {
+              <!-- STANDARD NOTIFICATION CARD -->
+              <div class="notification-card group relative bg-surface-container-lowest hover:bg-surface-container-low transition-colors duration-150 p-space-sm rounded-xl shadow-sm flex items-start gap-space-sm cursor-pointer"
+                   [class.opacity-80]="item.status === 'read'"
+                   (click)="store.markAsRead(item.id)">
+                
+                @if (item.status === 'unread') {
+                  <div class="indicator-stripe absolute top-2 bottom-2 right-1.5 w-1 rounded-full bg-primary-container"></div>
+                }
+
+                <!-- Icon Badge based on category -->
+                <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
+                     [ngClass]="{
+                       'bg-tertiary-fixed/30 text-tertiary': item.category === 'followup' && item.status === 'unread',
+                       'bg-error-container/60 text-error': item.category === 'expiry' && item.status === 'unread',
+                       'bg-secondary-container/40 text-secondary': item.category === 'messages' && item.status === 'unread',
+                       'bg-surface-container-high text-outline': item.status === 'read' || item.category === 'tasks'
+                     }">
+                  <span class="material-symbols-outlined text-[20px]">{{ item.icon }}</span>
+                </div>
+
+                <div class="flex-1 min-w-0 pr-1">
+                  <div class="flex items-center justify-between gap-space-xs mb-1">
+                    <div class="flex items-center gap-1.5 flex-wrap">
+                      @if (item.tags) {
+                        @for (tag of item.tags; track tag; let i = $index) {
+                          <span class="px-2 py-0.5 rounded-md font-label-sm text-[11px]"
+                                [ngClass]="{
+                                  'bg-tertiary-fixed/40 text-on-tertiary-fixed-variant': item.category === 'followup' && i === 0 && item.status === 'unread',
+                                  'bg-error-container text-on-error-container': item.category === 'expiry' && i === 0 && item.status === 'unread',
+                                  'bg-secondary-container/60 text-on-secondary-container': item.category === 'messages' && i === 0 && item.status === 'unread',
+                                  'bg-surface-container-high text-on-surface-variant': (item.status === 'read' || item.category === 'tasks') && i === 0,
+                                  'bg-surface-container text-outline': i > 0 || (item.status === 'read' && i > 0)
+                                }">{{ tag }}</span>
+                        }
+                      }
+                    </div>
+                    <span class="font-body-sm text-body-sm text-outline whitespace-nowrap">{{ item.timeLabel }}</span>
+                  </div>
+                  
+                  <p class="leading-snug"
+                     [ngClass]="item.status === 'unread' ? 'font-headline-sm text-headline-sm text-on-surface' : 'font-body-md text-body-md text-on-surface-variant'">
+                    {{ item.title }}
+                  </p>
+                  
+                  <div class="mt-2 flex items-center justify-between">
+                    <span class="font-body-sm text-body-sm"
+                          [ngClass]="item.status === 'unread' ? 'text-on-surface-variant' : 'text-outline'">{{ item.description }}</span>
+                    @if (item.actionLabel) {
+                      <button type="button" class="inline-flex items-center gap-1 font-label-sm text-label-sm"
+                              [ngClass]="item.status === 'unread' ? 'text-primary-container hover:text-primary' : 'text-outline hover:text-on-surface'">
+                        <span>{{ item.actionLabel }}</span>
+                        <span class="material-symbols-outlined text-[16px] transform rotate-180">arrow_forward</span>
+                      </button>
+                    }
+                  </div>
+                </div>
+              </div>
+            }
+          }
+        }
+      </div>
+    </div>
+  </div>
+</div>

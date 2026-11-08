@@ -1,0 +1,203 @@
+:root {
+  /* ==========================================================================
+     Deep Indigo Palette - Brand Tokens
+     ========================================================================== */
+  --brand-50:  #EEF2FF;
+  --brand-100: #E0E1FA;
+  --brand-500: #6366F1;
+  --brand-600: #4F46E5;  /* primary buttons, links, active states */
+  --brand-700: #3730D9;  /* primary hover/pressed */
+  --brand-900: #1E1B6E;
+  --brand-950: #0B0F2E;
+
+  /* ==========================================================================
+     Accent Colors (semantic, used sparingly — not decorative)
+     ========================================================================== */
+  --accent-emerald: #10B981; /* success / revenue growth */
+  --accent-amber:   #F59E0B; /* warnings / expiring subscriptions */
+  --accent-rose:    #F43F5E; /* critical / overdue */
+  --accent-violet:  #A855F7; /* leads KPI card top border accent */
+
+  /* ==========================================================================
+     Backgrounds & Borders (Light Canvas)
+     ========================================================================== */
+  --bg-canvas:      #F4F5FB; /* page background — cool-tinted gray, not neutral gray */
+  --bg-surface:     #FFFFFF; /* cards */
+  --bg-surface-alt: #FAFAFF; /* secondary cards */
+  --border-subtle:  #E4E5F1;
+  --text-primary:   #0B0F2E; /* high contrast on light canvas */
+  --text-secondary: #475569;
+  --text-muted:     #64748B;
+
+  /* ==========================================================================
+     Sidebar Tokens (Dark surface for deep contrast)
+     ========================================================================== */
+  --sidebar-bg:          #14163A;
+  --sidebar-text:        #C7C9E8;
+  --sidebar-text-active: #FFFFFF;
+  --sidebar-active-bg:   #4F46E5;
+  --sidebar-icon:        #8B8DC4;
+
+  /* ==========================================================================
+     Status Badge Tokens (Tinted background + text/dot)
+     ========================================================================== */
+  --badge-new-bg:           #EEF2FF;
+  --badge-new-text:         #4F46E5;
+  --badge-interested-bg:    #ECFDF5;
+  --badge-interested-text:  #059669;
+  --badge-followup-bg:      #F1F5F9;
+  --badge-followup-text:    #475569;
+  --badge-negotiation-bg:   #FFFBEB;
+  --badge-negotiation-text: #D97706;
+  --badge-won-bg:           #FDF2F8;
+  --badge-won-text:         #DB2777;
+  --badge-closed-bg:        #F1F5F9;
+  --badge-closed-text:      #64748B;
+
+  /* ==========================================================================
+     Dark Mode Tokens (Standard tokens exposed for dark mode reference)
+     ========================================================================== */
+  --bg-canvas-dark:    #0B0D24;
+  --bg-surface-dark:   #14163A;
+  --border-dark:       #262A5C;
+  --text-primary-dark: #F1F1FA;
+  --brand-dark:        #6366F1;
+
+  /* ==========================================================================
+     Semantic Backward Compatibility Mapping (Inherited by all components)
+     ========================================================================== */
+  --background: var(--bg-canvas);
+  --on-background: var(--text-primary);
+  --surface: var(--bg-surface);
+  --on-surface: var(--text-primary);
+  --on-surface-variant: var(--text-secondary);
+  --surface-container-lowest: var(--bg-surface);
+  --surface-container-low: var(--bg-surface-alt);
+  --surface-container: #EEF0F8;
+  --surface-container-high: #E4E5F1;
+  --surface-container-highest: #CBD0E7;
+  --surface-bright: #FFFFFF;
+  --surface-dim: #E4E5F1;
+  --surface-variant: #EEF0F8;
+  --outline: var(--text-muted);
+  --outline-variant: var(--border-subtle);
+
+  --primary: var(--brand-600);
+  --on-primary: #FFFFFF;
+  --primary-container: var(--brand-600);
+  --on-primary-container: var(--brand-50);
+  --inverse-primary: var(--brand-100);
+  --primary-fixed: var(--brand-50);
+  --primary-fixed-dim: var(--brand-100);
+  --on-primary-fixed: var(--brand-900);
+  --on-primary-fixed-variant: var(--brand-700);
+  --surface-tint: var(--brand-600);
+
+  --secondary: var(--accent-emerald);
+  --on-secondary: #FFFFFF;
+  --secondary-container: #ECFDF5;
+  --on-secondary-container: #065F46;
+  --secondary-fixed: #ECFDF5;
+  --secondary-fixed-dim: #A7F3D0;
+  --on-secondary-fixed: #064E3B;
+  --on-secondary-fixed-variant: #047857;
+
+  --tertiary: var(--accent-amber);
+  --on-tertiary: #FFFFFF;
+  --tertiary-container: var(--accent-amber);
+  --on-tertiary-container: #FFFBEB;
+  --tertiary-fixed: #FFFBEB;
+  --tertiary-fixed-dim: #FDE68A;
+  --on-tertiary-fixed: #78350F;
+  --on-tertiary-fixed-variant: #B45309;
+
+  --error: var(--accent-rose);
+  --on-error: #FFFFFF;
+  --error-container: #FFF1F2;
+  --on-error-container: #9F1239;
+
+  --inverse-surface: #14163A;
+  --inverse-on-surface: #F1F1FA;
+}
+
+/* ==========================================================================
+   Dark Mode Theme Overrides
+   ========================================================================== */
+:root[data-theme="dark"],
+.dark {
+  --bg-canvas: #0B0D24;
+  --bg-surface: #14163A;
+  --bg-surface-alt: #1A1D47;
+  --border-subtle: #262A5C;
+  --text-primary: #F1F1FA;
+  --text-secondary: #A5A8D4;
+  --text-muted: #6F73A8;
+
+  --brand-600: #6366F1;
+  --brand-700: #4F46E5;
+
+  --sidebar-bg: #0B0D24;
+  --sidebar-text: #A5A8D4;
+  --sidebar-text-active: #FFFFFF;
+  --sidebar-active-bg: #6366F1;
+  --sidebar-icon: #6F73A8;
+
+  --badge-new-bg: rgba(99, 102, 241, 0.18);
+  --badge-new-text: #A5B4FC;
+  --badge-interested-bg: rgba(16, 185, 129, 0.18);
+  --badge-interested-text: #6EE7B7;
+  --badge-followup-bg: rgba(148, 163, 184, 0.18);
+  --badge-followup-text: #CBD5E1;
+  --badge-negotiation-bg: rgba(245, 158, 11, 0.18);
+  --badge-negotiation-text: #FCD34D;
+  --badge-won-bg: rgba(244, 63, 94, 0.18);
+  --badge-won-text: #FDA4AF;
+  --badge-closed-bg: rgba(100, 116, 139, 0.2);
+  --badge-closed-text: #94A3B8;
+
+  --background: var(--bg-canvas);
+  --on-background: var(--text-primary);
+  --surface: var(--bg-surface);
+  --on-surface: var(--text-primary);
+  --on-surface-variant: var(--text-secondary);
+  --surface-container-lowest: var(--bg-surface);
+  --surface-container-low: var(--bg-surface-alt);
+  --surface-container: #1C2050;
+  --surface-container-high: #262A5C;
+  --surface-container-highest: #333878;
+  --surface-bright: #1E2255;
+  --surface-dim: #0B0D24;
+  --surface-variant: #1C2050;
+  --outline: var(--text-muted);
+  --outline-variant: var(--border-subtle);
+
+  --primary: var(--brand-dark);
+  --on-primary: #FFFFFF;
+  --primary-container: var(--brand-dark);
+  --on-primary-container: #FFFFFF;
+  --primary-fixed: #1E1B6E;
+  --primary-fixed-dim: #3730D9;
+  --on-primary-fixed: #EEF2FF;
+  --on-primary-fixed-variant: #E0E1FA;
+  --surface-tint: var(--brand-dark);
+
+  --secondary: var(--accent-emerald);
+  --on-secondary: #0B0D24;
+  --secondary-container: rgba(16, 185, 129, 0.2);
+  --on-secondary-container: #A7F3D0;
+  --secondary-fixed: #064E3B;
+
+  --tertiary: var(--accent-amber);
+  --on-tertiary: #0B0D24;
+  --tertiary-container: rgba(245, 158, 11, 0.2);
+  --on-tertiary-container: #FDE68A;
+  --tertiary-fixed: #78350F;
+
+  --error: var(--accent-rose);
+  --on-error: #FFFFFF;
+  --error-container: rgba(244, 63, 94, 0.2);
+  --on-error-container: #FECDD3;
+
+  --inverse-surface: #F1F1FA;
+  --inverse-on-surface: #0B0D24;
+}

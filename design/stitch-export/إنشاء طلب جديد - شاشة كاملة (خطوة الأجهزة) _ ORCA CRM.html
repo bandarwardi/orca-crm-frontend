@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>إنشاء طلب جديد - الخطوة 3: الأجهزة | orca CRM</title>
+  <!-- Google Fonts: IBM Plex Sans Arabic -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+  <link
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap"
+    rel="stylesheet">
+  <!-- Tailwind CSS v3 with plugins -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"IBM Plex Sans Arabic"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            primary: {
+              DEFAULT: '#1d4ed8',
+              50: '#eff6ff',
+              100: '#dbeafe',
+              200: '#bfdbfe',
+              500: '#3b82f6',
+              600: '#2563eb',
+              700: '#1d4ed8',
+              800: '#1e40af',
+              900: '#1e3a8a',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      font-family: 'IBM Plex Sans Arabic', sans-serif;
+      background-color: #f8fafc;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #f1f5f9;
+      border-radius: 8px;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 8px;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+  </style>
+</head>
+
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex">
+  <!-- BEGIN: Persistent Right Sidebar -->
+  <aside
+    class="w-64 bg-white border-l border-slate-200 flex flex-col justify-between shrink-0 hidden select-none z-30 sticky top-0 h-screen">
+    <div class="flex flex-col flex-1 overflow-y-auto custom-scrollbar">
+      <!-- Logo & Brand Header -->
+      <div class="p-5 border-b border-slate-100 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <img alt="orca Logo" class="h-9 w-auto object-contain rounded-lg shadow-sm"
+            src="https://lh3.googleusercontent.com/aida/AEtjO1UFAkVUAUEhkQnV3zyF-bfA9H_1j2fKqrnlPv2t3rGjALDe90zPvdPnxKCirAw75g65Uq7G09Zsz9Aa8u7BIDvgruf4WQVu34rmlJFQcvgW1NYeOWMF7lZAWSlVBbfOHaccjwgiaJJMGNYnyEc_wwiXyr2jSHDdH4o-kDSK70D88Rfbpr56DkGqU8FgmbFJgk3S405pvrxM92_mad2O0VBZESeWLraIqGm8owuuPcJb76e2H1OWa_Xebw">
+          <div>
+            <div class="flex items-center gap-1.5">
+              <span class="font-bold text-slate-900 text-base leading-tight">orca CRM</span>
+              <span
+                class="text-[10px] font-semibold text-blue-600 bg-blue-50 px-1.5 py-0.5 rounded border border-blue-100">PRO</span>
+            </div>
+            <p class="text-[11px] text-slate-400 font-medium">نظام إدارة الاشتراكات</p>
+          </div>
+        </div>
+      </div>
+      <!-- Navigation Links -->
+      <nav class="p-3.5 space-y-1">
+        <div class="px-3 py-2 text-[11px] font-bold text-slate-400 uppercase tracking-wider">لوحة القيادة</div>
+        <a class="flex items-center gap-3 px-3 py-2 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 text-xs font-semibold transition-colors"
+          href="#">
+          <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+              stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+          </svg>
+          <span class="">الرئيسية</span>
+        </a>
+        <a class="flex items-center gap-3 px-3 py-2 rounded-xl bg-blue-50 text-blue-700 text-xs font-bold transition-colors border border-blue-100 shadow-sm"
+          href="#">
+          <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
+              stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+          </svg>
+          <span class="flex-1">الطلبات</span>
+          <span class="text-[10px] bg-blue-600 text-white font-bold px-2 py-0.5 rounded-full">نشط</span>
+        </a>
+        <a class="flex items-center gap-3 px-3 py-2 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 text-xs font-semibold transition-colors"
+          href="#">
+          <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+              stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+          </svg>
+          <span class="">العملاء والمشتركون</span>
+        </a>
+        <a class="flex items-center gap-3 px-3 py-2 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 text-xs font-semibold transition-colors"
+          href="#">
+          <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+              stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+          </svg>
+          <span class="">إدارة الأجهزة</span>
+        </a>
+        <a class="flex items-center gap-3 px-3 py-2 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 text-xs font-semibold transition-colors"
+          href="#">
+          <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+              stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+          </svg>
+          <span class="">باقات الاشتراك</span>
+        </a>
+        <div class="pt-4 px-3 py-2 text-[11px] font-bold text-slate-400 uppercase tracking-wider">الإدارة والمالية</div>
+        <a class="flex items-center gap-3 px-3 py-2 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 text-xs font-semibold transition-colors"
+          href="#">
+          <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+          </svg>
+          <span class="">الفواتير والمدفوعات</span>
+        </a>
+        <a class="flex items-center gap-3 px-3 py-2 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 text-xs font-semibold transition-colors"
+          href="#">
+          <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+              stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+            <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+            </path>
+          </svg>
+          <span class="">الإعدادات والربط</span>
+        </a>
+      </nav>
+    </div>
+    <!-- Bottom User Section & Brand Badge -->
+    <div class="p-4 border-t border-slate-200 bg-slate-50/70">
+      <div class="flex items-center gap-3 mb-3">
+        <div
+          class="w-9 h-9 rounded-xl bg-blue-600 text-white font-bold flex items-center justify-center text-xs shadow-sm">
+          ط.م
+        </div>
+        <div class="flex-1 min-w-0">
+          <div class="text-xs font-bold text-slate-800 truncate">طارق المنصور</div>
+          <div class="text-[11px] text-slate-500 truncate">مسؤول النظام الرئيسي</div>
+        </div>
+      </div>
+      <div
+        class="pt-2 border-t border-slate-200/80 flex items-center justify-between text-[10px] text-slate-400 font-mono">
+        <span class="">POWERED BY orcaXTECH</span>
+        <span class="bg-slate-200/70 px-1.5 py-0.5 rounded text-slate-600">v2.4 Enterprise</span>
+      </div>
+    </div>
+  </aside>
+  <!-- END: Persistent Right Sidebar -->
+  <!-- BEGIN: Main Dashboard Content Area -->
+  <div class="flex-1 flex flex-col min-w-0 overflow-x-hidden">
+    <!-- Top Persistent Header Bar -->
+    <header
+      class="h-16 bg-white border-b border-slate-200 px-6 sm:px-8 flex items-center justify-between sticky top-0 z-20">
+      <!-- Breadcrumb & Mobile Menu -->
+      <div class="flex items-center gap-3 text-xs">
+        <button class="lg:hidden p-2 rounded-lg text-slate-600 hover:bg-slate-100" type="button">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+          </svg>
+        </button>
+        <div class="flex items-center gap-2 font-medium text-slate-500"><a
+            class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-slate-600 hover:text-blue-600 hover:bg-slate-100 font-semibold transition-colors text-xs border border-slate-200"
+            href="#"><svg class="w-3.5 h-3.5 rtl:rotate-0 rotate-180" fill="none" stroke="currentColor"
+              viewBox="0 0 24 24">
+              <path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+            </svg><span class="">العودة إلى الطلبات</span></a><span class="text-slate-300">|</span><span
+            class="text-slate-800 font-bold">إنشاء طلب جديد (مسودة #ORD-9421)</span></div>
+      </div>
+      <!-- Quick Search & Actions -->
+      <div class="flex items-center gap-3">
+        <!-- Search Input -->
+        <div class="relative hidden sm:block">
+          <span class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-slate-400">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linecap="round" stroke-linejoin="round"
+                stroke-width="2"></path>
+            </svg>
+          </span>
+          <input
+            class="w-56 text-xs bg-slate-50 border border-slate-200 rounded-lg pr-9 pl-3 py-1.5 focus:bg-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500 placeholder-slate-400 transition-all"
+            placeholder="بحث سريع في النظام..." type="text">
+        </div>
+        <!-- Language Switcher Badge -->
+        <button
+          class="px-2.5 py-1 text-xs font-semibold text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors border border-slate-200">
+          العربية
+        </button>
+        <!-- Notification Bell -->
+        <button class="relative p-2 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-lg transition-colors"
+          title="التنبيهات">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+              stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+          </svg>
+          <span class="w-2 h-2 bg-blue-600 rounded-full absolute top-2 right-2 ring-2 ring-white"></span>
+        </button>
+      </div>
+    </header>
+    <!-- Work Area Wrapper -->
+    <main class="flex-1 p-5 sm:p-7 max-w-7xl w-full mx-auto space-y-6">
+      <!-- Page Header: Title + Context Badges + Action Buttons -->
+      <section
+        class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+        <div class="flex items-center gap-3.5">
+          <div
+            class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center border border-blue-100 shrink-0 shadow-sm">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+            </svg>
+          </div>
+          <div>
+            <div class="flex items-center gap-2.5 flex-wrap">
+              <h1 class="text-xl font-bold text-slate-900">إنشاء طلب جديد</h1>
+              <span
+                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200">
+                مسودة #ORD-9421
+              </span>
+            </div>
+            <p class="text-xs text-slate-500 mt-1">
+              العميل: <span class="font-semibold text-slate-800">يوسف حداد</span> (LEAD-8842#)
+            </p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2.5 self-end sm:self-center">
+          <button
+            class="text-xs font-semibold text-slate-600 hover:text-slate-800 bg-slate-100 hover:bg-slate-200 px-3.5 py-2 rounded-xl transition-colors border border-slate-200"
+            type="button">
+            حفظ كمسودة
+          </button>
+          <button
+            class="text-xs font-semibold text-rose-600 hover:text-rose-700 bg-rose-50 hover:bg-rose-100/80 px-3.5 py-2 rounded-xl transition-colors border border-rose-200"
+            type="button">
+            إلغاء الطلب
+          </button>
+        </div>
+      </section>
+      <!-- Step Wizard Indicator (Full-width clean horizontal stepper) -->
+      <nav aria-label="مراحل معالج الطلب" class="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm">
+        <ol class="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs font-medium">
+          <!-- Step 1: Completed -->
+          <li class="flex items-center gap-2.5 p-2 rounded-xl bg-emerald-50/50 border border-emerald-100">
+            <span
+              class="w-7 h-7 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0 font-bold border border-emerald-300">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path>
+              </svg>
+            </span>
+            <div class="min-w-0">
+              <div class="text-[11px] text-emerald-600 font-semibold">المرحلة ١ (مكتملة)</div>
+              <div class="text-slate-800 font-bold truncate">بيانات العميل</div>
+            </div>
+          </li>
+          <!-- Step 2: Completed -->
+          <li class="flex items-center gap-2.5 p-2 rounded-xl bg-emerald-50/50 border border-emerald-100">
+            <span
+              class="w-7 h-7 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0 font-bold border border-emerald-300">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path>
+              </svg>
+            </span>
+            <div class="min-w-0">
+              <div class="text-[11px] text-emerald-600 font-semibold">المرحلة ٢ (مكتملة)</div>
+              <div class="text-slate-800 font-bold truncate">تفاصيل الاشتراك</div>
+            </div>
+          </li>
+          <!-- Step 3: Active / Current Step -->
+          <li
+            class="flex items-center gap-2.5 p-2 rounded-xl bg-blue-50 border border-blue-200 shadow-sm ring-1 ring-blue-400/40">
+            <span
+              class="w-7 h-7 rounded-full bg-blue-600 text-white flex items-center justify-center shrink-0 font-bold shadow-md shadow-blue-500/20">
+              ٣
+            </span>
+            <div class="min-w-0">
+              <div class="text-[11px] text-blue-600 font-semibold">المرحلة الحالية</div>
+              <div class="text-blue-900 font-bold truncate">٣. الأجهزة المشغلة</div>
+            </div>
+          </li>
+          <!-- Step 4: Pending -->
+          <li class="flex items-center gap-2.5 p-2 rounded-xl bg-slate-50 border border-slate-100">
+            <span
+              class="w-7 h-7 rounded-full bg-slate-200 text-slate-500 flex items-center justify-center shrink-0 font-medium">
+              ٤
+            </span>
+            <div class="min-w-0">
+              <div class="text-[11px] text-slate-400 font-semibold">المرحلة القادمة</div>
+              <div class="text-slate-400 font-semibold truncate">المراجعة والتأكيد</div>
+            </div>
+          </li>
+        </ol>
+      </nav>
+      <!-- Content Grid: Main Setup Area (68%) & Quick Summary Panel (32%) -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        <!-- Main Area (Right side in RTL, 8 cols) -->
+        <div class="lg:col-span-8 space-y-5">
+          <!-- Quota Banner -->
+          <section
+            class="bg-gradient-to-l from-blue-50 to-indigo-50/40 border border-blue-200 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-sm">
+            <div class="flex items-center gap-3.5">
+              <div
+                class="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center shrink-0 shadow-md shadow-blue-500/20">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path
+                    d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                    stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                </svg>
+              </div>
+              <div>
+                <h2 class="text-sm font-bold text-slate-900">أجهزة الاشتراك المشمولة بالباقة</h2>
+                <p class="text-xs text-slate-600 mt-0.5">
+                  متبقي <strong class="text-blue-700 font-bold">جهازان من أصل جهازين مشمولين</strong> بالباقة المختارة:
+                  <span
+                    class="inline-block bg-white text-blue-700 font-bold px-2 py-0.5 rounded border border-blue-200 text-[11px] mr-1">باقة
+                    VIP السنوية</span>
+                </p>
+              </div>
+            </div>
+            <div class="flex items-center gap-1.5 self-end sm:self-center">
+              <span
+                class="text-xs font-bold px-3 py-1 bg-emerald-100 text-emerald-800 rounded-full border border-emerald-200 flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                مكتمل العدد (2/2)
+              </span>
+            </div>
+          </section>
+          <!-- Repeatable Device Cards -->
+          <div class="space-y-4">
+            <!-- Device 1: Smart TV -->
+            <article
+              class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm hover:border-slate-300 transition-all">
+              <!-- Card Header -->
+              <div class="flex items-center justify-between pb-3.5 border-b border-slate-100 mb-4">
+                <div class="flex items-center gap-3">
+                  <span class="p-2 bg-blue-50 text-blue-700 rounded-xl border border-blue-100">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path
+                        d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                        stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                    </svg>
+                  </span>
+                  <div>
+                    <h3 class="text-sm font-bold text-slate-900">الجهاز 1 (الرئيسي)</h3>
+                    <span class="text-[11px] text-slate-500 font-medium">الشاشة الأساسية للصالة</span>
+                  </div>
+
+                </div>
+                <button class="text-slate-400 hover:text-rose-600 hover:bg-rose-50 p-2 rounded-xl transition-colors"
+                  title="حذف الجهاز" type="button">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path
+                      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                      stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                  </svg>
+                </button>
+              </div>
+              <!-- Card Inputs Grid -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 mb-1.5">نوع الجهاز</label>
+                  <select
+                    class="w-full text-xs font-medium bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-slate-800 focus:bg-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
+                    <option selected="">شاشة ذكية (Smart TV)</option>
+                    <option>جهاز استقبال (Android Box / Apple TV)</option>
+                    <option>جوال (Mobile / iOS)</option>
+                    <option>حاسوب (PC / Mac)</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 mb-1.5">MAC Address (عنوان الماك)</label>
+                  <input
+                    class="w-full text-xs font-mono font-medium bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-slate-800 text-left focus:bg-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                    dir="ltr" type="text" value="48:A4:93:BC:11:F2">
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 mb-1.5">Device Key (مفتاح الجهاز)</label>
+                  <input
+                    class="w-full text-xs font-mono font-medium bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-slate-800 text-left focus:bg-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                    dir="ltr" type="text" value="9842-DK-TIZEN">
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 mb-1.5">اسم المستخدم المخصص</label>
+                  <input
+                    class="w-full text-xs font-mono font-medium bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-slate-800 text-left focus:bg-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                    type="text" value="youssef_tv1" dir="ltr">
+                </div>
+                <div class="sm:col-span-2 md:col-span-2">
+                  <label class="block text-xs font-semibold text-slate-700 mb-1.5">حالة التفعيل والربط</label>
+                  <div
+                    class="h-[38px] px-3 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-between">
+                    <span class="text-xs font-medium text-slate-600">التطبيق المعتمد:</span>
+                    <span
+                      class="text-xs font-semibold text-blue-700 bg-blue-100/80 px-2 py-0.5 rounded-lg border border-blue-200">IBO
+                      Player Pro</span>
+                  </div>
+                </div>
+              </div>
+            </article>
+            <!-- Device 2: Mobile iOS -->
+            <article
+              class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm hover:border-slate-300 transition-all">
+              <!-- Card Header -->
+              <div class="flex items-center justify-between pb-3.5 border-b border-slate-100 mb-4">
+                <div class="flex items-center gap-3">
+                  <span class="p-2 bg-blue-50 text-blue-700 rounded-xl border border-blue-100">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"
+                        stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                    </svg>
+                  </span>
+                  <div>
+                    <h3 class="text-sm font-bold text-slate-900">الجهاز 2 (إضافي)</h3>
+                    <span class="text-[11px] text-slate-500 font-medium">الهاتف الذكي الشخصي</span>
+                  </div>
+
+                </div>
+                <button class="text-slate-400 hover:text-rose-600 hover:bg-rose-50 p-2 rounded-xl transition-colors"
+                  title="حذف الجهاز" type="button">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path
+                      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                      stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                  </svg>
+                </button>
+              </div>
+              <!-- Card Inputs Grid -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 mb-1.5">نوع الجهاز</label>
+                  <select
+                    class="w-full text-xs font-medium bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-slate-800 focus:bg-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
+                    <option>شاشة ذكية (Smart TV)</option>
+                    <option>جهاز استقبال (Android Box / Apple TV)</option>
+                    <option selected="">جوال (Mobile / iOS)</option>
+                    <option>حاسوب (PC / Mac)</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 mb-1.5">MAC Address (عنوان الماك)</label>
+                  <input
+                    class="w-full text-xs font-mono font-medium bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-slate-800 text-left focus:bg-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                    dir="ltr" type="text" value="6C:40:08:92:E4:7B">
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 mb-1.5">Device Key (مفتاح الجهاز)</label>
+                  <input
+                    class="w-full text-xs font-mono font-medium bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-slate-800 text-left focus:bg-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                    dir="ltr" type="text" value="3319-DK-IOS">
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 mb-1.5">اسم المستخدم المخصص</label>
+                  <input
+                    class="w-full text-xs font-mono font-medium bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-slate-800 text-left focus:bg-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                    type="text" value="youssef_mob" dir="ltr">
+                </div>
+                <div class="sm:col-span-2 md:col-span-2">
+                  <label class="block text-xs font-semibold text-slate-700 mb-1.5">حالة التفعيل والربط</label>
+                  <div
+                    class="h-[38px] px-3 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-between">
+                    <span class="text-xs font-medium text-slate-600">التطبيق المعتمد:</span>
+                    <span
+                      class="text-xs font-semibold text-indigo-700 bg-indigo-100/80 px-2 py-0.5 rounded-lg border border-indigo-200">Smarters
+                      Pro iOS</span>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </div>
+          <!-- Add Another Device Button -->
+          <button
+            class="w-full py-3.5 px-4 border-2 border-dashed border-slate-300 hover:border-blue-500 hover:bg-blue-50/50 rounded-2xl text-slate-600 hover:text-blue-700 text-xs font-bold transition-all flex items-center justify-center gap-2 group bg-white shadow-sm"
+            type="button">
+            <span
+              class="w-6 h-6 rounded-full bg-slate-100 group-hover:bg-blue-100 flex items-center justify-center transition-colors">
+              <svg class="w-3.5 h-3.5 text-slate-600 group-hover:text-blue-600" fill="none" stroke="currentColor"
+                viewBox="0 0 24 24">
+                <path d="M12 4v16m8-8H4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+              </svg>
+            </span>
+            <span class="">+ إضافة جهاز آخر (ترقية الحصة للباقة)</span>
+          </button>
+          <!-- Technical Hint Banner -->
+          <div
+            class="p-4 rounded-2xl bg-amber-50/70 border border-amber-200/80 text-amber-900 text-xs flex items-start gap-3 shadow-sm">
+            <span class="text-lg leading-none">💡</span>
+            <p class="leading-relaxed">
+              <strong class="font-bold text-amber-950">ملاحظة تقنية:</strong> سيتم إنشاء روابط M3U ورموز التفعيل (Portal
+              URL) تلقائياً لكل جهاز بعد اكتمال الطلب وإصدار الفاتورة فورياً مع إمكانية إرسالها للعميل عبر WhatsApp
+              والبريد.
+            </p>
+          </div>
+          <!-- Wizard Action Footer Card -->
+          <div
+            class="p-4 sm:p-5 bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div class="flex items-center gap-2.5 w-full sm:w-auto">
+              <button
+                class="w-full sm:w-auto px-6 py-2.5 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white rounded-xl text-xs font-bold shadow-md shadow-blue-500/25 transition-all flex items-center justify-center gap-2"
+                type="button">
+                <span class="">التالي: المراجعة والتأكيد</span>
+                <svg class="w-4 h-4 rtl:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                  </path>
+                </svg>
+              </button>
+              <button
+                class="w-full sm:w-auto px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-semibold transition-colors border border-slate-200"
+                type="button">
+                حفظ كمسودة
+              </button>
+            </div>
+            <button
+              class="w-full sm:w-auto px-4 py-2.5 bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 rounded-xl text-xs font-semibold transition-colors flex items-center justify-center gap-2"
+              type="button">
+              <svg class="w-4 h-4 rtl:rotate-0 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                </path>
+              </svg>
+              <span class="">السابق: تفاصيل الاشتراك</span>
+            </button>
+          </div>
+        </div>
+        <!-- Summary Sidebar / Quick Reference Panel (Left side in RTL, 4 cols) -->
+        <aside class="lg:col-span-4 space-y-5">
+          <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+              <div class="flex items-center gap-2">
+                <div class="w-2.5 h-2.5 rounded-full bg-blue-600"></div>
+                <h3 class="text-sm font-bold text-slate-900">ملخص الطلب السريع</h3>
+              </div>
+
+            </div>
+            <!-- Customer Summary Card -->
+            <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-100 space-y-2">
+              <div class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">بيانات المشترك</div>
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-slate-900">يوسف حداد</span>
+                <span
+                  class="text-[11px] text-blue-700 bg-blue-50 px-2 py-0.5 rounded border border-blue-100 font-mono">LEAD-8842</span>
+              </div>
+              <div class="text-xs text-slate-600 flex items-center gap-1.5" dir="ltr">
+                <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path
+                    d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+                    stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                </svg>
+                <span class="font-mono text-slate-700">+1 (718) 555-0192</span>
+              </div>
+              <div class="text-xs text-slate-600 flex items-center gap-1.5">
+                <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                    stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+                  <path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round"
+                    stroke-width="2"></path>
+                </svg>
+                <span class="">بروكلين، نيويورك</span>
+              </div>
+            </div>
+            <!-- Subscription Summary Card -->
+            <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-100 space-y-2.5">
+              <div class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">تفاصيل الباقة المحددة</div>
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-slate-800">باقة VIP السنوية</span>
+                <span class="text-xs font-mono font-bold text-blue-700">$160.00</span>
+              </div>
+              <div class="flex items-center justify-between text-xs text-slate-600">
+                <span class="">مدة الاشتراك:</span>
+                <span class="font-semibold text-slate-800">12 شهر (سنة كاملة)</span>
+              </div>
+              <div class="flex items-center justify-between text-xs text-slate-600">
+                <span class="">سيرفر البث:</span>
+                <span class="font-semibold text-slate-800">سيرفر النخبة 4K الرئيسي</span>
+              </div>
+
+            </div>
+            <!-- Devices Quick Summary -->
+
+            <!-- Dedicated Technical Assistance Note -->
+
+          </div>
+        </aside>
+      </div>
+    </main>
+  </div>
+  <!-- END: Main Dashboard Content Area -->
+
+
+
+
+</body>
+
+</html>

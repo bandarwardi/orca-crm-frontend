@@ -1,0 +1,215 @@
+<div class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-4" dir="rtl"
+    id="lead-detail-modal">
+    <div
+        class="bg-surface-container-lowest w-full max-w-2xl rounded-2xl shadow-2xl border border-outline-variant/40 flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+        <div
+            class="px-6 py-5 border-b border-outline-variant/40 flex items-center justify-between bg-surface-container-lowest">
+            <div class="flex items-center gap-3">
+                <div>
+                    <div class="flex items-center gap-2.5">
+                        <h2 class="font-headline-sm text-[20px] font-bold text-on-surface leading-snug">
+                            يوسف حداد
+                        </h2>
+                        <span
+                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[12px] font-semibold bg-amber-500/15 text-tertiary-container ring-1 ring-amber-500/30">
+                            تفاوض
+                        </span>
+                    </div>
+                    <p class="font-code-sm text-[12px] text-on-surface-variant mt-0.5">
+                        #LEAD-8842
+                    </p>
+                </div>
+            </div>
+            <div class="flex items-center gap-2">
+                <button
+                    class="w-9 h-9 rounded-lg flex items-center justify-center text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors"
+                    onclick="document.getElementById('lead-detail-modal').remove()" title="إغلاق النافذة">
+                    <span class="material-symbols-outlined text-[20px]">
+                        close
+                    </span>
+                </button>
+            </div>
+        </div>
+        <div
+            class="px-6 py-3.5 bg-surface-container-low/60 border-b border-outline-variant/40 flex flex-wrap items-center justify-between gap-3">
+            <button
+                class="w-full inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-primary text-white hover:bg-primary-container font-label-md text-label-md font-bold shadow-sm transition-all active:scale-95">
+                <span class="material-symbols-outlined text-[20px]">
+                    check_circle
+                </span>
+                <span class="">
+                    تحويل إلى طلب
+                </span>
+            </button>
+        </div>
+        <div class="p-6 space-y-5 overflow-y-auto max-h-[calc(85vh-160px)]">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="p-3.5 rounded-xl bg-surface-container-low border border-outline-variant/30">
+                    <div class="flex items-center justify-between mb-1.5">
+                        <span
+                            class="font-label-sm text-[12px] text-on-surface-variant font-medium flex items-center gap-1.5">
+                            <span class="material-symbols-outlined text-[16px] text-primary">
+                                phone
+                            </span>
+                            رقم الهاتف
+                        </span>
+                        <div class="flex items-center gap-1">
+                            <a class="w-7 h-7 rounded-lg flex items-center justify-center text-emerald-600 hover:bg-secondary-container/40 transition-colors"
+                                href="https://wa.me/17185550192" target="_blank" title="مراسلة واتساب">
+                                <span class="material-symbols-outlined text-[17px]">
+                                    chat
+                                </span>
+                            </a>
+                            <a class="w-7 h-7 rounded-lg flex items-center justify-center text-primary hover:bg-surface-container-high transition-colors"
+                                href="tel:+17185550192" title="اتصال هاتفي">
+                                <span class="material-symbols-outlined text-[17px]">
+                                    call
+                                </span>
+                            </a>
+                            <button
+                                class="w-7 h-7 rounded-lg flex items-center justify-center text-on-surface-variant hover:text-primary hover:bg-surface-container-high transition-colors"
+                                title="نسخ الرقم">
+                                <span class="material-symbols-outlined text-[16px]">
+                                    content_copy
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                    <p class="font-code-sm text-[14px] font-semibold text-on-surface" dir="ltr">
+                        +1 (718) 555-0192
+                    </p>
+                </div>
+                <div class="p-3.5 rounded-xl bg-surface-container-low border border-outline-variant/30">
+                    <div class="flex items-center gap-1.5 mb-1.5">
+                        <span class="material-symbols-outlined text-[16px] text-primary">
+                            location_on
+                        </span>
+                        <span class="font-label-sm text-[12px] text-on-surface-variant font-medium">
+                            المدينة / العنوان
+                        </span>
+                    </div>
+                    <p class="font-body-md text-[14px] font-semibold text-on-surface">
+                        بروكلين، نيويورك
+                    </p>
+                </div>
+                <div class="p-3.5 rounded-xl bg-surface-container-low border border-outline-variant/30">
+                    <div class="flex items-center gap-1.5 mb-1.5">
+                        <span class="material-symbols-outlined text-[16px] text-primary">
+                            support_agent
+                        </span>
+                        <span class="font-label-sm text-[12px] text-on-surface-variant font-medium">
+                            الموظف المسؤول
+                        </span>
+                    </div>
+                    <p class="font-body-md text-[14px] font-semibold text-on-surface">
+                        طارق المنصور
+                    </p>
+                </div>
+                <div class="p-3.5 rounded-xl bg-surface-container-low border border-outline-variant/30">
+                    <div class="flex items-center gap-1.5 mb-1.5">
+                        <span class="material-symbols-outlined text-[16px] text-primary">
+                            swap_horiz
+                        </span>
+                        <span class="font-label-sm text-[12px] text-on-surface-variant font-medium">
+                            المرحلة الحالية
+                        </span>
+                    </div>
+                    <div class="relative">
+                        <select
+                            class="w-full h-8 pr-2 pl-6 rounded-lg bg-surface-container-lowest border border-outline-variant/50 font-label-sm text-[13px] text-on-surface font-semibold appearance-none focus:outline-none focus:border-primary cursor-pointer">
+                            <option>
+                                مهتم
+                            </option>
+                            <option selected="">
+                                تفاوض
+                            </option>
+                            <option>
+                                محوّل لطلب
+                            </option>
+                            <option>
+                                غير مهتم / مغلق
+                            </option>
+                        </select>
+                        <span
+                            class="material-symbols-outlined absolute left-2 top-1/2 -translate-y-1/2 text-on-surface-variant text-[16px] pointer-events-none">
+                            expand_more
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="p-4 rounded-xl bg-surface-container-low border border-outline-variant/40">
+                <div class="flex items-center justify-between mb-2">
+                    <div class="flex items-center gap-2">
+                        <span class="material-symbols-outlined text-[18px] text-primary">
+                            alarm
+                        </span>
+                        <h3 class="font-headline-sm text-[14px] font-bold text-on-surface">
+                            المتابعة القادمة
+                        </h3>
+                    </div>
+                    <button class="font-label-sm text-[12px] text-primary hover:underline font-semibold">
+                        تعديل الموعد
+                    </button>
+                </div>
+                <div
+                    class="flex items-center justify-between gap-3 bg-surface-container-lowest p-3 rounded-lg border border-outline-variant/30">
+                    <div>
+                        <p class="font-label-md text-[13px] font-bold text-on-surface">
+                            غداً الساعة 04:00 مساءً
+                        </p>
+                        <p class="font-body-sm text-[12px] text-on-surface-variant mt-0.5">
+                            مكالمة لتأكيد باقة VIP وسيرفر المشاهدة
+                        </p>
+                    </div>
+                    <span
+                        class="inline-flex items-center px-2.5 py-1 rounded-md bg-primary-fixed text-primary font-code-sm text-[11px] font-bold">
+                        مجدول
+                    </span>
+                </div>
+            </div>
+            <div class="space-y-3">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <span class="material-symbols-outlined text-[18px] text-secondary">
+                            note_alt
+                        </span>
+                        <h3 class="font-headline-sm text-[14px] font-bold text-on-surface">
+                            ملاحظات الموظف
+                        </h3>
+                    </div>
+                </div>
+                <div
+                    class="p-3.5 rounded-xl bg-surface-container-low border border-outline-variant/30 text-on-surface font-body-sm text-[13px] leading-relaxed">
+                    <p class="text-on-surface">
+                        تم إرسال كود التجربة، العميل مهتم بباقة سنوية لجهازين ومتابعة القنوات الرياضية.
+                    </p>
+                </div>
+                <div class="relative">
+                    <textarea
+                        class="w-full p-3 rounded-xl bg-surface-container-lowest border border-outline-variant/60 font-body-sm text-[13px] text-on-surface placeholder:text-on-surface-variant/70 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all resize-none"
+                        placeholder="أضف ملاحظة جديدة أو تحديثاً..." rows="2"></textarea>
+                    <div class="flex justify-end mt-2">
+                        <button
+                            class="px-3.5 py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-sm text-[12px] font-semibold flex items-center gap-1.5 transition-colors shadow-sm">
+                            <span class="material-symbols-outlined text-[15px]">
+                                save
+                            </span>
+                            <span class="">
+                                حفظ الملاحظة
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div
+            class="px-6 py-3.5 bg-surface-container-lowest border-t border-outline-variant/40 flex items-center justify-between text-on-surface-variant font-code-sm text-[11px]">
+            <span class="">
+                orca CRM • إدارة الحسابات
+            </span>
+            <span class="">
+                Powered by orcaXTECH
+            </span>
+        </div>
+    </div>
+</div>

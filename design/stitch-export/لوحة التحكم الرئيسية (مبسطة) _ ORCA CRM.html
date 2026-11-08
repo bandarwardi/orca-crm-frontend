@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta content="web_dashboard" name="shell-type">
+  <link
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&amp;family=IBM+Plex+Sans:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap"
+    rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+    rel="stylesheet">
+  <style>
+    @layer base {
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: 'IBM Plex Sans Arabic', 'IBM Plex Sans', sans-serif;
+      }
+
+      body {
+        overscroll-behavior: none;
+      }
+    }
+
+    ::-webkit-scrollbar {
+      display: none;
+    }
+  </style>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-tertiary-container": "#ffcb8f",
+            "on-tertiary": "#ffffff",
+            "secondary-container": "#6cf8bb",
+            "tertiary-fixed": "#ffddb8",
+            "on-primary-fixed-variant": "#0039b5",
+            "secondary-fixed-dim": "#4edea3",
+            "surface-dim": "#d2d9f4",
+            "secondary-fixed": "#6ffbbe",
+            "primary": "#0037b0",
+            "primary-fixed-dim": "#b7c4ff",
+            "on-primary": "#ffffff",
+            "inverse-surface": "#283044",
+            "error-container": "#ffdad6",
+            "on-tertiary-fixed-variant": "#653e00",
+            "surface-variant": "#dae2fd",
+            "error": "#ba1a1a",
+            "inverse-primary": "#b7c4ff",
+            "on-primary-container": "#cad3ff",
+            "secondary": "#006c49",
+            "on-secondary": "#ffffff",
+            "on-error": "#ffffff",
+            "on-tertiary-fixed": "#2a1700",
+            "surface-bright": "#faf8ff",
+            "background": "#faf8ff",
+            "on-secondary-fixed": "#002113",
+            "on-secondary-container": "#00714d",
+            "primary-container": "#1d4ed8",
+            "tertiary": "#623c00",
+            "surface-container-high": "#e2e7ff",
+            "tertiary-container": "#825100",
+            "surface-container-highest": "#dae2fd",
+            "on-background": "#131b2e",
+            "surface-container-low": "#f2f3ff",
+            "surface-container-lowest": "#ffffff",
+            "on-secondary-fixed-variant": "#005236",
+            "surface": "#faf8ff",
+            "on-primary-fixed": "#001551",
+            "primary-fixed": "#dce1ff",
+            "surface-tint": "#2151da",
+            "outline-variant": "#c4c5d7",
+            "inverse-on-surface": "#eef0ff",
+            "outline": "#747686",
+            "tertiary-fixed-dim": "#ffb95f",
+            "on-surface": "#131b2e",
+            "surface-container": "#eaedff",
+            "on-surface-variant": "#434655",
+            "on-error-container": "#93000a"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-lg": "2rem",
+            "gutter-sm": "1rem",
+            "space-xs": "0.5rem",
+            "margin": "2rem",
+            "space-xl": "3rem",
+            "space-md": "1.5rem",
+            "gutter": "1.5rem",
+            "space-sm": "1rem",
+            "margin-sm": "1rem"
+          },
+          "fontFamily": {
+            "body-md": ["IBM Plex Sans Arabic", "IBM Plex Sans"],
+            "headline-sm": ["IBM Plex Sans Arabic", "IBM Plex Sans"],
+            "body-sm": ["IBM Plex Sans Arabic", "IBM Plex Sans"],
+            "display": ["IBM Plex Sans Arabic", "IBM Plex Sans"],
+            "body-lg": ["IBM Plex Sans Arabic", "IBM Plex Sans"],
+            "code-sm": ["JetBrains Mono"],
+            "headline-lg": ["IBM Plex Sans Arabic", "IBM Plex Sans"],
+            "headline-md": ["IBM Plex Sans Arabic", "IBM Plex Sans"],
+            "label-md": ["IBM Plex Sans Arabic", "IBM Plex Sans"],
+            "label-sm": ["IBM Plex Sans Arabic", "IBM Plex Sans"]
+          },
+          "fontSize": {
+            "label-sm": ["12px", { "lineHeight": "18px", "fontWeight": "500" }],
+            "body-md": ["14px", { "lineHeight": "24px", "fontWeight": "400" }],
+            "headline-sm": ["16px", { "lineHeight": "26px", "fontWeight": "600" }],
+            "body-sm": ["12px", { "lineHeight": "20px", "fontWeight": "400" }],
+            "display": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "body-lg": ["16px", { "lineHeight": "26px", "fontWeight": "400" }],
+            "code-sm": ["12px", { "lineHeight": "18px", "fontWeight": "500" }],
+            "headline-md": ["20px", { "lineHeight": "30px", "fontWeight": "600" }],
+            "headline-lg": ["26px", { "lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "label-md": ["14px", { "lineHeight": "22px", "fontWeight": "500" }]
+          }
+        }
+      }
+    };
+  </script>
+</head>
+
+<body class="bg-background font-body-md text-on-surface antialiased min-h-screen">
+  <!-- 1. FULL-HEIGHT GLOBAL SIDEBAR -->
+  <aside
+    class="fixed right-0 top-0 h-screen w-64 bg-surface-container-lowest border-l border-outline-variant/30 z-50 flex flex-col justify-between select-none">
+    <div class="flex flex-col">
+      <!-- Compact single row logo/brand -->
+      <div class="h-16 px-space-md flex items-center gap-2.5 border-b border-surface-container/60">
+        <img alt="orca TV" class="h-7 w-auto object-contain"
+          src="https://lh3.googleusercontent.com/aida/AEtjO1UFAkVUAUEhkQnV3zyF-bfA9H_1j2fKqrnlPv2t3rGjALDe90zPvdPnxKCirAw75g65Uq7G09Zsz9Aa8u7BIDvgruf4WQVu34rmlJFQcvgW1NYeOWMF7lZAWSlVBbfOHaccjwgiaJJMGNYnyEc_wwiXyr2jSHDdH4o-kDSK70D88Rfbpr56DkGqU8FgmbFJgk3S405pvrxM92_mad2O0VBZESeWLraIqGm8owuuPcJb76e2H1OWa_Xebw">
+        <span class="font-headline-sm text-headline-sm text-primary tracking-tight font-bold">orca CRM</span>
+      </div>
+      <!-- Navigation links -->
+      <nav class="p-3 space-y-1">
+        <a aria-current="page"
+          class="flex items-center gap-3 px-3 py-2.5 bg-primary-container text-on-primary font-headline-sm text-[14px] rounded-lg shadow-sm"
+          data-path="dashboard" href="#">
+          <span class="material-symbols-outlined text-[20px]">dashboard</span>
+          <span>الرئيسية</span>
+        </a>
+        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-label-md text-[14px]"
+          data-path="leads" href="#">
+          <span class="material-symbols-outlined text-[20px]">person_search</span>
+          <span>العملاء المحتملون</span>
+        </a>
+        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-label-md text-[14px]"
+          data-path="orders" href="#">
+          <span class="material-symbols-outlined text-[20px]">receipt_long</span>
+          <span>الطلبات</span>
+        </a>
+        <a class="flex items-center justify-between px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-label-md text-[14px]"
+          data-path="conversations" href="#">
+          <div class="flex items-center gap-3">
+            <span class="material-symbols-outlined text-[20px]">forum</span>
+            <span>صندوق المحادثات</span>
+          </div>
+          <span
+            class="px-1.5 py-0.5 rounded-full bg-surface-container-high text-primary font-code-sm text-[11px] font-semibold">12</span>
+        </a>
+        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-label-md text-[14px]"
+          data-path="performance" href="#">
+          <span class="material-symbols-outlined text-[20px]">monitoring</span>
+          <span>الأداء</span>
+        </a>
+        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-label-md text-[14px]"
+          data-path="geographic-map" href="#">
+          <span class="material-symbols-outlined text-[20px]">map</span>
+          <span>الخريطة</span>
+        </a>
+        <a class="flex items-center justify-between px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-label-md text-[14px]"
+          data-path="notifications" href="#">
+          <div class="flex items-center gap-3">
+            <span class="material-symbols-outlined text-[20px]">notifications</span>
+            <span>الإشعارات</span>
+          </div>
+          <span class="h-2 w-2 rounded-full bg-error"></span>
+        </a>
+        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-label-md text-[14px]"
+          data-path="settings" href="#">
+          <span class="material-symbols-outlined text-[20px]">settings</span>
+          <span>الإعدادات</span>
+        </a>
+      </nav>
+    </div>
+    <!-- User Profile & Branding Footer -->
+    <div class="p-3 border-t border-surface-container/60">
+      <div class="p-2 rounded-lg bg-surface-container-low flex items-center justify-between gap-2 mb-2">
+        <div class="flex items-center gap-2.5 min-w-0">
+          <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center flex-shrink-0 text-on-primary">
+            <span class="material-symbols-outlined text-[18px]">person</span>
+          </div>
+          <div class="flex flex-col truncate">
+            <span class="font-label-md text-[13px] text-on-surface font-semibold truncate leading-tight">طارق
+              المنصور</span>
+            <span class="font-label-sm text-[11px] text-on-surface-variant truncate">مدير إدارة الحسابات</span>
+          </div>
+        </div>
+        <button
+          class="w-7 h-7 rounded flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high transition-colors"
+          title="تسجيل خروج">
+          <span class="material-symbols-outlined text-[16px]">logout</span>
+        </button>
+      </div>
+      <div class="text-center py-1">
+        <span class="font-code-sm text-[10px] text-on-surface-variant/80 uppercase tracking-wider block">POWERED BY
+          orcaXTECH</span>
+      </div>
+    </div>
+  </aside>
+  <!-- MAIN AREA (OFFSET FOR RIGHT SIDEBAR) -->
+  <div class="pr-64 min-h-screen flex flex-col">
+    <!-- 2. COLLAPSED TOP HEADER (ONE SINGLE ROW) -->
+    <header
+      class="sticky top-0 h-16 bg-surface-container-lowest/95 backdrop-blur-md border-b border-outline-variant/30 z-40 px-space-lg flex items-center justify-between gap-space-md">
+      <!-- Greeting & Search combined -->
+      <div class="flex items-center gap-space-md flex-1 max-w-2xl">
+        <h1 class="font-headline-sm text-headline-sm text-on-surface whitespace-nowrap">مرحباً طارق</h1>
+        <div class="relative w-full max-w-md">
+          <span
+            class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[18px]">search</span>
+          <input
+            class="w-full h-9 pr-9 pl-12 rounded-lg bg-surface-container-low border border-outline-variant/50 font-body-md text-[13px] text-on-surface placeholder:text-on-surface-variant/70 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all"
+            placeholder="البحث عن عميل أو طلب... (⌘K)" type="text">
+          <kbd
+            class="absolute left-2.5 top-1/2 -translate-y-1/2 px-1.5 py-0.5 rounded bg-surface-container-high text-on-surface-variant font-code-sm text-[10px]">⌘K</kbd>
+        </div>
+      </div>
+      <!-- Header actions & avatar -->
+      <div class="flex items-center gap-space-sm">
+        <button
+          class="px-2.5 py-1.5 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface font-label-sm text-[13px] flex items-center gap-1.5 transition-colors"
+          title="تغيير اللغة">
+          <span class="material-symbols-outlined text-[16px]">translate</span>
+          <span>العربية</span>
+        </button>
+        <button
+          class="relative w-9 h-9 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container transition-colors"
+          title="الإشعارات">
+          <span class="material-symbols-outlined text-[20px]">notifications</span>
+          <span class="absolute top-2 left-2 flex h-2 w-2 rounded-full bg-error"></span>
+        </button>
+        <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-on-primary">
+          <span class="material-symbols-outlined text-[18px]">person</span>
+        </div>
+      </div>
+    </header>
+    <!-- MAIN CONTENT -->
+    <main class="flex-1 px-space-lg py-space-md bg-surface space-y-space-md">
+      <!-- 3. TOP ROW: 4 CLEAN, BOLD METRIC CARDS -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-space-md">
+        <!-- Metric 1: اشتراكات تنتهي قريباً -->
+        <div
+          class="bg-surface-container-lowest rounded-xl p-space-md border border-outline-variant/30 flex flex-col justify-between">
+          <div class="flex items-center justify-between">
+            <span class="font-label-md text-label-md text-on-surface-variant">اشتراكات تنتهي قريباً</span>
+            <div class="w-9 h-9 rounded-lg bg-tertiary-fixed/60 text-tertiary flex items-center justify-center">
+              <span class="material-symbols-outlined text-[20px]">alarm</span>
+            </div>
+          </div>
+          <div class="mt-4 flex items-baseline justify-between">
+            <span class="font-display text-display text-tertiary font-bold">23</span>
+            <span
+              class="inline-flex items-center px-2 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-[11px] font-semibold">
+              خلال 48 ساعة
+            </span>
+          </div>
+        </div>
+        <!-- Metric 2: عملاء محتملون نشطون -->
+        <div
+          class="bg-surface-container-lowest rounded-xl p-space-md border border-outline-variant/30 flex flex-col justify-between">
+          <div class="flex items-center justify-between">
+            <span class="font-label-md text-label-md text-on-surface-variant">عملاء محتملون نشطون</span>
+            <div class="w-9 h-9 rounded-lg bg-surface-container-high text-primary flex items-center justify-center">
+              <span class="material-symbols-outlined text-[20px]">group</span>
+            </div>
+          </div>
+          <div class="mt-4 flex items-baseline justify-between">
+            <span class="font-display text-display text-on-surface font-bold">142</span>
+            <span
+              class="inline-flex items-center gap-0.5 px-2 py-0.5 rounded-full bg-surface-container-high text-primary font-code-sm text-[11px] font-semibold">
+              +19 عميل
+            </span>
+          </div>
+        </div>
+        <!-- Metric 3: إيرادات الشهر -->
+        <div
+          class="bg-surface-container-lowest rounded-xl p-space-md border border-outline-variant/30 flex flex-col justify-between">
+          <div class="flex items-center justify-between">
+            <span class="font-label-md text-label-md text-on-surface-variant">إيرادات الشهر</span>
+            <div
+              class="w-9 h-9 rounded-lg bg-secondary-container/60 text-on-secondary-container flex items-center justify-center">
+              <span class="material-symbols-outlined text-[20px]">payments</span>
+            </div>
+          </div>
+          <div class="mt-4 flex items-baseline justify-between">
+            <span class="font-display text-display text-on-surface font-code-sm font-bold" dir="ltr">$34,850</span>
+            <span
+              class="inline-flex items-center gap-0.5 px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-code-sm text-[11px] font-semibold">
+              +8.6%
+            </span>
+          </div>
+        </div>
+        <!-- Metric 4: طلبات اليوم -->
+        <div
+          class="bg-surface-container-lowest rounded-xl p-space-md border border-outline-variant/30 flex flex-col justify-between">
+          <div class="flex items-center justify-between">
+            <span class="font-label-md text-label-md text-on-surface-variant">طلبات اليوم</span>
+            <div class="w-9 h-9 rounded-lg bg-primary/10 text-primary flex items-center justify-center">
+              <span class="material-symbols-outlined text-[20px]">shopping_bag</span>
+            </div>
+          </div>
+          <div class="mt-4 flex items-baseline justify-between">
+            <span class="font-display text-display text-on-surface font-bold">48</span>
+            <span
+              class="inline-flex items-center gap-0.5 px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-code-sm text-[11px] font-semibold">
+              +14.2%
+            </span>
+          </div>
+        </div>
+      </div>
+      <!-- 4 & 5. SECOND ROW: DAILY FOLLOW-UPS + LEADS FUNNEL (WIDGET REMOVED) -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-space-md items-start">
+        <!-- 4. متابعات اليوم (SIMPLIFIED ROWS: AVATAR+NAME, 1 BADGE, PHONE, 1 ACTION ICON) -->
+        <div
+          class="lg:col-span-8 bg-surface-container-lowest rounded-xl p-space-md border border-outline-variant/30 flex flex-col justify-between">
+          <div>
+            <div
+              class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm pb-space-sm mb-space-sm border-b border-surface-container">
+              <div class="flex items-center gap-2">
+                <h2 class="font-headline-sm text-headline-sm text-on-surface">متابعات اليوم</h2>
+                <span class="px-2 py-0.5 rounded-full bg-primary/10 text-primary font-code-sm text-[12px] font-bold">8
+                  مهام</span>
+              </div>
+              <!-- Filter Tabs -->
+              <div class="flex items-center gap-1 bg-surface-container-low p-1 rounded-lg">
+                <button
+                  class="px-2.5 py-1 rounded-md bg-surface-container-lowest text-primary font-label-sm text-label-sm shadow-sm">الكل
+                  (8)</button>
+                <button
+                  class="px-2.5 py-1 rounded-md text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm transition-colors">تجديد
+                  اشتراك (4)</button>
+                <button
+                  class="px-2.5 py-1 rounded-md text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm transition-colors">عميل
+                  محتمل (3)</button>
+                <button
+                  class="px-2.5 py-1 rounded-md text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm transition-colors">دعم
+                  فني (1)</button>
+              </div>
+            </div>
+            <!-- Simplified Follow-up List: Exactly 4 Elements per Row -->
+            <div class="space-y-2">
+              <!-- Item 1 -->
+              <div
+                class="flex items-center justify-between p-3 rounded-lg bg-surface-container-low/50 hover:bg-surface-container transition-colors">
+                <!-- 1) Avatar + Customer Name -->
+                <div class="flex items-center gap-3 min-w-[180px]">
+                  <div
+                    class="w-9 h-9 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-sm">
+                    أخ</div>
+                  <span class="font-label-md text-label-md text-on-surface font-semibold">أحمد خليل</span>
+                </div>
+                <!-- 2) Single Status Badge -->
+                <div>
+                  <span
+                    class="inline-flex items-center px-2.5 py-1 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-[12px] font-medium">
+                    مفاوضات
+                  </span>
+                </div>
+                <!-- 3) Phone Number -->
+                <span class="font-code-sm text-[13px] text-on-surface-variant" dir="ltr">+1 (313) 555-0192</span>
+                <!-- 4) One Action Icon -->
+                <button
+                  class="w-8 h-8 rounded-lg bg-surface-container-high hover:bg-surface-variant text-on-surface flex items-center justify-center transition-colors"
+                  title="اتصال هاتفي">
+                  <span class="material-symbols-outlined text-[18px]">call</span>
+                </button>
+              </div>
+              <!-- Item 2 -->
+              <div
+                class="flex items-center justify-between p-3 rounded-lg bg-surface-container-low/50 hover:bg-surface-container transition-colors">
+                <!-- 1) Avatar + Customer Name -->
+                <div class="flex items-center gap-3 min-w-[180px]">
+                  <div
+                    class="w-9 h-9 rounded-full bg-secondary/10 text-secondary flex items-center justify-center font-bold text-sm">
+                    فس</div>
+                  <span class="font-label-md text-label-md text-on-surface font-semibold">فاطمة السيد</span>
+                </div>
+                <!-- 2) Single Status Badge -->
+                <div>
+                  <span
+                    class="inline-flex items-center px-2.5 py-1 rounded-full bg-surface-container-high text-primary font-label-sm text-[12px] font-medium">
+                    مهتم
+                  </span>
+                </div>
+                <!-- 3) Phone Number -->
+                <span class="font-code-sm text-[13px] text-on-surface-variant" dir="ltr">+1 (718) 555-0144</span>
+                <!-- 4) One Action Icon -->
+                <button
+                  class="w-8 h-8 rounded-lg bg-secondary/10 hover:bg-secondary/20 text-secondary flex items-center justify-center transition-colors"
+                  title="إرسال رسالة">
+                  <span class="material-symbols-outlined text-[18px]">chat</span>
+                </button>
+              </div>
+              <!-- Item 3 -->
+              <div
+                class="flex items-center justify-between p-3 rounded-lg bg-surface-container-low/50 hover:bg-surface-container transition-colors">
+                <!-- 1) Avatar + Customer Name -->
+                <div class="flex items-center gap-3 min-w-[180px]">
+                  <div
+                    class="w-9 h-9 rounded-full bg-tertiary-fixed text-on-tertiary-fixed flex items-center justify-center font-bold text-sm">
+                    يح</div>
+                  <span class="font-label-md text-label-md text-on-surface font-semibold">يوسف حداد</span>
+                </div>
+                <!-- 2) Single Status Badge -->
+                <div>
+                  <span
+                    class="inline-flex items-center px-2.5 py-1 rounded-full bg-surface-container-highest text-on-surface font-label-sm text-[12px] font-medium">
+                    متابعة
+                  </span>
+                </div>
+                <!-- 3) Phone Number -->
+                <span class="font-code-sm text-[13px] text-on-surface-variant" dir="ltr">+1 (973) 555-0188</span>
+                <!-- 4) One Action Icon -->
+                <button
+                  class="w-8 h-8 rounded-lg bg-surface-container-high hover:bg-surface-variant text-on-surface flex items-center justify-center transition-colors"
+                  title="اتصال هاتفي">
+                  <span class="material-symbols-outlined text-[18px]">call</span>
+                </button>
+              </div>
+              <!-- Item 4 -->
+              <div
+                class="flex items-center justify-between p-3 rounded-lg bg-surface-container-low/50 hover:bg-surface-container transition-colors">
+                <!-- 1) Avatar + Customer Name -->
+                <div class="flex items-center gap-3 min-w-[180px]">
+                  <div
+                    class="w-9 h-9 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-bold text-sm">
+                    سم</div>
+                  <span class="font-label-md text-label-md text-on-surface font-semibold">سارة مقدسي</span>
+                </div>
+                <!-- 2) Single Status Badge -->
+                <div>
+                  <span
+                    class="inline-flex items-center px-2.5 py-1 rounded-full bg-secondary-container/60 text-on-secondary-container font-label-sm text-[12px] font-medium">
+                    جديد
+                  </span>
+                </div>
+                <!-- 3) Phone Number -->
+                <span class="font-code-sm text-[13px] text-on-surface-variant" dir="ltr">+1 (312) 555-0176</span>
+                <!-- 4) One Action Icon -->
+                <button
+                  class="w-8 h-8 rounded-lg bg-secondary/10 hover:bg-secondary/20 text-secondary flex items-center justify-center transition-colors"
+                  title="إرسال رسالة">
+                  <span class="material-symbols-outlined text-[18px]">chat</span>
+                </button>
+              </div>
+              <!-- Item 5 -->
+              <div
+                class="flex items-center justify-between p-3 rounded-lg bg-surface-container-low/50 hover:bg-surface-container transition-colors">
+                <!-- 1) Avatar + Customer Name -->
+                <div class="flex items-center gap-3 min-w-[180px]">
+                  <div
+                    class="w-9 h-9 rounded-full bg-primary-fixed text-primary flex items-center justify-center font-bold text-sm">
+                    كن</div>
+                  <span class="font-label-md text-label-md text-on-surface font-semibold">كريم عبد النور</span>
+                </div>
+                <!-- 2) Single Status Badge -->
+                <div>
+                  <span
+                    class="inline-flex items-center px-2.5 py-1 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-[12px] font-medium">
+                    مفاوضات
+                  </span>
+                </div>
+                <!-- 3) Phone Number -->
+                <span class="font-code-sm text-[13px] text-on-surface-variant" dir="ltr">+1 (714) 555-0163</span>
+                <!-- 4) One Action Icon -->
+                <button
+                  class="w-8 h-8 rounded-lg bg-surface-container-high hover:bg-surface-variant text-on-surface flex items-center justify-center transition-colors"
+                  title="اتصال هاتفي">
+                  <span class="material-symbols-outlined text-[18px]">call</span>
+                </button>
+              </div>
+            </div>
+          </div>
+          <!-- Table Footer -->
+          <div class="pt-space-sm mt-space-sm border-t border-surface-container flex items-center justify-between">
+            <a class="font-label-md text-label-md text-primary hover:underline flex items-center gap-1" href="#">
+              <span>عرض جميع المتابعات (24)</span>
+              <span class="material-symbols-outlined text-[16px]">arrow_back</span>
+            </a>
+            <button
+              class="font-label-md text-label-md text-secondary hover:text-on-secondary-container flex items-center gap-1 font-semibold">
+              <span class="material-symbols-outlined text-[18px]">add_circle</span>
+              <span>إضافة متابعة</span>
+            </button>
+          </div>
+        </div>
+        <!-- 5. LEADS FUNNEL (CLEAN PIPELINE, WITHOUT 64% CIRCULAR WIDGET) -->
+        <div
+          class="lg:col-span-4 bg-surface-container-lowest rounded-xl p-space-md border border-outline-variant/30 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between pb-space-sm border-b border-surface-container mb-space-sm">
+              <div>
+                <h2 class="font-headline-sm text-headline-sm text-on-surface">قمع العملاء المحتملين</h2>
+                <p class="font-body-sm text-body-sm text-on-surface-variant">توزيع المراحل الحالية</p>
+              </div>
+              <span
+                class="px-2 py-0.5 rounded bg-surface-container-high text-primary font-code-sm text-[12px] font-bold">142
+                عميل</span>
+            </div>
+            <!-- Funnel Stages Bars -->
+            <div class="space-y-space-sm pt-2">
+              <!-- Stage 1 -->
+              <div class="space-y-1">
+                <div class="flex items-center justify-between font-label-sm text-label-sm">
+                  <span class="text-on-surface font-semibold flex items-center gap-1.5">
+                    <span class="w-2 h-2 rounded-full bg-primary-container"></span>
+                    <span>جديد (New)</span>
+                  </span>
+                  <div class="flex items-center gap-1.5">
+                    <span class="font-code-sm text-on-surface font-semibold">48</span>
+                    <span class="text-on-surface-variant text-[11px]">(34%)</span>
+                  </div>
+                </div>
+                <div class="w-full bg-surface-container-low rounded-full h-2.5 overflow-hidden">
+                  <div class="bg-primary-container h-full rounded-full" style="width: 34%"></div>
+                </div>
+              </div>
+              <!-- Stage 2 -->
+              <div class="space-y-1">
+                <div class="flex items-center justify-between font-label-sm text-label-sm">
+                  <span class="text-on-surface font-semibold flex items-center gap-1.5">
+                    <span class="w-2 h-2 rounded-full bg-primary"></span>
+                    <span>تم التواصل (Contacted)</span>
+                  </span>
+                  <div class="flex items-center gap-1.5">
+                    <span class="font-code-sm text-on-surface font-semibold">42</span>
+                    <span class="text-on-surface-variant text-[11px]">(30%)</span>
+                  </div>
+                </div>
+                <div class="w-full bg-surface-container-low rounded-full h-2.5 overflow-hidden">
+                  <div class="bg-primary h-full rounded-full" style="width: 30%"></div>
+                </div>
+              </div>
+              <!-- Stage 3 -->
+              <div class="space-y-1">
+                <div class="flex items-center justify-between font-label-sm text-label-sm">
+                  <span class="text-on-surface font-semibold flex items-center gap-1.5">
+                    <span class="w-2 h-2 rounded-full bg-inverse-primary"></span>
+                    <span>مهتم (Interested)</span>
+                  </span>
+                  <div class="flex items-center gap-1.5">
+                    <span class="font-code-sm text-on-surface font-semibold">32</span>
+                    <span class="text-on-surface-variant text-[11px]">(22%)</span>
+                  </div>
+                </div>
+                <div class="w-full bg-surface-container-low rounded-full h-2.5 overflow-hidden">
+                  <div class="bg-inverse-primary h-full rounded-full" style="width: 22%"></div>
+                </div>
+              </div>
+              <!-- Stage 4 -->
+              <div class="space-y-1">
+                <div class="flex items-center justify-between font-label-sm text-label-sm">
+                  <span class="text-on-surface font-semibold flex items-center gap-1.5">
+                    <span class="w-2 h-2 rounded-full bg-tertiary-fixed-dim"></span>
+                    <span>تفاوض (Negotiation)</span>
+                  </span>
+                  <div class="flex items-center gap-1.5">
+                    <span class="font-code-sm text-on-surface font-semibold">20</span>
+                    <span class="text-on-surface-variant text-[11px]">(14%)</span>
+                  </div>
+                </div>
+                <div class="w-full bg-surface-container-low rounded-full h-2.5 overflow-hidden">
+                  <div class="bg-tertiary-fixed-dim h-full rounded-full" style="width: 14%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mt-space-md pt-space-sm border-t border-surface-container">
+            <a class="font-label-md text-label-md text-primary hover:underline flex items-center justify-between"
+              href="#">
+              <span>إدارة مراحل البيع</span>
+              <span class="material-symbols-outlined text-[16px]">arrow_back</span>
+            </a>
+          </div>
+        </div>
+      </div>
+      <!-- 6. THIRD ROW: SEAMLESS RECENT ACTIVITY FEED -->
+      <div class="bg-surface-container-lowest rounded-xl p-space-md border border-outline-variant/30">
+        <div class="flex items-center justify-between pb-space-sm border-b border-surface-container mb-space-sm">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-primary text-[22px]">history</span>
+            <h2 class="font-headline-sm text-headline-sm text-on-surface">النشاط الأخير وسجل الأحداث</h2>
+          </div>
+          <div
+            class="flex items-center gap-1.5 px-2 py-1 rounded-md bg-surface-container-low text-on-surface font-label-sm text-[12px]">
+            <span class="w-2 h-2 rounded-full bg-secondary"></span>
+            <span>مباشر</span>
+          </div>
+        </div>
+        <!-- Activity Feed Items -->
+        <div class="space-y-2">
+          <!-- Item 1 -->
+          <div
+            class="flex items-center justify-between p-3 rounded-lg hover:bg-surface-container-low/60 transition-colors">
+            <div class="flex items-center gap-3">
+              <div
+                class="w-9 h-9 rounded-full bg-secondary-container/60 text-secondary flex items-center justify-center flex-shrink-0">
+                <span class="material-symbols-outlined text-[18px]">person_add</span>
+              </div>
+              <div>
+                <p class="font-body-md text-body-md text-on-surface">
+                  تم إنشاء عميل محتمل جديد: <span class="font-semibold text-primary">طارق حيدر</span> بواسطة <span
+                    class="font-medium">سارة</span>
+                </p>
+                <span class="font-label-sm text-[11px] text-on-surface-variant">حملة Meta Ads</span>
+              </div>
+            </div>
+            <span class="font-code-sm text-[12px] text-on-surface-variant">قبل 5 دقائق</span>
+          </div>
+          <!-- Item 2 -->
+          <div
+            class="flex items-center justify-between p-3 rounded-lg hover:bg-surface-container-low/60 transition-colors">
+            <div class="flex items-center gap-3">
+              <div
+                class="w-9 h-9 rounded-full bg-primary/10 text-primary flex items-center justify-center flex-shrink-0">
+                <span class="material-symbols-outlined text-[18px]">check_circle</span>
+              </div>
+              <div>
+                <p class="font-body-md text-body-md text-on-surface">
+                  تم تأكيد طلب جديد <span class="font-code-sm font-bold text-primary">#ORC-9821</span> بقيمة <span
+                    class="font-bold text-secondary font-code-sm">$120</span> للعميل <span class="font-semibold">نزار
+                    شامي</span>
+                </p>
+                <span class="font-label-sm text-[11px] text-on-surface-variant">تفعيل فوري تلقائي</span>
+              </div>
+            </div>
+            <span class="font-code-sm text-[12px] text-on-surface-variant">قبل 14 دقيقة</span>
+          </div>
+          <!-- Item 3 -->
+          <div
+            class="flex items-center justify-between p-3 rounded-lg hover:bg-surface-container-low/60 transition-colors">
+            <div class="flex items-center gap-3">
+              <div
+                class="w-9 h-9 rounded-full bg-secondary/15 text-secondary flex items-center justify-center flex-shrink-0">
+                <span class="material-symbols-outlined text-[18px]">chat</span>
+              </div>
+              <div>
+                <p class="font-body-md text-body-md text-on-surface">
+                  رسالة واردة من <span class="font-semibold">فاطمة السيد</span>: “أرغب بتجربة قنوات 4K الرياضية”
+                </p>
+                <span class="font-label-sm text-[11px] text-on-surface-variant">تم التحويل للمبيعات</span>
+              </div>
+            </div>
+            <span class="font-code-sm text-[12px] text-on-surface-variant">قبل 28 دقيقة</span>
+          </div>
+          <!-- Item 4 -->
+          <div
+            class="flex items-center justify-between p-3 rounded-lg hover:bg-surface-container-low/60 transition-colors">
+            <div class="flex items-center gap-3">
+              <div
+                class="w-9 h-9 rounded-full bg-surface-container-high text-primary flex items-center justify-center flex-shrink-0">
+                <span class="material-symbols-outlined text-[18px]">edit_note</span>
+              </div>
+              <div>
+                <p class="font-body-md text-body-md text-on-surface">
+                  ملاحظة على اشتراك <span class="font-semibold">زياد منصور</span>: تم حل مشكلة بطء البث وتحديث السيرفر
+                </p>
+                <span class="font-label-sm text-[11px] text-on-surface-variant">بواسطة المشرف رامي</span>
+              </div>
+            </div>
+            <span class="font-code-sm text-[12px] text-on-surface-variant">قبل 45 دقيقة</span>
+          </div>
+          <!-- Item 5 -->
+          <div
+            class="flex items-center justify-between p-3 rounded-lg hover:bg-surface-container-low/60 transition-colors">
+            <div class="flex items-center gap-3">
+              <div
+                class="w-9 h-9 rounded-full bg-tertiary-fixed text-tertiary flex items-center justify-center flex-shrink-0">
+                <span class="material-symbols-outlined text-[18px]">notifications_active</span>
+              </div>
+              <div>
+                <p class="font-body-md text-body-md text-on-surface">
+                  تم إرسال تذكير تجديد تلقائي لـ <span class="font-bold text-tertiary">5 عملاء</span> تنتهي اشتراكاتهم
+                  قريباً
+                </p>
+                <span class="font-label-sm text-[11px] text-on-surface-variant">رسائل تذكير الدفع</span>
+              </div>
+            </div>
+            <span class="font-code-sm text-[12px] text-on-surface-variant">قبل ساعة</span>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
+
+</html>

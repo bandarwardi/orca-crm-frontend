@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar" style="">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title class="">orca CRM | لوحة التحكم المركزية - orcaXTECH</title>
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+  <link
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap"
+    rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+    rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary-container": "#1d4ed8",
+            "surface-container-low": "#f2f3ff",
+            "surface-tint": "#2151da",
+            "on-primary-fixed": "#001551",
+            "primary": "#0037b0",
+            "on-primary-container": "#cad3ff",
+            "surface-container-lowest": "#ffffff",
+            "inverse-primary": "#b7c4ff",
+            "primary-fixed-dim": "#b7c4ff",
+            "secondary-fixed": "#6ffbbe",
+            "surface-bright": "#faf8ff",
+            "on-tertiary": "#ffffff",
+            "tertiary-container": "#825100",
+            "inverse-on-surface": "#eef0ff",
+            "secondary-container": "#6cf8bb",
+            "tertiary-fixed": "#ffddb8",
+            "secondary-fixed-dim": "#4edea3",
+            "on-tertiary-fixed-variant": "#653e00",
+            "on-surface": "#131b2e",
+            "surface": "#faf8ff",
+            "on-primary": "#ffffff",
+            "tertiary-fixed-dim": "#ffb95f",
+            "on-primary-fixed-variant": "#0039b5",
+            "primary-fixed": "#dce1ff",
+            "on-tertiary-container": "#ffcb8f",
+            "on-secondary-container": "#00714d",
+            "on-secondary-fixed": "#002113",
+            "on-error": "#ffffff",
+            "on-secondary-fixed-variant": "#005236",
+            "error-container": "#ffdad6",
+            "tertiary": "#623c00",
+            "on-background": "#131b2e",
+            "error": "#ba1a1a",
+            "background": "#faf8ff",
+            "surface-container-highest": "#dae2fd",
+            "on-tertiary-fixed": "#2a1700",
+            "on-error-container": "#93000a",
+            "outline-variant": "#c4c5d7",
+            "on-secondary": "#ffffff",
+            "surface-variant": "#dae2fd",
+            "surface-container-high": "#e2e7ff",
+            "on-surface-variant": "#434655",
+            "surface-dim": "#d2d9f4",
+            "secondary": "#006c49",
+            "surface-container": "#eaedff",
+            "outline": "#747686",
+            "inverse-surface": "#283044"
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          spacing: {
+            "gutter": "1.5rem",
+            "margin-sm": "1rem",
+            "space-md": "1.5rem",
+            "margin": "2rem",
+            "space-xl": "3rem",
+            "space-xs": "0.5rem",
+            "gutter-sm": "1rem",
+            "space-lg": "2rem",
+            "space-sm": "1rem"
+          },
+          fontFamily: {
+            "label-sm": ["IBM Plex Sans", "sans-serif"],
+            "body-sm": ["IBM Plex Sans", "sans-serif"],
+            "body-md": ["IBM Plex Sans", "sans-serif"],
+            "label-md": ["IBM Plex Sans", "sans-serif"],
+            "code-sm": ["JetBrains Mono", "monospace"],
+            "headline-md": ["IBM Plex Sans", "sans-serif"],
+            "headline-lg": ["IBM Plex Sans", "sans-serif"],
+            "display": ["IBM Plex Sans", "sans-serif"],
+            "headline-sm": ["IBM Plex Sans", "sans-serif"],
+            "headline-lg-mobile": ["IBM Plex Sans", "sans-serif"],
+            "body-lg": ["IBM Plex Sans", "sans-serif"]
+          },
+          fontSize: {
+            "label-sm": ["12px", { lineHeight: "18px", fontWeight: "500" }],
+            "body-sm": ["12px", { lineHeight: "20px", fontWeight: "400" }],
+            "body-md": ["14px", { lineHeight: "24px", fontWeight: "400" }],
+            "label-md": ["14px", { lineHeight: "22px", fontWeight: "500" }],
+            "code-sm": ["12px", { lineHeight: "18px", fontWeight: "400" }],
+            "headline-md": ["20px", { lineHeight: "30px", fontWeight: "600" }],
+            "headline-lg": ["28px", { lineHeight: "40px", letterSpacing: "-0.01em", fontWeight: "600" }],
+            "display": ["36px", { lineHeight: "48px", letterSpacing: "-0.02em", fontWeight: "700" }],
+            "headline-sm": ["16px", { lineHeight: "26px", fontWeight: "600" }],
+            "headline-lg-mobile": ["24px", { lineHeight: "34px", letterSpacing: "-0.01em", fontWeight: "600" }],
+            "body-lg": ["16px", { lineHeight: "26px", fontWeight: "400" }]
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    @layer base {
+
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        background-color: #faf8ff;
+      }
+    }
+  </style>
+</head>
+
+<body
+  class="bg-surface font-body-md text-body-md text-on-surface min-h-screen antialiased flex flex-col selection:bg-primary-fixed selection:text-on-primary-fixed">
+  <!-- Desktop Main Split Screen Layout -->
+  <div class="flex-1 w-full min-h-screen flex flex-col lg:flex-row">
+    <!-- Right Side: Clean, High-Trust Admin Login Form (RTL active first column) -->
+    <div
+      class="w-full lg:w-7/12 xl:w-1/2 flex flex-col justify-between px-6 sm:px-12 lg:px-16 xl:px-24 py-8 lg:py-12 bg-surface-container-lowest z-10">
+      <!-- Form Header Bar with Server Node Badge -->
+      <div class="flex items-center justify-between gap-4">
+        <!-- Node Status Indicator -->
+        <div
+          class="inline-flex items-center gap-2 bg-surface-container-low px-3 py-1.5 rounded-full border border-outline-variant/40">
+          <span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span><span
+            class="font-label-sm text-label-sm text-on-surface-variant font-medium">بوابة النظام السحابي
+            الموحد</span><span class="hidden sm:inline-block w-1 h-1 rounded-full bg-outline-variant"></span><span
+            class="hidden sm:inline-flex items-center gap-1 font-code-sm text-code-sm text-secondary font-semibold"
+            dir="ltr"><span class="material-symbols-outlined text-[14px]">verified</span>ONLINE</span></div>
+      </div>
+      <!-- Main Login Interactive Box -->
+      <div class="my-auto py-8 max-w-[460px] w-full mx-auto">
+        <!-- Title & Subtitle Area -->
+        <div class="mb-8">
+          <div
+            class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-container text-primary font-label-sm text-label-sm mb-3">
+            <span class="material-symbols-outlined text-sm"
+              style="font-variation-settings: 'FILL' 1;">admin_panel_settings</span><span class="">نظام إدارة العمليات •
+              orca CRM</span></div>
+          <h1 class="font-display text-display text-on-surface tracking-tight">تسجيل الدخول</h1>
+          <p class="font-body-md text-body-md text-on-surface-variant mt-2 leading-relaxed">لوحة تحكم orca CRM
+            لإدارة الاشتراكات والعملاء والأجهزة عبر شبكة آمنة</p>
+        </div>
+        <!-- Interactive Form -->
+        <form class="flex flex-col gap-5" onsubmit="event.preventDefault();">
+          <!-- Field 1: Work Email -->
+          <div class="flex flex-col gap-2">
+            <div class="flex items-center justify-between">
+              <label class="font-label-md text-label-md text-on-surface font-semibold" for="admin-email">
+                البريد الإلكتروني المهني
+              </label>
+              <span class="font-body-sm text-body-sm text-on-surface-variant font-normal">مطلوب</span>
+            </div>
+            <div
+              class="relative flex items-center bg-surface-container-low rounded-xl border border-transparent focus-within:border-primary focus-within:bg-surface-container-lowest focus-within:ring-4 focus-within:ring-primary/10 transition-all">
+              <div
+                class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none text-on-surface-variant">
+                <span class="material-symbols-outlined text-headline-sm">alternate_email</span>
+              </div>
+              <input autocomplete="email"
+                class="w-full h-12 ps-12 pe-4 bg-transparent font-body-md text-body-md text-on-surface placeholder:text-outline border-none focus:outline-none focus:ring-0"
+                id="admin-email" placeholder="agent@mediacloud.tv" type="email" value="agent@mediacloud.tv">
+            </div>
+          </div>
+          <!-- Field 2: Password -->
+          <div class="flex flex-col gap-2">
+            <div class="flex items-center justify-between">
+              <label class="font-label-md text-label-md text-on-surface font-semibold" for="admin-password">
+                كلمة المرور
+              </label>
+              <span class="font-body-sm text-body-sm text-on-surface-variant font-normal">مشفرة</span>
+            </div>
+            <div
+              class="relative flex items-center bg-surface-container-low rounded-xl border border-transparent focus-within:border-primary focus-within:bg-surface-container-lowest focus-within:ring-4 focus-within:ring-primary/10 transition-all">
+              <div
+                class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none text-on-surface-variant">
+                <span class="material-symbols-outlined text-headline-sm">lock</span>
+              </div>
+              <input autocomplete="current-password"
+                class="w-full h-12 ps-12 pe-12 bg-transparent font-body-md text-body-md text-on-surface placeholder:text-outline border-none focus:outline-none focus:ring-0"
+                id="admin-password" placeholder="••••••••••••" type="password" value="secretPassword123">
+              <button aria-label="إظهار أو إخفاء كلمة المرور"
+                class="absolute inset-y-0 end-0 flex items-center pe-3.5 text-outline hover:text-primary transition-colors cursor-pointer"
+                id="toggle-password-btn" type="button">
+                <span class="material-symbols-outlined text-headline-sm" id="password-eye-icon">visibility</span>
+              </button>
+            </div>
+          </div>
+          <!-- Remember Me & Forgot Password -->
+          <div class="flex items-center justify-between pt-1">
+            <label class="flex items-center gap-2 cursor-pointer select-none">
+              <input checked=""
+                class="w-4 h-4 rounded text-primary-container focus:ring-0 cursor-pointer accent-primary-container border-outline-variant"
+                id="remember-me" type="checkbox">
+              <span
+                class="font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface transition-colors">تذكر
+                هذا الجهاز</span>
+            </label>
+            <a class="font-label-sm text-label-sm text-primary font-semibold hover:underline" href="javascript:void(0)">
+              نسيت كلمة المرور؟
+            </a>
+          </div>
+          <!-- Primary Submit Button -->
+          <button
+            class="w-full h-12 mt-2 rounded-xl bg-primary-container hover:bg-primary text-on-primary font-headline-sm text-headline-sm flex items-center justify-center gap-2 shadow-md hover:shadow-lg active:scale-[0.99] transition-all cursor-pointer"
+            id="submit-btn" type="button">
+            <span class="">تسجيل الدخول</span>
+            <span class="material-symbols-outlined text-headline-sm transform scale-x-[-1]">arrow_forward</span>
+          </button>
+        </form>
+      </div>
+      <!-- Footer Info -->
+      <div
+        class="pt-6 border-t border-surface-container-high flex flex-col sm:flex-row items-center justify-between gap-3 text-on-surface-variant font-body-sm text-body-sm">
+        <div class="flex items-center gap-1.5"><span class="">تطوير وتنفيذ:</span><span
+            class="text-primary font-label-md text-label-md font-semibold" dir="ltr">orcaXTECH</span></div>
+        <div class="flex items-center gap-2 font-code-sm text-code-sm text-outline" dir="ltr"><span class="">orca
+            CRM • Powered by orcaXTECH</span><span class="">•</span><span class="">v4.18.2</span></div>
+      </div>
+    </div>
+    <!-- Left Side: High-Tech Sapphire Dark Showcase for IPTV Operations -->
+    <div
+      class="w-full lg:w-5/12 xl:w-1/2 relative bg-gradient-to-br from-[#001551] via-[#002275] to-[#0037b0] overflow-hidden flex flex-col justify-between p-8 sm:p-12 lg:p-16 text-white min-h-[500px] lg:min-h-screen">
+      <div class="absolute inset-0 pointer-events-none opacity-15"
+        style="background-image: radial-gradient(rgba(255, 255, 255, 0.4) 1px, transparent 1px); background-size: 28px 28px;">
+      </div>
+      <div
+        class="absolute -top-24 -left-24 w-96 h-96 bg-[#38bdf8] rounded-full blur-3xl opacity-20 pointer-events-none">
+      </div>
+      <div
+        class="absolute -bottom-24 -right-24 w-96 h-96 bg-[#1d4ed8] rounded-full blur-3xl opacity-40 pointer-events-none">
+      </div>
+      <div class="relative z-10 flex items-center justify-between">
+        <div
+          class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/15">
+          <span class="w-2.5 h-2.5 rounded-full bg-[#4edea3]"></span><span
+            class="font-code-sm text-code-sm text-white/90" dir="ltr">orca CRM Enterprise</span></div>
+        <div class="flex items-center gap-2 text-white/70 font-code-sm text-code-sm" dir="ltr"><span
+            class="material-symbols-outlined text-sm">hub</span><span class="">orcaXTECH Cloud</span></div>
+      </div>
+      <div class="relative z-10 my-auto py-12 max-w-lg">
+        <div
+          class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-white/10 backdrop-blur-md text-[#6ffbbe] font-label-md text-label-md mb-6 border border-[#6ffbbe]/20">
+          <span class="material-symbols-outlined text-lg">terminal</span><span class="">المنصة السحابية الموحدة</span>
+        </div>
+        <h2 class="text-3xl xl:text-4xl font-bold tracking-tight text-white leading-snug mb-4">منظومة orca CRM
+          لإدارة العمليات الرقمية</h2>
+        <p class="text-white/80 font-body-lg text-body-lg leading-relaxed mb-8">بيئة مركزية متكاملة وسلسة مصممة لإدارة
+          وتنسيق كافة العمليات والبيانات بكفاءة واعتمادية غير مسبوقة تحت مظلة orcaXTECH.</p>
+        <div class="p-5 rounded-xl bg-white/10 backdrop-blur-md border border-white/15 flex items-center gap-4">
+          <div class="w-12 h-12 rounded-xl bg-[#6ffbbe]/20 flex items-center justify-center text-[#6ffbbe] shrink-0">
+            <span class="material-symbols-outlined text-2xl">verified_user</span></div>
+          <div>
+            <div class="text-lg font-bold text-white font-code-sm" dir="ltr">orca CRM Core</div>
+            <div class="font-body-sm text-white/70 mt-0.5">نظام موحد لإدارة الاشتراكات والعملاء وصلاحيات المشرفين</div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="relative z-10 pt-6 border-t border-white/15 flex flex-wrap items-center justify-between gap-4 text-white/75 font-label-sm text-label-sm">
+        <div class="flex items-center py-2"><img alt="orca TV"
+            class="h-20 sm:h-24 w-auto object-contain max-w-xs transition-all drop-shadow-sm"
+            src="https://lh3.googleusercontent.com/aida/AEtjO1UFAkVUAUEhkQnV3zyF-bfA9H_1j2fKqrnlPv2t3rGjALDe90zPvdPnxKCirAw75g65Uq7G09Zsz9Aa8u7BIDvgruf4WQVu34rmlJFQcvgW1NYeOWMF7lZAWSlVBbfOHaccjwgiaJJMGNYnyEc_wwiXyr2jSHDdH4o-kDSK70D88Rfbpr56DkGqU8FgmbFJgk3S405pvrxM92_mad2O0VBZESeWLraIqGm8owuuPcJb76e2H1OWa_Xebw">
+        </div>
+        <div class="flex items-center gap-2" dir="ltr"><span
+            class="material-symbols-outlined text-sm text-[#38bdf8]">domain</span><span class="">Engineered by
+            orcaXTECH</span></div>
+      </div>
+    </div>
+  </div>
+  <!-- Interactive JavaScript logic -->
+  <script>
+    (function () {
+      const passwordInput = document.getElementById('admin-password');
+      const toggleBtn = document.getElementById('toggle-password-btn');
+      const eyeIcon = document.getElementById('password-eye-icon');
+      const submitBtn = document.getElementById('submit-btn');
+
+      if (toggleBtn && passwordInput && eyeIcon) {
+        toggleBtn.addEventListener('click', function () {
+          const isPassword = passwordInput.getAttribute('type') === 'password';
+          passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
+          eyeIcon.textContent = isPassword ? 'visibility_off' : 'visibility';
+        });
+      }
+
+      if (submitBtn) {
+        submitBtn.addEventListener('click', function () {
+          const originalContent = submitBtn.innerHTML;
+          submitBtn.disabled = true;
+          submitBtn.classList.remove('hover:bg-primary', 'cursor-pointer');
+          submitBtn.innerHTML = '<span class="material-symbols-outlined text-headline-sm animate-spin">progress_activity</span><span>جاري التحقق من الصلاحيات...</span>';
+
+          setTimeout(function () {
+            submitBtn.innerHTML = '<span class="material-symbols-outlined text-headline-sm">check_circle</span><span>تم تسجيل الدخول بنجاح</span>';
+            submitBtn.classList.remove('bg-primary-container');
+            submitBtn.classList.add('bg-secondary');
+
+            setTimeout(function () {
+              submitBtn.disabled = false;
+              submitBtn.classList.remove('bg-secondary');
+              submitBtn.classList.add('bg-primary-container', 'hover:bg-primary', 'cursor-pointer');
+              submitBtn.innerHTML = originalContent;
+            }, 1800);
+          }, 1200);
+        });
+      }
+    })();
+  </script>
+</body>
+
+</html>

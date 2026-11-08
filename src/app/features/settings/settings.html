@@ -1,0 +1,1537 @@
+<div class="flex flex-col w-full space-y-space-md" (click)="closeMenu()">
+  <!-- PAGE HEADER & BREADCRUMB -->
+  <div class="flex flex-col gap-space-xs">
+    <div class="flex items-center gap-2 text-on-surface-variant font-label-sm text-label-sm">
+      <span class="hover:text-primary transition-colors cursor-pointer">لوحة الإدارة</span>
+      <span class="material-symbols-outlined text-[16px] text-outline rotate-180">chevron_left</span>
+      <span class="text-on-surface font-medium">إعدادات النظام</span>
+    </div>
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-space-sm pt-1">
+      <div>
+        <h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">الإعدادات</h1>
+        <p class="font-body-md text-body-md text-on-surface-variant">
+          إدارة أعضاء الفريق، الصلاحيات المخصصة، وتكاملات النظام الفورية
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- HORIZONTAL SUB-TAB NAVIGATION -->
+  <div class="w-full bg-surface-container-lowest rounded-xl p-1.5 shadow-sm">
+    <nav aria-label="أقسام الإعدادات" class="flex items-center gap-2 overflow-x-auto">
+      <button type="button" (click)="onTabChange('team')"
+        class="flex items-center gap-2 px-space-md py-2.5 rounded-lg font-label-md text-label-md transition-all shadow-sm"
+        [class.bg-primary-container]="store.activeTab() === 'team'"
+        [class.text-on-primary]="store.activeTab() === 'team'"
+        [class.text-on-surface-variant]="store.activeTab() !== 'team'"
+        [class.hover:bg-surface-container]="store.activeTab() !== 'team'"
+        [class.hover:text-on-surface]="store.activeTab() !== 'team'">
+        <span class="material-symbols-outlined text-[18px]">manage_accounts</span>
+        <span>الفريق والصلاحيات</span>
+        <span class="px-2 py-0.5 rounded-full font-code-sm text-code-sm"
+          [class.bg-on-primary/20]="store.activeTab() === 'team'" [class.text-on-primary]="store.activeTab() === 'team'"
+          [class.bg-surface-container-high]="store.activeTab() !== 'team'"
+          [class.text-on-surface]="store.activeTab() !== 'team'">
+          {{ store.totalCount() }}
+        </span>
+      </button>
+
+      <button type="button" (click)="onTabChange('company')"
+        class="flex items-center gap-2 px-space-md py-2.5 rounded-lg font-label-md text-label-md transition-all"
+        [class.bg-primary-container]="store.activeTab() === 'company'"
+        [class.text-on-primary]="store.activeTab() === 'company'"
+        [class.text-on-surface-variant]="store.activeTab() !== 'company'"
+        [class.hover:bg-surface-container]="store.activeTab() !== 'company'"
+        [class.hover:text-on-surface]="store.activeTab() !== 'company'">
+        <span class="material-symbols-outlined text-[18px]">domain</span>
+        <span>بيانات الشركة</span>
+      </button>
+
+      <button type="button" (click)="onTabChange('integrations')"
+        class="flex items-center gap-2 px-space-md py-2.5 rounded-lg font-label-md text-label-md transition-all"
+        [class.bg-primary-container]="store.activeTab() === 'integrations'"
+        [class.text-on-primary]="store.activeTab() === 'integrations'"
+        [class.text-on-surface-variant]="store.activeTab() !== 'integrations'"
+        [class.hover:bg-surface-container]="store.activeTab() !== 'integrations'"
+        [class.hover:text-on-surface]="store.activeTab() !== 'integrations'">
+        <span class="material-symbols-outlined text-[18px]">hub</span>
+        <span>الربط والتكاملات</span>
+      </button>
+
+      <button type="button" (click)="onTabChange('audit_log')"
+        class="flex items-center gap-2 px-space-md py-2.5 rounded-lg font-label-md text-label-md transition-all"
+        [class.bg-primary-container]="store.activeTab() === 'audit_log'"
+        [class.text-on-primary]="store.activeTab() === 'audit_log'"
+        [class.text-on-surface-variant]="store.activeTab() !== 'audit_log'"
+        [class.hover:bg-surface-container]="store.activeTab() !== 'audit_log'"
+        [class.hover:text-on-surface]="store.activeTab() !== 'audit_log'">
+        <span class="material-symbols-outlined text-[18px]">shield</span>
+        <span>سجل الأنشطة والأمان</span>
+      </button>
+    </nav>
+  </div>
+
+  <!-- TAB CONTENT 1: TEAM MEMBERS & ROLES -->
+  @if (store.activeTab() === 'team') {
+  <section aria-labelledby="team-heading" class="flex flex-col space-y-space-sm">
+    <!-- Section Toolbar -->
+    <div
+      class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm bg-surface-container-lowest p-space-md rounded-xl shadow-sm">
+      <div class="flex items-center gap-space-xs">
+        <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary-container">
+          <span class="material-symbols-outlined text-[24px]">group</span>
+        </div>
+        <div>
+          <h2 class="font-headline-sm text-headline-sm text-on-surface" id="team-heading">أعضاء الفريق</h2>
+          <span class="font-label-sm text-label-sm text-on-surface-variant">
+            {{ store.activeCount() }} مستخدمين مفعلين في منظومة orca CRM
+          </span>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-space-xs">
+        <!-- Search Input -->
+        <div class="relative min-w-[240px] flex-1 sm:flex-initial">
+          <span
+            class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-outline text-[18px]">search</span>
+          <input type="search" [value]="store.searchQuery()" (input)="onSearchChange($event)"
+            placeholder="بحث عن موظف بالاسم أو البريد..."
+            class="w-full h-10 pr-9 pl-8 bg-surface-container-low text-on-surface placeholder:text-outline font-body-sm text-body-sm rounded-lg focus:outline-none focus:bg-surface-container-lowest transition-all border border-transparent focus:border-primary-container" />
+          @if (store.searchQuery()) {
+          <button type="button" (click)="store.setSearchQuery('')"
+            class="absolute left-2.5 top-1/2 -translate-y-1/2 w-5 h-5 rounded-full bg-surface-container-highest hover:bg-outline/20 flex items-center justify-center text-outline hover:text-on-surface transition-colors"
+            title="مسح البحث">
+            <span class="material-symbols-outlined text-[14px]">close</span>
+          </button>
+          }
+        </div>
+
+        <!-- Filter Dropdown -->
+        <div class="relative">
+          <select [value]="store.roleFilter()" (change)="onRoleFilterChange($any($event.target).value)"
+            class="h-10 px-3 rounded-lg bg-surface-container-low text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-label-md text-label-md flex items-center gap-1.5 transition-colors appearance-none pr-8 cursor-pointer border border-transparent focus:border-primary-container focus:outline-none">
+            <option value="all">كل الأدوار الوظيفية</option>
+            <option value="admin">مدير النظام</option>
+            <option value="sales_supervisor">مشرف مبيعات</option>
+            <option value="sales_rep">موظف مبيعات</option>
+            <option value="tech_support">دعم فني</option>
+          </select>
+          <span
+            class="material-symbols-outlined absolute left-2 top-1/2 -translate-y-1/2 text-outline text-[18px] pointer-events-none">expand_more</span>
+        </div>
+
+        <!-- Primary Action -->
+        <button type="button" (click)="openAddModal()"
+          class="h-10 px-space-md rounded-lg bg-primary-container text-on-primary font-label-md text-label-md flex items-center gap-1.5 hover:bg-primary transition-all shadow-sm">
+          <span class="material-symbols-outlined text-[20px]">person_add</span>
+          <span>إضافة عضو جديد</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Team Members List (Card Rows) -->
+    <div class="flex flex-col gap-2.5">
+      @for (member of store.filteredMembers(); track member.id) {
+      @let roleInfo = getRoleBadgeInfo(member.role);
+      <article
+        class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm hover:bg-surface-container-low/80 transition-all flex flex-col md:flex-row md:items-center justify-between gap-space-md"
+        [class.opacity-70]="!member.isActive">
+        <div class="flex items-center gap-space-md min-w-0">
+          <!-- Avatar -->
+          <div class="relative flex-shrink-0">
+            <div
+              class="w-12 h-12 rounded-xl flex items-center justify-center font-headline-sm text-headline-sm shadow-sm"
+              [ngClass]="member.avatarGradient || member.avatarBg || 'bg-surface-container-high text-on-surface-variant'">
+              {{ member.initials }}
+            </div>
+            <span class="absolute -bottom-1 -left-1 w-3.5 h-3.5 rounded-full ring-2 ring-surface-container-lowest"
+              [class.bg-secondary]="member.isOnline || member.isRecentlyActive"
+              [class.bg-outline-variant]="!member.isOnline && !member.isRecentlyActive"
+              [title]="member.isOnline ? 'متصل الآن' : (member.isRecentlyActive ? 'نشط مؤخراً' : 'غير متصل')"></span>
+          </div>
+
+          <!-- Info -->
+          <div class="flex flex-col min-w-0">
+            <div class="flex items-center gap-2 flex-wrap">
+              <h3 class="font-headline-sm text-headline-sm text-on-surface truncate">{{ member.name }}</h3>
+              <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full font-label-sm text-label-sm"
+                [ngClass]="roleInfo.badgeClass">
+                <span class="material-symbols-outlined text-[14px]">{{ roleInfo.icon }}</span>
+                <span>{{ roleInfo.titleAr }}</span>
+              </span>
+            </div>
+
+            <div class="flex items-center gap-3 mt-1 flex-wrap">
+              <div class="flex items-center gap-1 text-on-surface-variant font-code-sm text-code-sm">
+                <span class="material-symbols-outlined text-[14px] text-outline">mail</span>
+                <span class="select-all">{{ member.email }}</span>
+              </div>
+              <span class="text-outline-variant">•</span>
+              <div class="flex items-center gap-1.5 font-label-sm text-label-sm text-on-surface-variant">
+                @if (member.isOnline) {
+                <span class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></span>
+                <span class="text-secondary font-medium">{{ member.lastSeenText }}</span>
+                } @else {
+                <span class="material-symbols-outlined text-[14px]" [ngClass]="member.statusColor || 'text-outline'">
+                  {{ member.statusIcon || 'schedule' }}
+                </span>
+                <span>{{ member.lastSeenText }}</span>
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Actions & Toggle -->
+        <div
+          class="flex items-center justify-between md:justify-end gap-space-md pt-2 md:pt-0 border-t border-surface-container md:border-t-0">
+          <div class="flex items-center gap-3 bg-surface-container-low px-3.5 py-2 rounded-lg">
+            <div class="flex flex-col text-right">
+              <span class="font-label-sm text-label-sm text-on-surface font-medium">
+                {{ member.isActive ? 'حساب مفعل' : 'حساب معطل' }}
+              </span>
+              <span class="font-body-sm text-[11px] text-outline">
+                {{ member.isActive ? 'صلاحية الدخول نشطة' : 'تم تجميد الدخول' }}
+              </span>
+            </div>
+            <label class="relative inline-flex items-center cursor-pointer">
+              <input type="checkbox" [checked]="member.isActive" (change)="toggleMemberStatus(member.id)"
+                class="sr-only peer" />
+              <div
+                class="w-9 h-5 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-secondary">
+              </div>
+            </label>
+          </div>
+
+          <!-- More Options Dropdown -->
+          <div class="relative flex items-center">
+            <button type="button" (click)="toggleMenu(member.id, $event)" [aria-label]="'إجراءات ' + member.name"
+              class="w-9 h-9 rounded-lg bg-surface-container-low hover:bg-surface-container flex items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors">
+              <span class="material-symbols-outlined text-[20px]">more_vert</span>
+            </button>
+
+            @if (activeMenuMemberId() === member.id) {
+            <div
+              class="absolute left-0 top-11 w-48 bg-surface-container-lowest rounded-xl shadow-xl border border-surface-container-high z-30 py-1.5 flex flex-col"
+              (click)="$event.stopPropagation()">
+              <button type="button"
+                class="px-3.5 py-2 text-right font-label-md text-label-md text-on-surface hover:bg-surface-container-low flex items-center gap-2 transition-colors"
+                (click)="openEditModal(member)">
+                <span class="material-symbols-outlined text-[18px] text-outline">edit</span>
+                <span>تعديل البيانات</span>
+              </button>
+              <button type="button"
+                class="px-3.5 py-2 text-right font-label-md text-label-md text-on-surface hover:bg-surface-container-low flex items-center gap-2 transition-colors"
+                (click)="resetPassword(member)">
+                <span class="material-symbols-outlined text-[18px] text-outline">lock_reset</span>
+                <span>إعادة ضبط كلمة السر</span>
+              </button>
+              <div class="h-px bg-surface-container-high my-1"></div>
+              <button type="button" (click)="deleteMember(member)"
+                class="px-3.5 py-2 text-right font-label-md text-label-md text-error hover:bg-error-container/30 flex items-center gap-2 transition-colors">
+                <span class="material-symbols-outlined text-[18px] text-error">person_remove</span>
+                <span>حذف الموظف</span>
+              </button>
+            </div>
+            }
+          </div>
+        </div>
+      </article>
+      } @empty {
+      <div
+        class="bg-surface-container-lowest p-space-xl rounded-xl text-center flex flex-col items-center justify-center space-y-3 shadow-sm">
+        <span class="material-symbols-outlined text-[48px] text-outline">group_off</span>
+        <h3 class="font-headline-sm text-headline-sm text-on-surface">لا يوجد أعضاء يطابقون شروط البحث</h3>
+        <p class="font-body-md text-body-md text-on-surface-variant max-w-md">
+          جرب تغيير كلمة البحث أو اختيار دور وظيفي آخر من قائمة التصفية أعلاه.
+        </p>
+        <button type="button" (click)="resetFilters()"
+          class="mt-2 px-space-md h-9 rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-md text-label-md flex items-center gap-1.5 transition-colors">
+          <span class="material-symbols-outlined text-[18px]">restart_alt</span>
+          <span>إعادة ضبط التصفية والبحث</span>
+        </button>
+      </div>
+      }
+    </div>
+
+    <!-- Role Permissions Legend / Overview Bar -->
+    <div class="bg-surface-container-low rounded-xl p-space-md shadow-sm">
+      <div class="flex items-center justify-between pb-3">
+        <div class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-primary-container text-[20px]">verified_user</span>
+          <h3 class="font-headline-sm text-headline-sm text-on-surface">مستويات الصلاحيات المطبقة في النظام</h3>
+        </div>
+        <button type="button" (click)="openPermissionsModal()"
+          class="text-primary-container hover:text-primary font-label-sm text-label-sm font-semibold flex items-center gap-1 transition-colors">
+          <span>عرض وتعديل مصفوفة الصلاحيات</span>
+          <span class="material-symbols-outlined text-[16px] rotate-180">arrow_back</span>
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-sm pt-2">
+        <!-- Legend Item 1: Admin -->
+        <div class="bg-surface-container-lowest p-space-sm rounded-lg flex flex-col gap-1.5 shadow-sm">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-primary-container"></span>
+              <span class="font-label-md text-label-md text-on-surface font-semibold">مدير النظام</span>
+            </div>
+            <span class="font-code-sm text-code-sm text-outline">({{ store.adminsCount() }})</span>
+          </div>
+          <p class="font-body-sm text-body-sm text-on-surface-variant">
+            صلاحيات كاملة، إدارة الفواتير، إعدادات المشتركين وسجلات الأمان والموظفين.
+          </p>
+        </div>
+
+        <!-- Legend Item 2: Sales Supervisor -->
+        <div class="bg-surface-container-lowest p-space-sm rounded-lg flex flex-col gap-1.5 shadow-sm">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-primary"></span>
+              <span class="font-label-md text-label-md text-on-surface font-semibold">مشرف مبيعات</span>
+            </div>
+            <span class="font-code-sm text-code-sm text-outline">({{ store.supervisorsCount() }})</span>
+          </div>
+          <p class="font-body-sm text-body-sm text-on-surface-variant">
+            توزيع العملاء المحتملين، مراقبة تقارير المبيعات، ومتابعة سجل المحادثات الجماعي.
+          </p>
+        </div>
+
+        <!-- Legend Item 3: Sales Rep -->
+        <div class="bg-surface-container-lowest p-space-sm rounded-lg flex flex-col gap-1.5 shadow-sm">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-surface-dim"></span>
+              <span class="font-label-md text-label-md text-on-surface font-semibold">موظف مبيعات</span>
+            </div>
+            <span class="font-code-sm text-code-sm text-outline">({{ store.salesCount() }})</span>
+          </div>
+          <p class="font-body-sm text-body-sm text-on-surface-variant">
+            إدارة المحادثات المباشرة، إنشاء الطلبات الجديدة والتجديد، ومتابعة العميل المحال.
+          </p>
+        </div>
+
+        <!-- Legend Item 4: Tech Support -->
+        <div class="bg-surface-container-lowest p-space-sm rounded-lg flex flex-col gap-1.5 shadow-sm">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-tertiary-fixed-dim"></span>
+              <span class="font-label-md text-label-md text-on-surface font-semibold">دعم فني</span>
+            </div>
+            <span class="font-code-sm text-code-sm text-outline">({{ store.supportCount() }})</span>
+          </div>
+          <p class="font-body-sm text-body-sm text-on-surface-variant">
+            فحص السيرفرات وبيانات أجهزة المشتركين (MAC Address)، تحديث الاشتراكات وحل البلاغات.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+  }
+
+  <!-- TAB CONTENT 2: COMPANY DETAILS -->
+  @if (store.activeTab() === 'company') {
+  <section class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm space-y-space-md">
+    <div class="flex items-center gap-3 pb-3 border-b border-surface-container">
+      <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary-container">
+        <span class="material-symbols-outlined text-[24px]">domain</span>
+      </div>
+      <div>
+        <h2 class="font-headline-sm text-headline-sm text-on-surface">بيانات الشركة والإعدادات العامة</h2>
+        <p class="font-body-sm text-body-sm text-on-surface-variant">تكوين الاسم التجاري، الشعار، العملة الرسمية،
+          والتوقيت الإداري للمستأجر</p>
+      </div>
+    </div>
+
+    <form [formGroup]="companyForm" (ngSubmit)="saveCompanySettings()" class="space-y-space-md">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-space-md">
+        <div>
+          <label class="block font-label-md text-label-md text-on-surface mb-1.5">اسم الشركة / المؤسسة *</label>
+          <input type="text" formControlName="companyName"
+            class="w-full h-11 px-3.5 bg-surface-container-low rounded-lg font-body-md text-on-surface border border-transparent focus:border-primary-container focus:outline-none" />
+        </div>
+        <div>
+          <label class="block font-label-md text-label-md text-on-surface mb-1.5">البريد الإلكتروني الإداري الرئيسي
+            *</label>
+          <input type="email" formControlName="adminEmail"
+            class="w-full h-11 px-3.5 bg-surface-container-low rounded-lg font-body-md text-on-surface border border-transparent focus:border-primary-container focus:outline-none" />
+        </div>
+        <div>
+          <label class="block font-label-md text-label-md text-on-surface mb-1.5">العملة الأساسية للنظام</label>
+          <input type="text" formControlName="currency"
+            class="w-full h-11 px-3.5 bg-surface-container-low rounded-lg font-body-md text-on-surface border border-transparent focus:border-primary-container focus:outline-none" />
+        </div>
+        <div>
+          <label class="block font-label-md text-label-md text-on-surface mb-1.5">المنطقة الزمنية المعتمدة</label>
+          <input type="text" formControlName="timeZone"
+            class="w-full h-11 px-3.5 bg-surface-container-low rounded-lg font-body-md text-on-surface border border-transparent focus:border-primary-container focus:outline-none" />
+        </div>
+      </div>
+
+      <div class="flex items-center justify-end pt-2">
+        <button type="submit"
+          class="px-space-md h-10 rounded-lg bg-primary-container text-on-primary font-label-md text-label-md hover:bg-primary transition-colors shadow-sm flex items-center gap-1.5">
+          <span class="material-symbols-outlined text-[18px]">save</span>
+          <span>حفظ بيانات الشركة</span>
+        </button>
+      </div>
+    </form>
+  </section>
+  }
+
+  <!-- TAB CONTENT 3: INTEGRATIONS -->
+  @if (store.activeTab() === 'integrations') {
+  <section class="space-y-space-md">
+    <!-- Top Card: Header & Action -->
+    <div
+      class="bg-surface-container-lowest p-space-md lg:p-space-lg rounded-xl shadow-sm border border-surface-container flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div
+          class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary-container shrink-0">
+          <span class="material-symbols-outlined text-[28px]">hub</span>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h2 class="font-headline-sm text-headline-sm text-on-surface">بوابات الربط والتكاملات الفورية (Integrations)
+            </h2>
+            <span class="px-2.5 py-0.5 rounded-full bg-primary/10 text-primary-container text-[11px] font-semibold">
+              {{ store.whatsappAccounts().length }} أرقام واتساب
+            </span>
+          </div>
+          <p class="font-body-sm text-body-sm text-on-surface-variant">
+            إدارة أرقام واتساب السحابية المتعددة (Meta Cloud API)، وتكاملات خوادم Xtream UI وبوابة الاتصال RingCentral.
+          </p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2.5">
+        <button type="button" (click)="openAddWhatsAppModal()"
+          class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-primary-container text-on-primary font-label-md text-label-md hover:bg-primary transition-all shadow-sm cursor-pointer hover:shadow">
+          <span class="material-symbols-outlined text-[20px]">add_circle</span>
+          <span>إضافة رقم واتساب جديد</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- WhatsApp Cloud API Numbers Section -->
+    <div
+      class="bg-surface-container-lowest p-space-md lg:p-space-lg rounded-xl shadow-sm border border-surface-container space-y-4">
+      <div class="flex items-center justify-between pb-3 border-b border-surface-container">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-600 flex items-center justify-center">
+            <span class="material-symbols-outlined text-[20px]">forum</span>
+          </div>
+          <div>
+            <h3 class="font-headline-sm text-base text-on-surface font-semibold">أرقام وحسابات واتساب السحابية المربوطة
+              (WhatsApp Cloud API)</h3>
+            <p class="text-xs text-on-surface-variant">الرسائل الواردة والصادرة يتم توجيهها تلقائياً حسب معرف الرقم
+              Phone Number ID إلى القسم المناسب في صندوق المحادثات</p>
+          </div>
+        </div>
+        @if (store.isWhatsAppLoading()) {
+        <div class="flex items-center gap-2 text-xs text-primary-container">
+          <span class="material-symbols-outlined animate-spin text-[16px]">progress_activity</span>
+          <span>جاري التحديث...</span>
+        </div>
+        }
+      </div>
+
+      <!-- Test Connection Result Notification inside view if any -->
+      @if (store.whatsAppTestResult(); as testRes) {
+      <div class="p-3.5 rounded-xl flex items-center justify-between text-body-sm transition-all"
+        [class.bg-emerald-50]="testRes.success" [class.border]="true" [class.border-emerald-200]="testRes.success"
+        [class.text-emerald-800]="testRes.success" [class.bg-rose-50]="!testRes.success"
+        [class.border-rose-200]="!testRes.success" [class.text-rose-800]="!testRes.success">
+        <div class="flex items-center gap-2.5">
+          <span class="material-symbols-outlined text-[22px]" [class.text-emerald-600]="testRes.success"
+            [class.text-rose-600]="!testRes.success">
+            {{ testRes.success ? 'check_circle' : 'error' }}
+          </span>
+          <div>
+            <span class="font-semibold">{{ testRes.message || testRes.error || (testRes.success ? 'تم الاتصال بنجاح' : 'حدث خطأ أثناء فحص الاتصال') }}</span>
+            @if (testRes.data; as d) {
+            <span class="block text-xs mt-0.5 opacity-90">
+              الاسم المعتمد في Meta: <strong>{{ d.verified_name }}</strong> • جودة الرقم: <strong class="uppercase">{{
+                d.quality_rating }}</strong>
+            </span>
+            }
+          </div>
+        </div>
+        <button type="button" (click)="store.clearWhatsAppTestResult()" class="text-current hover:opacity-75">
+          <span class="material-symbols-outlined text-[18px]">close</span>
+        </button>
+      </div>
+      }
+
+      @if (store.whatsAppError(); as err) {
+      <div
+        class="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-rose-600 text-[18px]">warning</span>
+          <span>{{ err }}</span>
+        </div>
+        <button type="button" (click)="store.clearWhatsAppTestResult()" class="text-rose-600 hover:text-rose-800">
+          <span class="material-symbols-outlined text-[16px]">close</span>
+        </button>
+      </div>
+      }
+
+      <!-- Accounts Grid -->
+      @if (store.whatsappAccounts().length === 0 && !store.isWhatsAppLoading()) {
+      <div
+        class="text-center py-10 px-4 border-2 border-dashed border-surface-container rounded-xl bg-surface-container-low/20">
+        <div
+          class="w-14 h-14 rounded-full bg-primary/10 text-primary-container flex items-center justify-center mx-auto mb-3">
+          <span class="material-symbols-outlined text-[30px]">phonelink_setup</span>
+        </div>
+        <h4 class="font-headline-sm text-base text-on-surface font-semibold mb-1">لم يتم إعداد أي رقم واتساب حتى الآن
+        </h4>
+        <p class="font-body-sm text-body-sm text-on-surface-variant max-w-md mx-auto mb-4">
+          قم بربط رقم الواتساب الرسمي لشركتك للبدء في إرسال إشعارات تجديد الاشتراكات واستقبال استفسارات المشتركين
+          مباشرة.
+        </p>
+        <button type="button" (click)="openAddWhatsAppModal()"
+          class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary-container text-on-primary font-label-md text-sm hover:bg-primary transition-colors cursor-pointer">
+          <span class="material-symbols-outlined text-[18px]">add</span>
+          <span>ربط الرقم الأول الآن</span>
+        </button>
+      </div>
+      } @else {
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-space-md">
+        @for (account of store.whatsappAccounts(); track account.id) {
+        <div
+          class="border rounded-xl p-space-md flex flex-col justify-between space-y-4 bg-surface-container-lowest transition-all hover:shadow-md"
+          [class.border-primary-container]="account.is_default"
+          [class.border-surface-container-high]="!account.is_default">
+
+          <div>
+            <div class="flex items-start justify-between gap-3 mb-3">
+              <div class="flex items-center gap-3">
+                <div
+                  class="w-11 h-11 rounded-xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center shrink-0">
+                  <span class="material-symbols-outlined text-[24px]">chat</span>
+                </div>
+                <div>
+                  <div class="flex items-center gap-2 flex-wrap">
+                    <h4 class="font-headline-sm text-base text-on-surface font-semibold">{{ account.name }}</h4>
+                    @if (account.is_default) {
+                    <span
+                      class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-700 text-[10px] font-bold">
+                      <span class="material-symbols-outlined text-[12px]">star</span>
+                      <span>الافتراضي للإرسال</span>
+                    </span>
+                    }
+                  </div>
+                  <span class="font-code-sm text-sm text-on-surface font-semibold dir-ltr inline-block tracking-wide">
+                    {{ account.phone_number }}
+                  </span>
+                </div>
+              </div>
+
+              <!-- Status Badge -->
+              <span class="px-2.5 py-1 rounded-full font-label-sm text-[11px] font-semibold shrink-0"
+                [class.bg-secondary/10]="account.status === 'active'"
+                [class.text-secondary]="account.status === 'active'"
+                [class.bg-surface-container-high]="account.status === 'inactive'"
+                [class.text-on-surface-variant]="account.status === 'inactive'"
+                [class.bg-amber-500/10]="account.status === 'unverified'"
+                [class.text-amber-600]="account.status === 'unverified'">
+                {{ account.status === 'active' ? '● نشط' : (account.status === 'inactive' ? 'معطل' : 'غير مؤكد') }}
+              </span>
+            </div>
+
+            <!-- Details metadata pills -->
+            <div
+              class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-on-surface-variant bg-surface-container-low/50 p-2.5 rounded-lg border border-surface-container">
+              <div>
+                <span class="text-outline block text-[10px]">Phone Number ID:</span>
+                <span class="font-code-sm font-medium text-on-surface select-all">{{ account.phone_number_id }}</span>
+              </div>
+              <div>
+                <span class="text-outline block text-[10px]">WABA ID:</span>
+                <span class="font-code-sm font-medium text-on-surface select-all">{{ account.waba_id || 'غير محدد'
+                  }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom Actions -->
+          <div class="pt-3 border-t border-surface-container flex items-center justify-between gap-2 flex-wrap">
+            <div class="flex items-center gap-2">
+              <button type="button" (click)="testAccountDirect(account)"
+                [disabled]="store.isTestingWhatsAppConnection()"
+                class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface text-xs font-medium transition-colors cursor-pointer disabled:opacity-50">
+                <span class="material-symbols-outlined text-[16px]"
+                  [class.animate-spin]="store.isTestingWhatsAppConnection()">
+                  {{ store.isTestingWhatsAppConnection() ? 'refresh' : 'network_check' }}
+                </span>
+                <span>فحص الاتصال</span>
+              </button>
+
+              @if (!account.is_default) {
+              <button type="button" (click)="setDefaultWhatsAppAccount(account)"
+                class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-outline hover:text-amber-600 hover:bg-amber-500/10 text-xs font-medium transition-colors cursor-pointer"
+                title="تعيين هذا الرقم ليكون الافتراضي لرسائل النظام التلقائية">
+                <span class="material-symbols-outlined text-[15px]">grade</span>
+                <span>جعله افتراضي</span>
+              </button>
+              }
+            </div>
+
+            <div class="flex items-center gap-1">
+              <button type="button" (click)="openEditWhatsAppModal(account)"
+                class="p-1.5 rounded-lg text-on-surface-variant hover:text-primary hover:bg-surface-container transition-colors cursor-pointer"
+                title="تعديل الإعدادات والتوكن">
+                <span class="material-symbols-outlined text-[18px]">edit</span>
+              </button>
+              <button type="button" (click)="deleteWhatsAppAccount(account)"
+                class="p-1.5 rounded-lg text-outline hover:text-rose-600 hover:bg-rose-50 transition-colors cursor-pointer"
+                title="حذف الرقم من النظام">
+                <span class="material-symbols-outlined text-[18px]">delete</span>
+              </button>
+            </div>
+          </div>
+        </div>
+        }
+      </div>
+      }
+      <!-- RingCentral Telephony & SMS Section -->
+      <div class="bg-surface-container-lowest p-space-md lg:p-space-lg rounded-xl shadow-sm border border-surface-container space-y-5">
+        <!-- Section Header -->
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-surface-container">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-indigo-500/10 text-indigo-600 flex items-center justify-center shrink-0">
+              <span class="material-symbols-outlined text-[24px]">phone_in_talk</span>
+            </div>
+            <div>
+              <div class="flex items-center gap-2 flex-wrap">
+                <h3 class="font-headline-sm text-base text-on-surface font-semibold">بوابة الاتصال الهاتفي والرسائل النصية (RingCentral Telephony & SMS)</h3>
+                <!-- Dynamic Status Badge -->
+                @if (store.ringcentralConfig(); as rc) {
+                  <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold"
+                    [class.bg-emerald-50]="rc.status === 'active'"
+                    [class.text-emerald-700]="rc.status === 'active'"
+                    [class.border]="true"
+                    [class.border-emerald-200]="rc.status === 'active'"
+                    [class.bg-rose-50]="rc.status === 'error'"
+                    [class.text-rose-700]="rc.status === 'error'"
+                    [class.border-rose-200]="rc.status === 'error'"
+                    [class.bg-surface-container-high]="rc.status === 'inactive'"
+                    [class.text-on-surface-variant]="rc.status === 'inactive'">
+                    {{ rc.status === 'active' ? '● متصل ونشط' : (rc.status === 'error' ? '● خطأ في الاتصال' : '● معطل') }}
+                  </span>
+                  @if (rc.is_enabled) {
+                    <span class="px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200 text-[10px] font-bold">
+                      مفعل للنظام
+                    </span>
+                  }
+                }
+              </div>
+              <p class="text-xs text-on-surface-variant mt-0.5">
+                ربط حساب RingCentral لإجراء واستقبال المكالمات الصوتية مباشرة، إرسال رسائل SMS للمشتركين، وتسجيل المكالمات في سجل العميل.
+              </p>
+            </div>
+          </div>
+
+          @if (store.isRingcentralLoading()) {
+            <div class="flex items-center gap-2 text-xs text-primary-container shrink-0">
+              <span class="material-symbols-outlined animate-spin text-[16px]">progress_activity</span>
+              <span>جاري التحميل...</span>
+            </div>
+          }
+        </div>
+
+        <!-- Connection Test Result Banner -->
+        @if (store.ringcentralTestResult(); as testRes) {
+          <div class="p-4 rounded-xl flex items-start justify-between text-body-sm transition-all"
+            [class.bg-emerald-50]="testRes.success"
+            [class.border]="true"
+            [class.border-emerald-200]="testRes.success"
+            [class.text-emerald-900]="testRes.success"
+            [class.bg-rose-50]="!testRes.success"
+            [class.border-rose-200]="!testRes.success"
+            [class.text-rose-900]="!testRes.success">
+            <div class="flex items-start gap-3">
+              <span class="material-symbols-outlined text-[22px] shrink-0 mt-0.5"
+                [class.text-emerald-600]="testRes.success"
+                [class.text-rose-600]="!testRes.success">
+                {{ testRes.success ? 'verified' : 'error' }}
+              </span>
+              <div>
+                <span class="font-bold text-sm block">{{ testRes.message }}</span>
+                @if (testRes.data; as d) {
+                  <div class="flex flex-wrap items-center gap-3 mt-1.5 text-xs opacity-90 font-medium">
+                    @if (d.company_name) {
+                      <span>الشركة في RingCentral: <strong>{{ d.company_name }}</strong></span>
+                    }
+                    @if (d.main_number) {
+                      <span>الرقم الرئيسي: <strong dir="ltr">{{ d.main_number }}</strong></span>
+                    }
+                    @if (d.tier) {
+                      <span>الباقة: <strong class="uppercase">{{ d.tier }}</strong></span>
+                    }
+                  </div>
+                }
+              </div>
+            </div>
+            <button type="button" (click)="store.clearRingcentralTestResult()" class="text-current hover:opacity-75 p-1">
+              <span class="material-symbols-outlined text-[18px]">close</span>
+            </button>
+          </div>
+        }
+
+        <!-- Webhook Registration Result Banner -->
+        @if (store.webhookRegisterResult(); as hookRes) {
+          <div class="p-3.5 rounded-xl flex items-center justify-between text-xs"
+            [class.bg-blue-50]="hookRes.success"
+            [class.border]="true"
+            [class.border-blue-200]="hookRes.success"
+            [class.text-blue-900]="hookRes.success"
+            [class.bg-rose-50]="!hookRes.success"
+            [class.border-rose-200]="!hookRes.success"
+            [class.text-rose-900]="!hookRes.success">
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-[18px]" [class.text-blue-600]="hookRes.success" [class.text-rose-600]="!hookRes.success">
+                {{ hookRes.success ? 'link' : 'link_off' }}
+              </span>
+              <span class="font-semibold">{{ hookRes.message }}</span>
+            </div>
+            <button type="button" (click)="store.clearRingcentralTestResult()" class="text-current hover:opacity-75">
+              <span class="material-symbols-outlined text-[16px]">close</span>
+            </button>
+          </div>
+        }
+
+        @if (store.ringcentralError(); as err) {
+          <div class="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-rose-600 text-[18px]">warning</span>
+              <span>{{ err }}</span>
+            </div>
+            <button type="button" (click)="store.clearRingcentralTestResult()" class="text-rose-600 hover:text-rose-800">
+              <span class="material-symbols-outlined text-[16px]">close</span>
+            </button>
+          </div>
+        }
+
+        <!-- Form -->
+        <form [formGroup]="ringcentralForm" (ngSubmit)="saveRingcentralConfig()" class="space-y-4">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- Server URL -->
+            <div>
+              <label class="block font-label-md text-xs font-semibold text-on-surface mb-1.5">
+                بيئة الخادم (Server Environment) <span class="text-error">*</span>
+              </label>
+              <select formControlName="server_url"
+                class="w-full h-10 px-3 rounded-lg border border-surface-container-high bg-surface-container-low/40 text-on-surface focus:outline-none focus:border-primary-container text-body-sm transition-colors cursor-pointer">
+                <option value="https://platform.ringcentral.com">خادم الإنتاج الفعلي (Production - platform.ringcentral.com)</option>
+                <option value="https://platform.devtest.ringcentral.com">خادم التطوير التجريبي (Sandbox - platform.devtest.ringcentral.com)</option>
+              </select>
+            </div>
+
+            <!-- Main Phone Number -->
+            <div>
+              <label class="block font-label-md text-xs font-semibold text-on-surface mb-1.5">
+                رقم الهاتف الرئيسي للاتصال و SMS (Main Phone Number)
+              </label>
+              <input type="text" formControlName="main_phone_number" placeholder="+1 (555) 000-0000" dir="ltr"
+                class="w-full h-10 px-3 rounded-lg border border-surface-container-high bg-surface-container-low/40 text-on-surface focus:outline-none focus:border-primary-container text-body-sm transition-colors text-left font-mono" />
+            </div>
+
+            <!-- Client ID -->
+            <div>
+              <label class="block font-label-md text-xs font-semibold text-on-surface mb-1.5">
+                معرف التطبيق (Client ID) <span class="text-error">*</span>
+              </label>
+              <input type="text" formControlName="client_id" placeholder="مثال: AbCdEfGh1234567" dir="ltr"
+                class="w-full h-10 px-3 rounded-lg border border-surface-container-high bg-surface-container-low/40 text-on-surface focus:outline-none focus:border-primary-container text-body-sm transition-colors text-left font-mono" />
+              @if (ringcentralForm.get('client_id')?.touched && ringcentralForm.get('client_id')?.invalid) {
+                <span class="font-label-sm text-[11px] text-error mt-1 block">معرف التطبيق Client ID مطلوب</span>
+              }
+            </div>
+
+            <!-- Client Secret -->
+            <div>
+              <div class="flex items-center justify-between mb-1.5">
+                <label class="block font-label-md text-xs font-semibold text-on-surface">
+                  المفتاح السري (Client Secret)
+                  @if (store.ringcentralConfig()?.has_client_secret) {
+                    <span class="text-emerald-600 font-normal text-[11px]">(تم حفظه سابقاً ✓)</span>
+                  }
+                </label>
+                <button type="button" (click)="toggleShowRcClientSecret()"
+                  class="text-xs text-primary-container hover:underline cursor-pointer flex items-center gap-1">
+                  <span class="material-symbols-outlined text-[14px]">{{ showRcClientSecret() ? 'visibility_off' : 'visibility' }}</span>
+                  <span>{{ showRcClientSecret() ? 'إخفاء' : 'إظهار' }}</span>
+                </button>
+              </div>
+              <input [type]="showRcClientSecret() ? 'text' : 'password'" formControlName="client_secret"
+                placeholder="اتركه فارغاً للإبقاء على القيمة الحالية" dir="ltr"
+                class="w-full h-10 px-3 rounded-lg border border-surface-container-high bg-surface-container-low/40 text-on-surface focus:outline-none focus:border-primary-container text-body-sm transition-colors text-left font-mono" />
+            </div>
+          </div>
+
+          <!-- JWT Token -->
+          <div>
+            <div class="flex items-center justify-between mb-1.5">
+              <label class="block font-label-md text-xs font-semibold text-on-surface">
+                رمز مصادقة JWT الدائم (JWT Token for Server-to-Server)
+                @if (store.ringcentralConfig()?.has_jwt_token) {
+                  <span class="text-emerald-600 font-normal text-[11px]">(تم حفظه سابقاً ✓)</span>
+                }
+              </label>
+              <button type="button" (click)="toggleShowRcJwtToken()"
+                class="text-xs text-primary-container hover:underline cursor-pointer flex items-center gap-1">
+                <span class="material-symbols-outlined text-[14px]">{{ showRcJwtToken() ? 'visibility_off' : 'visibility' }}</span>
+                <span>{{ showRcJwtToken() ? 'إخفاء' : 'إظهار' }}</span>
+              </button>
+            </div>
+            <input [type]="showRcJwtToken() ? 'text' : 'password'" formControlName="jwt_token"
+              placeholder="eyJhbGciOi... (اتركه فارغاً للإبقاء على التوكن المحفوظ حالياً)" dir="ltr"
+              class="w-full h-10 px-3 rounded-lg border border-surface-container-high bg-surface-container-low/40 text-on-surface focus:outline-none focus:border-primary-container text-body-sm transition-colors text-left font-mono" />
+          </div>
+
+          <!-- Webhook Configuration Box -->
+          <div class="bg-surface-container-low/60 p-4 rounded-xl border border-surface-container space-y-3">
+            <div class="flex items-center justify-between flex-wrap gap-2">
+              <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-[20px] text-indigo-600">webhook</span>
+                <span class="font-label-md text-xs font-bold text-on-surface">رابط الويب هوك لاستقبال المكالمات و SMS (Webhook Handshake)</span>
+              </div>
+              <button type="button" (click)="registerRingcentralWebhook()" [disabled]="store.isRegisteringWebhook()"
+                class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold transition-colors cursor-pointer disabled:opacity-50 shadow-xs">
+                <span class="material-symbols-outlined text-[15px]" [class.animate-spin]="store.isRegisteringWebhook()">
+                  {{ store.isRegisteringWebhook() ? 'refresh' : 'sync' }}
+                </span>
+                <span>تسجيل / تجديد اشتراك الويب هوك</span>
+              </button>
+            </div>
+
+            <div class="flex items-center gap-2 bg-surface-container-lowest p-2 rounded-lg border border-surface-container">
+              <span class="text-xs font-mono text-on-surface flex-1 truncate dir-ltr text-left select-all">
+                {{ store.ringcentralConfig()?.webhook_url || 'https://api.orca-crm.com/api/ringcentral/webhook' }}
+              </span>
+              <button type="button" (click)="copyWebhookUrl(store.ringcentralConfig()?.webhook_url || 'https://api.orca-crm.com/api/ringcentral/webhook')"
+                class="p-1 rounded text-outline hover:text-on-surface hover:bg-surface-container transition-colors" title="نسخ الرابط">
+                <span class="material-symbols-outlined text-[18px]">content_copy</span>
+              </button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 pt-1">
+              <div>
+                <label class="block font-label-md text-[11px] font-medium text-on-surface-variant mb-1">
+                  رمز التحقق السري (Webhook Verify Token):
+                </label>
+                <input type="text" formControlName="webhook_verify_token" dir="ltr"
+                  class="w-full h-8 px-2.5 rounded-lg border border-surface-container bg-surface-container-lowest text-on-surface text-xs font-mono" />
+              </div>
+              <div class="text-[11px] text-on-surface-variant flex items-center">
+                <span>يقوم خادم RingCentral بإرسال هيدر <code>Validation-Token</code> عند أول اتصال ليتم اعتماده تلقائياً في Orca CRM.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Enable Switch -->
+          <div class="flex items-center gap-3 p-3 rounded-lg bg-surface-container-low/60 border border-surface-container">
+            <input type="checkbox" id="rc_is_enabled" formControlName="is_enabled"
+              class="w-4 h-4 rounded text-primary-container focus:ring-primary-container accent-primary-container cursor-pointer" />
+            <label for="rc_is_enabled" class="text-xs font-medium text-on-surface cursor-pointer select-none">
+              تفعيل بوابة الاتصال RingCentral ومشاركة رقم الهاتف مع فريق المبيعات والدعم الفني
+            </label>
+          </div>
+
+          <!-- Multiple Phone Lines Section -->
+          <div class="bg-surface-container-low/40 p-4 rounded-xl border border-surface-container space-y-3">
+            <div class="flex items-center justify-between flex-wrap gap-2">
+              <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-[20px] text-indigo-600">contact_phone</span>
+                <div>
+                  <h4 class="font-label-md text-xs font-bold text-on-surface">خطوط وأرقام هواتف الشركة المعتمدة (RingCentral Phone Lines)</h4>
+                  <p class="text-[11px] text-on-surface-variant">ربط عدة أرقام مخصصة للمبيعات، الدعم الفني، وخدمة العملاء مع إمكانية التبديل بينها عند الاتصال أو إرسال SMS</p>
+                </div>
+              </div>
+              
+              <div class="flex items-center gap-2">
+                <button type="button" (click)="syncRcPhones()" [disabled]="store.isSyncingRingcentralPhoneNumbers()"
+                  class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-on-surface text-xs font-semibold transition-colors cursor-pointer disabled:opacity-50">
+                  <span class="material-symbols-outlined text-[15px]" [class.animate-spin]="store.isSyncingRingcentralPhoneNumbers()">
+                    {{ store.isSyncingRingcentralPhoneNumbers() ? 'refresh' : 'sync' }}
+                  </span>
+                  <span>مزامنة الأرقام من RingCentral</span>
+                </button>
+
+                <button type="button" (click)="openAddRcPhoneModal()"
+                  class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold transition-colors cursor-pointer shadow-xs">
+                  <span class="material-symbols-outlined text-[15px]">add</span>
+                  <span>إضافة خط جديد</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Phone Lines Table / Grid -->
+            @if (store.ringcentralPhoneNumbers().length === 0) {
+              <div class="text-center py-6 border border-dashed border-surface-container rounded-lg bg-surface-container-lowest/50 text-xs text-on-surface-variant">
+                <span>لا توجد خطوط هاتفية مسجلة حالياً. اضغط على <strong>"مزامنة الأرقام من RingCentral"</strong> لجلب أرقام حسابك تلقائياً، أو أضف خطاً يدوياً.</span>
+              </div>
+            } @else {
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-2.5">
+                @for (line of store.ringcentralPhoneNumbers(); track line.id) {
+                  <div class="p-3 rounded-xl bg-surface-container-lowest border flex items-center justify-between gap-3 transition-all hover:shadow-xs"
+                    [class.border-indigo-500]="line.is_default"
+                    [class.border-surface-container]="!line.is_default">
+                    <div class="flex items-center gap-2.5 min-w-0">
+                      <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
+                        [class.bg-indigo-500/10]="line.department === 'sales'"
+                        [class.text-indigo-600]="line.department === 'sales'"
+                        [class.bg-emerald-500/10]="line.department === 'support'"
+                        [class.text-emerald-600]="line.department === 'support'"
+                        [class.bg-surface-container-high]="line.department !== 'sales' && line.department !== 'support'"
+                        [class.text-on-surface-variant]="line.department !== 'sales' && line.department !== 'support'">
+                        <span class="material-symbols-outlined text-[18px]">
+                          {{ line.department === 'support' ? 'support_agent' : 'call' }}
+                        </span>
+                      </div>
+                      <div class="min-w-0">
+                        <div class="flex items-center gap-1.5 flex-wrap">
+                          <span class="text-xs font-bold text-on-surface truncate">{{ line.label }}</span>
+                          @if (line.is_default) {
+                            <span class="px-1.5 py-0.2 rounded-full bg-amber-500/15 text-amber-700 text-[10px] font-bold">
+                              ★ الافتراضي
+                            </span>
+                          }
+                          <span class="px-1.5 py-0.2 rounded text-[10px] font-medium"
+                            [class.bg-indigo-50]="line.department === 'sales'"
+                            [class.text-indigo-700]="line.department === 'sales'"
+                            [class.bg-emerald-50]="line.department === 'support'"
+                            [class.text-emerald-700]="line.department === 'support'">
+                            {{ line.department === 'sales' ? 'مبيعات' : (line.department === 'support' ? 'دعم فني' : 'عام') }}
+                          </span>
+                        </div>
+                        <span class="font-mono text-xs text-on-surface font-semibold dir-ltr block text-right mt-0.5 select-all">
+                          {{ line.phone_number }}
+                          @if (line.extension_number) {
+                            <span class="text-outline text-[10px]"> (ext: {{ line.extension_number }})</span>
+                          }
+                        </span>
+                      </div>
+                    </div>
+
+                    <!-- Line Actions -->
+                    <div class="flex items-center gap-1 shrink-0">
+                      @if (!line.is_default) {
+                        <button type="button" (click)="setDefaultRcPhone(line)"
+                          class="p-1.5 rounded-lg text-outline hover:text-amber-600 hover:bg-amber-500/10 transition-colors cursor-pointer"
+                          title="تعيين كخط افتراضي للمنشأة">
+                          <span class="material-symbols-outlined text-[16px]">grade</span>
+                        </button>
+                      }
+                      <button type="button" (click)="openEditRcPhoneModal(line)"
+                        class="p-1.5 rounded-lg text-outline hover:text-primary-container hover:bg-surface-container transition-colors cursor-pointer"
+                        title="تعديل الخط">
+                        <span class="material-symbols-outlined text-[16px]">edit</span>
+                      </button>
+                      <button type="button" (click)="deleteRcPhone(line)"
+                        class="p-1.5 rounded-lg text-outline hover:text-rose-600 hover:bg-rose-50 transition-colors cursor-pointer"
+                        title="حذف الخط">
+                        <span class="material-symbols-outlined text-[16px]">delete</span>
+                      </button>
+                    </div>
+                  </div>
+                }
+              </div>
+            }
+          </div>
+
+          <!-- Actions Footer -->
+          <div class="pt-3 border-t border-surface-container flex items-center justify-between gap-3 flex-wrap">
+            <button type="button" (click)="testRingcentralConnection()" [disabled]="store.isTestingRingcentralConnection()"
+              class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-on-surface text-xs font-medium transition-colors cursor-pointer disabled:opacity-50">
+              <span class="material-symbols-outlined text-[18px]" [class.animate-spin]="store.isTestingRingcentralConnection()">
+                {{ store.isTestingRingcentralConnection() ? 'refresh' : 'network_check' }}
+              </span>
+              <span>فحص الاتصال مع RingCentral الآن</span>
+            </button>
+
+            <button type="submit" [disabled]="store.isSavingRingcentralConfig()"
+              class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-primary-container text-on-primary font-label-md text-sm hover:bg-primary transition-all shadow-sm cursor-pointer disabled:opacity-50">
+              @if (store.isSavingRingcentralConfig()) {
+                <span class="material-symbols-outlined animate-spin text-[16px]">progress_activity</span>
+              } @else {
+                <span class="material-symbols-outlined text-[18px]">save</span>
+              }
+              <span>حفظ إعدادات RingCentral</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+  }
+
+  <!-- TAB CONTENT 4: AUDIT LOG -->
+  @if (store.activeTab() === 'audit_log') {
+  <section class="bg-surface-container-lowest p-space-lg rounded-xl shadow-sm space-y-space-md">
+    <div class="flex items-center gap-3 pb-3 border-b border-surface-container">
+      <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary-container">
+        <span class="material-symbols-outlined text-[24px]">shield</span>
+      </div>
+      <div>
+        <h2 class="font-headline-sm text-headline-sm text-on-surface">سجل الأنشطة والأمان (Audit Trail)</h2>
+        <p class="font-body-sm text-body-sm text-on-surface-variant">تتبع حركات المستخدمين، تعديل الاشتراكات، وتسجيل
+          الدخول</p>
+      </div>
+    </div>
+
+    <div class="space-y-2.5">
+      @for (log of store.auditLogs(); track log.id) {
+      <div
+        class="p-3 rounded-lg bg-surface-container-low flex items-center justify-between text-body-sm hover:bg-surface-container transition-colors">
+        <div class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-[18px]" [ngClass]="log.iconColor">{{ log.icon }}</span>
+          <span class="font-medium text-on-surface">{{ log.userName }}</span>
+          <span class="text-on-surface-variant">{{ log.actionText }}</span>
+        </div>
+        <span class="font-code-sm text-code-sm text-outline">{{ log.timeText }}</span>
+      </div>
+      }
+    </div>
+  </section>
+  }
+</div>
+
+<!-- MODAL 1: ADD NEW MEMBER -->
+@if (store.isAddMemberModalOpen()) {
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+  <div
+    class="bg-surface-container-lowest rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden border border-surface-container-high animate-in fade-in zoom-in duration-200">
+    <div
+      class="px-space-md py-space-sm bg-surface-container-low flex items-center justify-between border-b border-surface-container">
+      <div class="flex items-center gap-2">
+        <span class="material-symbols-outlined text-primary-container text-[22px]">person_add</span>
+        <h3 class="font-headline-sm text-headline-sm text-on-surface">إضافة عضو جديد للفريق</h3>
+      </div>
+      <button type="button" (click)="closeAddModal()"
+        class="w-8 h-8 rounded-lg hover:bg-surface-container flex items-center justify-center text-outline hover:text-on-surface transition-colors">
+        <span class="material-symbols-outlined text-[20px]">close</span>
+      </button>
+    </div>
+
+    <form [formGroup]="addMemberForm" (ngSubmit)="submitAddMember()" class="p-space-md space-y-space-sm">
+      <div>
+        <label class="block font-label-md text-label-md text-on-surface mb-1">الاسم الكامل *</label>
+        <input type="text" formControlName="name" placeholder="مثال: أحمد عبد الله"
+          class="w-full h-10 px-3 bg-surface-container-low rounded-lg font-body-md text-on-surface border border-transparent focus:border-primary-container focus:outline-none" />
+        @if (addMemberForm.get('name')?.touched && addMemberForm.get('name')?.invalid) {
+        <span class="text-error font-body-sm text-[11px] mt-0.5 block">الرجاء إدخال اسم الموظف (3 حروف على الأقل)</span>
+        }
+      </div>
+
+      <div>
+        <label class="block font-label-md text-label-md text-on-surface mb-1">البريد الإلكتروني الرسمي *</label>
+        <input type="email" formControlName="email" placeholder="name@orcacrm.io"
+          class="w-full h-10 px-3 bg-surface-container-low rounded-lg font-body-md text-on-surface border border-transparent focus:border-primary-container focus:outline-none" />
+        @if (addMemberForm.get('email')?.touched && addMemberForm.get('email')?.invalid) {
+        <span class="text-error font-body-sm text-[11px] mt-0.5 block">الرجاء إدخال بريد إلكتروني صحيح</span>
+        }
+      </div>
+
+      <div>
+        <label class="block font-label-md text-label-md text-on-surface mb-1">كلمة المرور المؤقتة *</label>
+        <input type="text" formControlName="password" placeholder="••••••••"
+          class="w-full h-10 px-3 bg-surface-container-low rounded-lg font-body-md text-on-surface border border-transparent focus:border-primary-container focus:outline-none text-left"
+          dir="ltr" />
+        @if (addMemberForm.get('password')?.touched && addMemberForm.get('password')?.invalid) {
+        <span class="text-error font-body-sm text-[11px] mt-0.5 block">يجب أن تتكون كلمة المرور من 6 أحرف على
+          الأقل</span>
+        }
+      </div>
+
+      <div>
+        <label class="block font-label-md text-label-md text-on-surface mb-1">الدور الوظيفي والصلاحيات *</label>
+        <select formControlName="role"
+          class="w-full h-10 px-3 bg-surface-container-low rounded-lg font-body-md text-on-surface border border-transparent focus:border-primary-container focus:outline-none cursor-pointer">
+          <option value="sales_rep">موظف مبيعات (Sales Rep)</option>
+          <option value="sales_supervisor">مشرف مبيعات (Sales Supervisor)</option>
+          <option value="tech_support">دعم فني (Tech Support)</option>
+          <option value="admin">مدير النظام (Admin)</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block font-label-md text-label-md text-on-surface mb-1">رقم الهاتف (اختياري)</label>
+        <input type="tel" formControlName="phone" placeholder="+1 (555) 000-0000"
+          class="w-full h-10 px-3 bg-surface-container-low rounded-lg font-body-md text-on-surface border border-transparent focus:border-primary-container focus:outline-none" />
+      </div>
+
+      <div class="pt-space-sm flex items-center justify-end gap-space-xs border-t border-surface-container">
+        <button type="button" (click)="closeAddModal()"
+          class="px-space-md h-10 rounded-lg bg-surface-container-low text-on-surface hover:bg-surface-container font-label-md text-label-md transition-colors">
+          إلغاء
+        </button>
+        <button type="submit"
+          class="px-space-md h-10 rounded-lg bg-primary-container text-on-primary font-label-md text-label-md hover:bg-primary transition-colors shadow-sm">
+          إضافة العضو
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+}
+
+<!-- MODAL: EDIT MEMBER -->
+@if (store.isEditMemberModalOpen()) {
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+  <div
+    class="bg-surface-container-lowest rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden border border-surface-container-high animate-in fade-in zoom-in duration-200">
+    <div
+      class="px-space-md py-space-sm bg-surface-container-low flex items-center justify-between border-b border-surface-container">
+      <div class="flex items-center gap-2">
+        <span class="material-symbols-outlined text-primary-container text-[22px]">manage_accounts</span>
+        <h3 class="font-headline-sm text-headline-sm text-on-surface">تعديل بيانات عضو الفريق</h3>
+      </div>
+      <button type="button" (click)="closeEditModal()"
+        class="w-8 h-8 rounded-lg hover:bg-surface-container flex items-center justify-center text-outline hover:text-on-surface transition-colors">
+        <span class="material-symbols-outlined text-[20px]">close</span>
+      </button>
+    </div>
+
+    <form [formGroup]="editMemberForm" (ngSubmit)="submitEditMember()" class="p-space-md space-y-space-sm">
+      <div>
+        <label class="block font-label-md text-label-md text-on-surface mb-1">الاسم الكامل *</label>
+        <input type="text" formControlName="name" placeholder="مثال: أحمد عبد الله"
+          class="w-full h-10 px-3 bg-surface-container-low rounded-lg font-body-md text-on-surface border border-transparent focus:border-primary-container focus:outline-none" />
+        @if (editMemberForm.get('name')?.touched && editMemberForm.get('name')?.invalid) {
+        <span class="text-error font-body-sm text-[11px] mt-0.5 block">الرجاء إدخال اسم الموظف (3 حروف على الأقل)</span>
+        }
+      </div>
+
+      <div>
+        <label class="block font-label-md text-label-md text-on-surface mb-1">البريد الإلكتروني الرسمي *</label>
+        <input type="email" formControlName="email" placeholder="name@orcacrm.io"
+          class="w-full h-10 px-3 bg-surface-container-low rounded-lg font-body-md text-on-surface border border-transparent focus:border-primary-container focus:outline-none" />
+        @if (editMemberForm.get('email')?.touched && editMemberForm.get('email')?.invalid) {
+        <span class="text-error font-body-sm text-[11px] mt-0.5 block">الرجاء إدخال بريد إلكتروني صحيح</span>
+        }
+      </div>
+
+      <div>
+        <label class="block font-label-md text-label-md text-on-surface mb-1">الدور الوظيفي والصلاحيات *</label>
+        <select formControlName="role"
+          class="w-full h-10 px-3 bg-surface-container-low rounded-lg font-body-md text-on-surface border border-transparent focus:border-primary-container focus:outline-none cursor-pointer">
+          <option value="sales_rep">موظف مبيعات (Sales Rep)</option>
+          <option value="sales_supervisor">مشرف مبيعات (Sales Supervisor)</option>
+          <option value="tech_support">دعم فني (Tech Support)</option>
+          <option value="admin">مدير النظام (Admin)</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block font-label-md text-label-md text-on-surface mb-1">رقم الهاتف (اختياري)</label>
+        <input type="tel" formControlName="phone" placeholder="+1 (555) 000-0000"
+          class="w-full h-10 px-3 bg-surface-container-low rounded-lg font-body-md text-on-surface border border-transparent focus:border-primary-container focus:outline-none" />
+      </div>
+
+      <div class="pt-space-sm flex items-center justify-end gap-space-xs border-t border-surface-container">
+        <button type="button" (click)="closeEditModal()"
+          class="px-space-md h-10 rounded-lg bg-surface-container-low text-on-surface hover:bg-surface-container font-label-md text-label-md transition-colors">
+          إلغاء
+        </button>
+        <button type="submit"
+          class="px-space-md h-10 rounded-lg bg-primary-container text-on-primary font-label-md text-label-md hover:bg-primary transition-colors shadow-sm">
+          حفظ التعديلات
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+}
+
+<!-- MODAL 2: PERMISSIONS MATRIX -->
+@if (store.isPermissionsModalOpen()) {
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+  <div
+    class="bg-surface-container-lowest rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col overflow-hidden border border-surface-container-high animate-in fade-in zoom-in duration-200">
+    <div
+      class="px-space-md py-space-sm bg-surface-container-low flex items-center justify-between border-b border-surface-container flex-shrink-0">
+      <div class="flex items-center gap-2">
+        <span class="material-symbols-outlined text-primary-container text-[22px]">verified_user</span>
+        <h3 class="font-headline-sm text-headline-sm text-on-surface">مصفوفة الصلاحيات المطبقة في النظام</h3>
+      </div>
+      <button type="button" (click)="closePermissionsModal()"
+        class="w-8 h-8 rounded-lg hover:bg-surface-container flex items-center justify-center text-outline hover:text-on-surface transition-colors">
+        <span class="material-symbols-outlined text-[20px]">close</span>
+      </button>
+    </div>
+
+    <div class="p-space-md overflow-y-auto flex-1 space-y-space-md">
+      <p class="font-body-sm text-body-sm text-on-surface-variant">
+        استعراض نظرة عامة على الصلاحيات التفصيلية الممنوحة لكل دور وظيفي ضمن المستأجر الحالي.
+      </p>
+
+      <div class="overflow-x-auto rounded-xl border border-surface-container-high">
+        <table class="w-full text-right font-body-sm text-body-sm">
+          <thead>
+            <tr
+              class="bg-surface-container-low text-on-surface font-headline-sm border-b border-surface-container-high">
+              <th class="p-3">الميزة / الصلاحية</th>
+              <th class="p-3 text-center">مدير النظام</th>
+              <th class="p-3 text-center">مشرف مبيعات</th>
+              <th class="p-3 text-center">موظف مبيعات</th>
+              <th class="p-3 text-center">دعم فني</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-surface-container">
+            @for (feat of store.permissionFeatures(); track feat.key) {
+            <tr class="hover:bg-surface-container-low/50 transition-colors">
+              <td class="p-3 font-medium text-on-surface">
+                {{ feat.nameAr }}
+                <span class="block font-label-sm text-[10px] text-outline">{{ feat.categoryAr }}</span>
+              </td>
+              <td class="p-3 text-center">
+                <button type="button" (click)="togglePermission(feat.key, 'adminAllowed')"
+                  class="inline-flex items-center justify-center p-1 rounded-lg hover:bg-surface-container transition-transform hover:scale-110"
+                  title="صلاحيات مدير النظام مثبتة">
+                  @if (feat.adminAllowed) {
+                  <span class="material-symbols-outlined text-secondary text-[20px]">check_circle</span>
+                  } @else {
+                  <span class="material-symbols-outlined text-outline/40 text-[20px]">cancel</span>
+                  }
+                </button>
+              </td>
+              <td class="p-3 text-center">
+                <button type="button" (click)="togglePermission(feat.key, 'supervisorAllowed')"
+                  class="inline-flex items-center justify-center p-1 rounded-lg hover:bg-surface-container transition-transform hover:scale-110 cursor-pointer"
+                  [title]="feat.supervisorAllowed ? 'تعطيل الصلاحية للمشرف' : 'تفعيل الصلاحية للمشرف'">
+                  @if (feat.supervisorAllowed) {
+                  <span class="material-symbols-outlined text-secondary text-[20px]">check_circle</span>
+                  } @else {
+                  <span class="material-symbols-outlined text-outline/40 text-[20px]">cancel</span>
+                  }
+                </button>
+              </td>
+              <td class="p-3 text-center">
+                <button type="button" (click)="togglePermission(feat.key, 'salesAllowed')"
+                  class="inline-flex items-center justify-center p-1 rounded-lg hover:bg-surface-container transition-transform hover:scale-110 cursor-pointer"
+                  [title]="feat.salesAllowed ? 'تعطيل الصلاحية لموظف المبيعات' : 'تفعيل الصلاحية لموظف المبيعات'">
+                  @if (feat.salesAllowed) {
+                  <span class="material-symbols-outlined text-secondary text-[20px]">check_circle</span>
+                  } @else {
+                  <span class="material-symbols-outlined text-outline/40 text-[20px]">cancel</span>
+                  }
+                </button>
+              </td>
+              <td class="p-3 text-center">
+                <button type="button" (click)="togglePermission(feat.key, 'supportAllowed')"
+                  class="inline-flex items-center justify-center p-1 rounded-lg hover:bg-surface-container transition-transform hover:scale-110 cursor-pointer"
+                  [title]="feat.supportAllowed ? 'تعطيل الصلاحية للدعم الفني' : 'تفعيل الصلاحية للدعم الفني'">
+                  @if (feat.supportAllowed) {
+                  <span class="material-symbols-outlined text-secondary text-[20px]">check_circle</span>
+                  } @else {
+                  <span class="material-symbols-outlined text-outline/40 text-[20px]">cancel</span>
+                  }
+                </button>
+              </td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div
+      class="px-space-md py-space-sm bg-surface-container-low flex items-center justify-end border-t border-surface-container flex-shrink-0">
+      <button type="button" (click)="closePermissionsModal()"
+        class="px-space-md h-10 rounded-lg bg-primary-container text-on-primary font-label-md text-label-md hover:bg-primary transition-colors">
+        إغلاق
+      </button>
+    </div>
+  </div>
+</div>
+}
+
+<!-- MODAL: ADD / EDIT WHATSAPP ACCOUNT -->
+@if (store.isAddWhatsAppModalOpen() || store.isEditWhatsAppModalOpen()) {
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 overflow-y-auto">
+  <div
+    class="bg-surface-container-lowest rounded-2xl shadow-2xl w-full max-w-xl overflow-hidden border border-surface-container-high animate-in fade-in zoom-in duration-200 my-8">
+    <!-- Modal Header -->
+    <div
+      class="px-space-md py-4 bg-surface-container-low flex items-center justify-between border-b border-surface-container">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-lg bg-emerald-500/10 text-emerald-600 flex items-center justify-center">
+          <span class="material-symbols-outlined text-[22px]">chat</span>
+        </div>
+        <div>
+          <h3 class="font-headline-sm text-headline-sm text-on-surface font-semibold">
+            {{ store.isEditWhatsAppModalOpen() ? 'تعديل إعدادات حساب واتساب' : 'ربط رقم واتساب سحابي جديد (Meta Cloud
+            API)' }}
+          </h3>
+          <p class="text-xs text-on-surface-variant">
+            {{ store.isEditWhatsAppModalOpen() ? 'تحديث المفاتيح ومعرفات الرقم للقسم' : 'إضافة رقم رسمي جديد للمبيعات أو
+            الدعم الفني وتوصيله بـ Meta' }}
+          </p>
+        </div>
+      </div>
+      <button type="button"
+        (click)="store.isEditWhatsAppModalOpen() ? closeEditWhatsAppModal() : closeAddWhatsAppModal()"
+        class="text-outline hover:text-on-surface transition-colors p-1 rounded-lg hover:bg-surface-container">
+        <span class="material-symbols-outlined text-[20px]">close</span>
+      </button>
+    </div>
+
+    <!-- Modal Form Body -->
+    <form [formGroup]="whatsappForm" (ngSubmit)="submitWhatsAppAccount()" class="p-space-md space-y-4">
+      <!-- Notice Box -->
+      <div
+        class="p-3 rounded-lg bg-primary/5 border border-primary/15 text-body-sm text-on-surface-variant flex items-start gap-2.5">
+        <span class="material-symbols-outlined text-primary-container text-[20px] shrink-0 mt-0.5">info</span>
+        <div class="text-xs leading-relaxed">
+          يمكنك استخراج <strong>Phone Number ID</strong> و <strong>Access Token</strong> الدائم من لوحة تحكم
+          <span class="text-primary-container font-semibold">Meta for Developers</span> تحت قسم <em>WhatsApp > API
+            Setup</em>.
+        </div>
+      </div>
+
+      <!-- Field: Account Name -->
+      <div>
+        <label class="block font-label-md text-xs font-semibold text-on-surface mb-1">
+          اسم الحساب / مسمى القسم <span class="text-error">*</span>
+        </label>
+        <input type="text" formControlName="name" placeholder="مثال: خدمة العملاء والمبيعات (ديترويت)"
+          class="w-full h-10 px-3 rounded-lg border border-surface-container-high bg-surface-container-low/40 text-on-surface focus:outline-none focus:border-primary-container text-body-md transition-colors" />
+        @if (whatsappForm.get('name')?.touched && whatsappForm.get('name')?.invalid) {
+        <span class="font-label-sm text-[11px] text-error mt-1 block">يرجى كتابة اسم تعريفي للحساب لا يقل عن
+          حرفين</span>
+        }
+      </div>
+
+      <!-- Two-column: Phone Number & Phone Number ID -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <!-- Field: Phone Number -->
+        <div>
+          <label class="block font-label-md text-xs font-semibold text-on-surface mb-1">
+            رقم الهاتف الدولي <span class="text-error">*</span>
+          </label>
+          <input type="text" formControlName="phone_number" placeholder="+13135550199" dir="ltr"
+            class="w-full h-10 px-3 rounded-lg border border-surface-container-high bg-surface-container-low/40 text-on-surface focus:outline-none focus:border-primary-container text-body-md transition-colors text-left" />
+          @if (whatsappForm.get('phone_number')?.touched && whatsappForm.get('phone_number')?.invalid) {
+          <span class="font-label-sm text-[11px] text-error mt-1 block">يرجى إدخال رقم هاتف دولي صحيح مع رمز
+            الدولة</span>
+          }
+        </div>
+
+        <!-- Field: Phone Number ID -->
+        <div>
+          <label class="block font-label-md text-xs font-semibold text-on-surface mb-1">
+            معرف الرقم (Phone Number ID) <span class="text-error">*</span>
+          </label>
+          <input type="text" formControlName="phone_number_id" placeholder="109283746501928" dir="ltr"
+            class="w-full h-10 px-3 rounded-lg border border-surface-container-high bg-surface-container-low/40 text-on-surface focus:outline-none focus:border-primary-container text-body-md transition-colors text-left font-mono" />
+          @if (whatsappForm.get('phone_number_id')?.touched && whatsappForm.get('phone_number_id')?.invalid) {
+          <span class="font-label-sm text-[11px] text-error mt-1 block">معرف رقم الهاتف مطلوب من Meta</span>
+          }
+        </div>
+      </div>
+
+      <!-- Field: WABA ID (Optional) -->
+      <div>
+        <label class="block font-label-md text-xs font-semibold text-on-surface mb-1">
+          معرف حساب الأعمال (WhatsApp Business Account ID) <span
+            class="text-outline text-[11px] font-normal">(اختياري)</span>
+        </label>
+        <input type="text" formControlName="waba_id" placeholder="102938475610293" dir="ltr"
+          class="w-full h-10 px-3 rounded-lg border border-surface-container-high bg-surface-container-low/40 text-on-surface focus:outline-none focus:border-primary-container text-body-md transition-colors text-left font-mono" />
+      </div>
+
+      <!-- Field: Access Token (with visibility toggle) -->
+      <div>
+        <div class="flex items-center justify-between mb-1">
+          <label class="block font-label-md text-xs font-semibold text-on-surface">
+            رمز الوصول الدائم (System User Access Token) <span class="text-error">*</span>
+          </label>
+          <button type="button" (click)="toggleShowAccessToken()"
+            class="text-xs text-primary-container hover:underline cursor-pointer flex items-center gap-1">
+            <span class="material-symbols-outlined text-[14px]">{{ showAccessToken() ? 'visibility_off' : 'visibility'
+              }}</span>
+            <span>{{ showAccessToken() ? 'إخفاء' : 'إظهار' }}</span>
+          </button>
+        </div>
+        <input [type]="showAccessToken() ? 'text' : 'password'" formControlName="access_token" placeholder="EAABw..."
+          dir="ltr"
+          class="w-full h-10 px-3 rounded-lg border border-surface-container-high bg-surface-container-low/40 text-on-surface focus:outline-none focus:border-primary-container text-body-md transition-colors text-left font-mono" />
+        @if (whatsappForm.get('access_token')?.touched && whatsappForm.get('access_token')?.invalid) {
+        <span class="font-label-sm text-[11px] text-error mt-1 block">رمز الوصول مطلوب لتمكين الإرسال وفحص الربط</span>
+        }
+      </div>
+
+      <!-- Field: App Secret (Optional for HMAC Webhook validation) -->
+      <div>
+        <label class="block font-label-md text-xs font-semibold text-on-surface mb-1">
+          المفتاح السري للتطبيق (App Secret) <span class="text-outline text-[11px] font-normal">(للتحقق من توقيع HMAC
+            Webhook)</span>
+        </label>
+        <input type="password" formControlName="app_secret" placeholder="••••••••••••••••" dir="ltr"
+          class="w-full h-10 px-3 rounded-lg border border-surface-container-high bg-surface-container-low/40 text-on-surface focus:outline-none focus:border-primary-container text-body-md transition-colors text-left font-mono" />
+      </div>
+
+      <!-- Checkbox: Is Default Account -->
+      <div class="flex items-center gap-3 p-3 rounded-lg bg-surface-container-low/60 border border-surface-container">
+        <input type="checkbox" id="is_default" formControlName="is_default"
+          class="w-4 h-4 rounded text-primary-container focus:ring-primary-container accent-primary-container cursor-pointer" />
+        <label for="is_default" class="text-xs font-medium text-on-surface cursor-pointer select-none">
+          تعيين هذا الرقم كافتراضي لإرسال إشعارات المنظومة وتجديد الاشتراكات التلقائية
+        </label>
+      </div>
+
+      <!-- Test Connection Button & Live Status Alert -->
+      <div class="pt-2">
+        <div class="flex items-center justify-between gap-3">
+          <button type="button" (click)="testWhatsAppConnection()" [disabled]="store.isTestingWhatsAppConnection()"
+            class="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-on-surface text-xs font-medium transition-colors cursor-pointer disabled:opacity-50">
+            <span class="material-symbols-outlined text-[16px]"
+              [class.animate-spin]="store.isTestingWhatsAppConnection()">
+              {{ store.isTestingWhatsAppConnection() ? 'refresh' : 'wifi_protected_setup' }}
+            </span>
+            <span>فحص الاتصال مع خوادم Meta الآن</span>
+          </button>
+        </div>
+
+        @if (store.whatsAppTestResult(); as testRes) {
+        <div class="mt-2.5 p-3 rounded-lg text-xs transition-all flex items-start gap-2.5"
+          [class.bg-emerald-50]="testRes.success" [class.border]="true" [class.border-emerald-200]="testRes.success"
+          [class.text-emerald-900]="testRes.success" [class.bg-rose-50]="!testRes.success"
+          [class.border-rose-200]="!testRes.success" [class.text-rose-900]="!testRes.success">
+          <span class="material-symbols-outlined text-[18px] shrink-0" [class.text-emerald-600]="testRes.success"
+            [class.text-rose-600]="!testRes.success">
+            {{ testRes.success ? 'check_circle' : 'error' }}
+          </span>
+          <div>
+            <div class="font-semibold">{{ testRes.message || testRes.error || (testRes.success ? 'تم الاتصال بنجاح' : 'حدث خطأ أثناء فحص الاتصال') }}</div>
+            @if (testRes.data; as d) {
+            <div class="mt-1 opacity-90">
+              الاسم المسجل: <strong>{{ d.verified_name }}</strong> • جودة الرقم: <strong class="uppercase">{{
+                d.quality_rating }}</strong>
+            </div>
+            }
+          </div>
+        </div>
+        }
+      </div>
+
+      <!-- Modal Footer -->
+      <div
+        class="px-space-md py-3 bg-surface-container-low flex items-center justify-end gap-3 border-t border-surface-container -mx-space-md -mb-space-md mt-4">
+        <button type="button"
+          (click)="store.isEditWhatsAppModalOpen() ? closeEditWhatsAppModal() : closeAddWhatsAppModal()"
+          class="px-4 h-10 rounded-lg text-on-surface-variant hover:bg-surface-container font-label-md text-sm transition-colors cursor-pointer">
+          إلغاء
+        </button>
+        <button type="submit" [disabled]="store.isWhatsAppLoading()"
+          class="px-5 h-10 rounded-lg bg-primary-container text-on-primary font-label-md text-sm hover:bg-primary transition-colors cursor-pointer flex items-center gap-2 disabled:opacity-50">
+          @if (store.isWhatsAppLoading()) {
+          <span class="material-symbols-outlined animate-spin text-[16px]">progress_activity</span>
+          }
+          <span>{{ store.isEditWhatsAppModalOpen() ? 'حفظ التعديلات' : 'حفظ وتفعيل الرقم' }}</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+}
+
+<!-- MODAL: ADD / EDIT RINGCENTRAL PHONE LINE -->
+@if (isAddRcPhoneModalOpen() || isEditRcPhoneModalOpen()) {
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+  <div class="bg-surface-container-lowest rounded-2xl shadow-2xl w-full max-w-md overflow-hidden border border-surface-container-high animate-in fade-in zoom-in duration-200">
+    <div class="px-space-md py-3.5 bg-surface-container-low flex items-center justify-between border-b border-surface-container">
+      <div class="flex items-center gap-2">
+        <span class="material-symbols-outlined text-indigo-600 text-[22px]">add_call</span>
+        <h3 class="font-headline-sm text-sm font-bold text-on-surface">
+          {{ isEditRcPhoneModalOpen() ? 'تعديل بيانات خط RingCentral' : 'إضافة خط هاتفي جديد لـ RingCentral' }}
+        </h3>
+      </div>
+      <button type="button" (click)="isEditRcPhoneModalOpen() ? closeEditRcPhoneModal() : closeAddRcPhoneModal()"
+        class="w-8 h-8 rounded-lg hover:bg-surface-container flex items-center justify-center text-outline hover:text-on-surface transition-colors cursor-pointer">
+        <span class="material-symbols-outlined text-[18px]">close</span>
+      </button>
+    </div>
+
+    <form [formGroup]="rcPhoneForm" (ngSubmit)="submitRcPhone()" class="p-space-md space-y-3.5">
+      <div>
+        <label class="block font-label-md text-xs font-semibold text-on-surface mb-1">
+          رقم الهاتف الدولي (E.164) <span class="text-error">*</span>
+        </label>
+        <input type="text" formControlName="phone_number" placeholder="+1 (555) 000-0000" dir="ltr"
+          class="w-full h-10 px-3 rounded-lg border border-surface-container-high bg-surface-container-low/40 text-on-surface focus:outline-none focus:border-primary-container text-xs transition-colors text-left font-mono" />
+        @if (rcPhoneForm.get('phone_number')?.touched && rcPhoneForm.get('phone_number')?.invalid) {
+          <span class="font-label-sm text-[11px] text-error mt-1 block">رقم الهاتف مطلوب</span>
+        }
+      </div>
+
+      <div>
+        <label class="block font-label-md text-xs font-semibold text-on-surface mb-1">
+          تسمية الخط التوضيحية <span class="text-error">*</span>
+        </label>
+        <input type="text" formControlName="label" placeholder="مثال: خط المبيعات الرئيسي أو دعم VIP"
+          class="w-full h-10 px-3 rounded-lg border border-surface-container-high bg-surface-container-low/40 text-on-surface focus:outline-none focus:border-primary-container text-xs transition-colors" />
+        @if (rcPhoneForm.get('label')?.touched && rcPhoneForm.get('label')?.invalid) {
+          <span class="font-label-sm text-[11px] text-error mt-1 block">تسمية الخط مطلوبة (حرفين على الأقل)</span>
+        }
+      </div>
+
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label class="block font-label-md text-xs font-semibold text-on-surface mb-1">
+            القسم
+          </label>
+          <select formControlName="department"
+            class="w-full h-10 px-2.5 rounded-lg border border-surface-container-high bg-surface-container-low/40 text-on-surface focus:outline-none focus:border-primary-container text-xs transition-colors cursor-pointer">
+            <option value="sales">المبيعات (Sales)</option>
+            <option value="support">الدعم الفني (Support)</option>
+            <option value="general">عام / الاستقبال</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block font-label-md text-xs font-semibold text-on-surface mb-1">
+            التحويلة (اختياري)
+          </label>
+          <input type="text" formControlName="extension_number" placeholder="101" dir="ltr"
+            class="w-full h-10 px-3 rounded-lg border border-surface-container-high bg-surface-container-low/40 text-on-surface focus:outline-none focus:border-primary-container text-xs transition-colors text-left font-mono" />
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2.5 p-2.5 rounded-lg bg-surface-container-low/60 border border-surface-container">
+        <input type="checkbox" id="rc_line_default" formControlName="is_default"
+          class="w-4 h-4 rounded text-primary-container focus:ring-primary-container accent-primary-container cursor-pointer" />
+        <label for="rc_line_default" class="text-xs font-medium text-on-surface cursor-pointer select-none">
+          تعيين كخط افتراضي للمنشأة
+        </label>
+      </div>
+
+      <div class="pt-3 border-t border-surface-container flex items-center justify-end gap-2.5">
+        <button type="button" (click)="isEditRcPhoneModalOpen() ? closeEditRcPhoneModal() : closeAddRcPhoneModal()"
+          class="px-4 h-9 rounded-lg text-on-surface-variant hover:bg-surface-container font-label-md text-xs transition-colors cursor-pointer">
+          إلغاء
+        </button>
+        <button type="submit"
+          class="px-5 h-9 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-label-md text-xs transition-colors shadow-xs cursor-pointer">
+          {{ isEditRcPhoneModalOpen() ? 'حفظ التعديلات' : 'إضافة الخط' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+}
+
+<!-- TOAST NOTIFICATION -->
+@if (toastMessage(); as msg) {
+<div
+  class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-4 py-3 rounded-xl bg-surface-container-highest text-on-surface border border-surface-container-high shadow-2xl animate-in fade-in slide-in-from-bottom-4 duration-300">
+  <span class="material-symbols-outlined text-secondary text-[22px]">check_circle</span>
+  <span class="font-body-md text-body-md">{{ msg }}</span>
+  <button type="button" (click)="toastMessage.set(null)"
+    class="mr-2 text-outline hover:text-on-surface transition-colors">
+    <span class="material-symbols-outlined text-[18px]">close</span>
+  </button>
+</div>
+}

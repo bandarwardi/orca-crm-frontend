@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 96" fill="none">
+  <!-- Minimalist Geometric orca + Play Symbol -->
+  <g transform="translate(4, 8)">
+    <!-- Base App Icon / Rounded Square Frame -->
+    <rect width="80" height="80" rx="20" fill="#1d4ed8"/>
+    
+    <!-- Sleek Minimal orca Dorsal Fin Curve -->
+    <path d="M22 58 C22 34, 40 22, 60 25 C50 32, 44 42, 44 58 Z" fill="#ffffff"/>
+    
+    <!-- Minimal cyan accent dot -->
+    <circle cx="31" cy="33" r="3.5" fill="#38bdf8"/>
+
+    <!-- Sharp Play triangle cutout in negative / contrast space -->
+    <polygon points="49,41 49,58 64,49.5" fill="#ffffff"/>
+  </g>
+
+  <!-- Clean Typography - English Only, No Arabic -->
+  <text x="104" y="58" font-family="'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="900" font-size="38" letter-spacing="-0.5" fill="#0f172a">
+    orca <tspan fill="#1d4ed8">TV</tspan>
+  </text>
+</svg>

@@ -1,0 +1,116 @@
+<div class="flex flex-col w-full gap-space-md">
+  <!-- Header and Global Filters -->
+  <div class="flex flex-col gap-space-sm bg-surface-container-lowest p-space-md rounded-xl shadow-sm">
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-space-xs">
+      <div class="flex flex-col">
+        <div class="flex items-center gap-space-xs">
+          <span class="material-symbols-outlined text-primary text-[26px]">map</span>
+          <h1 class="font-headline-lg text-headline-lg text-on-surface">خريطة المشتركين</h1>
+        </div>
+        <p class="font-body-md text-body-md text-on-surface-variant mt-0.5">توزيع المشتركين الجغرافي وحالات الاشتراكات اللحظية لمشغلي الخدمة</p>
+      </div>
+
+      <!-- Live Status Meta Badges -->
+      <div class="flex items-center gap-space-xs">
+        <div class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-surface-container text-on-surface font-label-sm text-label-sm">
+          <span class="inline-block w-2 h-2 rounded-full" [ngClass]="store.isLiveUpdateActive() ? 'bg-secondary animate-pulse' : 'bg-outline'"></span>
+          <span>التحديث الحي: {{ store.isLiveUpdateActive() ? 'نشط' : 'متوقف' }}</span>
+        </div>
+        <div class="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-primary-fixed text-on-primary-fixed font-code-sm text-code-sm">
+          <span>إجمالي {{ store.totalConnectionPoints() }} نقطة اتصال</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filter Bar Container -->
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-space-xs pt-space-xs">
+      <div class="md:col-span-8 relative flex items-center">
+        <span class="material-symbols-outlined absolute right-3 text-outline text-[20px] pointer-events-none">person_search</span>
+        <input 
+          type="text" 
+          class="w-full h-10 pr-10 pl-3 rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md placeholder:text-outline focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary-container focus:outline-none transition-all" 
+          placeholder="بحث باسم المشترك، الهاتف أو الرمز..."
+          [value]="store.filters().searchQuery"
+          (input)="onSearchChange($event)">
+      </div>
+      <div class="md:col-span-4 flex items-center gap-space-xs justify-end">
+        <button 
+          type="button" 
+          class="h-10 px-4 flex items-center justify-center gap-2 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface font-label-md text-label-md transition-colors" 
+          (click)="isFilterPanelOpen.set(true)">
+          <span class="material-symbols-outlined text-[18px]">tune</span>
+          <span>تصفية</span>
+        </button>
+        <button 
+          type="button" 
+          class="h-10 w-10 flex items-center justify-center rounded-lg bg-primary-container hover:bg-primary text-on-primary transition-colors shadow-sm" 
+          title="تحديث البيانات" 
+          (click)="store.refreshData()">
+          <span class="material-symbols-outlined text-[20px]">refresh</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Split Layout Workspace -->
+  <div class="flex flex-col w-full flex-1" id="mapWorkspace">
+    <div class="relative w-full h-[calc(100vh-210px)] min-h-[620px] rounded-xl bg-surface-container-lowest overflow-hidden shadow-sm select-none">
+      
+      <!-- Backgrounds -->
+      <div class="absolute inset-0 bg-gradient-to-br from-surface-container-low/40 via-surface to-surface-container-high/30"></div>
+      <div class="absolute inset-0 opacity-[0.035] pointer-events-none map-grid-bg"></div>
+      
+      <!-- Leaflet Canvas -->
+      <div id="leaflet-map" class="w-full h-full z-0 relative"></div>
+
+      <!-- Controls UI Overlay -->
+      <div class="absolute top-4 left-4 z-40 flex flex-col gap-1 bg-surface-container-lowest p-1 rounded-lg shadow-md border border-surface-container">
+        <button type="button" class="w-8 h-8 rounded flex items-center justify-center text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" title="تكبير" (click)="zoomIn()">
+          <span class="material-symbols-outlined text-[18px]">add</span>
+        </button>
+        <button type="button" class="w-8 h-8 rounded flex items-center justify-center text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" title="تصغير" (click)="zoomOut()">
+          <span class="material-symbols-outlined text-[18px]">remove</span>
+        </button>
+        <div class="h-px bg-surface-container my-0.5"></div>
+        <button type="button" class="w-8 h-8 rounded flex items-center justify-center text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" title="إعادة التمركز" (click)="resetView()">
+          <span class="material-symbols-outlined text-[18px]">my_location</span>
+        </button>
+        <button type="button" class="w-8 h-8 rounded flex items-center justify-center text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" title="ملء الشاشة" (click)="toggleFullscreen()">
+          <span class="material-symbols-outlined text-[18px]">fullscreen</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Filter Panel Slideout -->
+<app-filter-panel 
+  [isOpen]="isFilterPanelOpen()" 
+  [title]="'تصفية نتائج الخريطة'"
+  (close)="isFilterPanelOpen.set(false)"
+  (apply)="applyFilters()"
+  (clear)="clearFilters()">
+  
+  <div class="flex flex-col gap-space-sm">
+    <div class="flex flex-col gap-1">
+      <label class="font-label-md text-on-surface">حالة الاشتراك</label>
+      <select class="w-full h-10 px-3 rounded-lg bg-surface border border-outline-variant text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all"
+              [ngModel]="statusFilter()" (ngModelChange)="statusFilter.set($event)">
+        <option value="all">الكل</option>
+        <option value="active">نشط</option>
+        <option value="expired">منتهي</option>
+      </select>
+    </div>
+
+    <div class="flex flex-col gap-1">
+      <label class="font-label-md text-on-surface">المدينة</label>
+      <select class="w-full h-10 px-3 rounded-lg bg-surface border border-outline-variant text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all"
+              [ngModel]="cityFilter()" (ngModelChange)="cityFilter.set($event)">
+        <option value="all">كل المدن</option>
+        <option value="Chicago, IL">Chicago, IL</option>
+        <option value="Houston, TX">Houston, TX</option>
+        <option value="Anaheim, CA">Anaheim, CA</option>
+      </select>
+    </div>
+  </div>
+</app-filter-panel>

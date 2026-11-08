@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta content="web_dashboard" name="shell-type">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
+    rel="stylesheet">
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+  <link
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&amp;family=IBM+Plex+Sans:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap"
+    rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+    rel="stylesheet">
+  <style>
+    @layer base {
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: 'IBM Plex Sans Arabic', 'IBM Plex Sans', sans-serif;
+      }
+
+      body {
+        overscroll-behavior: none;
+      }
+
+      main>:first-child {
+        margin-top: 0 !important;
+      }
+
+      main>:last-child {
+        margin-bottom: 0 !important;
+      }
+    }
+
+    ::-webkit-scrollbar {
+      display: none;
+    }
+  </style>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script
+    id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { colors: { "outline-variant": "#c4c5d7", "surface-container": "#eaedff", "on-tertiary-container": "#ffcb8f", "surface-container-highest": "#dae2fd", "surface-dim": "#d2d9f4", "on-tertiary": "#ffffff", "on-primary-fixed": "#001551", "on-primary-fixed-variant": "#0039b5", "on-tertiary-fixed-variant": "#653e00", "secondary-fixed-dim": "#4edea3", "on-tertiary-fixed": "#2a1700", "on-primary-container": "#cad3ff", "error": "#ba1a1a", "on-error-container": "#93000a", "tertiary-fixed-dim": "#ffb95f", "on-primary": "#ffffff", "surface": "#faf8ff", "secondary-fixed": "#6ffbbe", "on-surface": "#131b2e", "primary": "#0037b0", "surface-tint": "#2151da", "on-secondary-fixed": "#002113", "surface-bright": "#faf8ff", "on-background": "#131b2e", "surface-container-high": "#e2e7ff", "on-secondary": "#ffffff", "inverse-surface": "#283044", "outline": "#747686", "inverse-primary": "#b7c4ff", "inverse-on-surface": "#eef0ff", "secondary-container": "#6cf8bb", "error-container": "#ffdad6", "primary-container": "#1d4ed8", "secondary": "#006c49", "surface-container-lowest": "#ffffff", "tertiary": "#623c00", "on-secondary-fixed-variant": "#005236", "on-secondary-container": "#00714d", "primary-fixed": "#dce1ff", "primary-fixed-dim": "#b7c4ff", "surface-container-low": "#f2f3ff", "on-surface-variant": "#434655", "background": "#faf8ff", "on-error": "#ffffff", "tertiary-fixed": "#ffddb8", "surface-variant": "#dae2fd", "tertiary-container": "#825100" }, borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, spacing: { "gutter": "1.5rem", "space-md": "1.5rem", "margin": "2rem", "space-lg": "2rem", "gutter-sm": "1rem", "space-sm": "1rem", "space-xs": "0.5rem", "margin-sm": "1rem", "space-xl": "3rem" }, fontFamily: { "label-sm": ["IBM Plex Sans"], "headline-lg": ["IBM Plex Sans"], "headline-md": ["IBM Plex Sans"], "code-sm": ["JetBrains Mono"], "body-md": ["IBM Plex Sans"], "headline-lg-mobile": ["IBM Plex Sans"], "body-lg": ["IBM Plex Sans"], "label-md": ["IBM Plex Sans"], "headline-sm": ["IBM Plex Sans"], "display": ["IBM Plex Sans"], "body-sm": ["IBM Plex Sans"] }, fontSize: { "label-sm": ["12px", { lineHeight: "18px", fontWeight: "500" }], "headline-lg": ["28px", { lineHeight: "40px", letterSpacing: "-0.01em", fontWeight: "600" }], "headline-md": ["20px", { lineHeight: "30px", fontWeight: "600" }], "code-sm": ["12px", { lineHeight: "18px", fontWeight: "400" }], "body-md": ["14px", { lineHeight: "24px", fontWeight: "400" }], "headline-lg-mobile": ["24px", { lineHeight: "34px", letterSpacing: "-0.01em", fontWeight: "600" }], "body-lg": ["16px", { lineHeight: "26px", fontWeight: "400" }], "label-md": ["14px", { lineHeight: "22px", fontWeight: "500" }], "headline-sm": ["16px", { lineHeight: "26px", fontWeight: "600" }], "display": ["36px", { lineHeight: "48px", letterSpacing: "-0.02em", fontWeight: "700" }], "body-sm": ["12px", { lineHeight: "20px", fontWeight: "400" }] } } } }</script>
+</head>
+
+<body class="bg-background font-body-md text-on-surface antialiased">
+  <aside
+    class="fixed right-0 top-0 h-full w-72 bg-surface-container-lowest shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-50 flex flex-col justify-between select-none">
+    <div class="flex flex-col">
+      <div class="h-16 px-space-md flex items-center justify-between">
+        <div class="flex items-center gap-space-xs"><img alt="orca CRM logo" class="h-8 w-auto object-contain"
+            src="https://lh3.googleusercontent.com/aida/AEtjO1UFAkVUAUEhkQnV3zyF-bfA9H_1j2fKqrnlPv2t3rGjALDe90zPvdPnxKCirAw75g65Uq7G09Zsz9Aa8u7BIDvgruf4WQVu34rmlJFQcvgW1NYeOWMF7lZAWSlVBbfOHaccjwgiaJJMGNYnyEc_wwiXyr2jSHDdH4o-kDSK70D88Rfbpr56DkGqU8FgmbFJgk3S405pvrxM92_mad2O0VBZESeWLraIqGm8owuuPcJb76e2H1OWa_Xebw">
+          <div class="flex flex-col"><span
+              class="font-headline-sm text-headline-sm text-primary tracking-tight">orca CRM</span><span
+              class="font-code-sm text-[10px] leading-tight text-outline">B2B PORTAL</span></div>
+        </div><span
+          class="material-symbols-outlined text-outline cursor-pointer hover:text-on-surface transition-colors text-[20px]">dock_to_right</span>
+      </div>
+      <div class="px-space-md py-space-xs"><span
+          class="font-label-sm text-label-sm text-outline uppercase tracking-wider">القوائم الرئيسية</span></div>
+      <nav class="flex flex-col gap-1 px-space-sm"
+        data-active-classes="bg-primary-container text-on-primary font-label-md rounded-lg shadow-sm"><a
+          class="flex items-center gap-space-sm px-3 py-2.5 rounded-lg text-on-surface-variant font-label-md text-label-md hover:bg-surface-container hover:text-on-surface transition-all"
+          data-path="dashboard" href="#"><span class="material-symbols-outlined text-[20px]">space_dashboard</span><span
+            class="">لوحة التحكم</span></a><a
+          class="flex items-center justify-between px-3 py-2.5 rounded-lg text-on-surface-variant font-label-md text-label-md hover:bg-surface-container hover:text-on-surface transition-all"
+          data-path="leads" href="#">
+          <div class="flex items-center gap-space-sm"><span
+              class="material-symbols-outlined text-[20px]">person_search</span><span class="">العملاء المحتملون</span>
+          </div><span
+            class="px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface font-code-sm text-[11px]">24</span>
+        </a><a
+          class="flex items-center gap-space-sm px-3 py-2.5 rounded-lg text-on-surface-variant font-label-md text-label-md hover:bg-surface-container hover:text-on-surface transition-all"
+          data-path="orders" href="#"><span class="material-symbols-outlined text-[20px]">receipt_long</span><span
+            class="">الطلبات</span></a><a aria-current="page"
+          class="flex items-center justify-between px-3 py-2.5 transition-all bg-primary-container text-on-primary font-label-md rounded-lg shadow-sm"
+          data-path="unified-inbox" href="#">
+          <div class="flex items-center gap-space-sm"><span
+              class="material-symbols-outlined text-[20px]">forum</span><span class="">المحادثات الموحدة</span></div>
+          <span
+            class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-bold">جديد</span>
+        </a><a
+          class="flex items-center gap-space-sm px-3 py-2.5 rounded-lg text-on-surface-variant font-label-md text-label-md hover:bg-surface-container hover:text-on-surface transition-all"
+          data-path="subscribers" href="#"><span
+            class="material-symbols-outlined text-[20px]">card_membership</span><span class="">المشتركون
+            والاشتراكات</span></a><a
+          class="flex items-center gap-space-sm px-3 py-2.5 rounded-lg text-on-surface-variant font-label-md text-label-md hover:bg-surface-container hover:text-on-surface transition-all"
+          data-path="devices" href="#"><span class="material-symbols-outlined text-[20px]">router</span><span
+            class="">إدارة الأجهزة</span></a><a
+          class="flex items-center gap-space-sm px-3 py-2.5 rounded-lg text-on-surface-variant font-label-md text-label-md hover:bg-surface-container hover:text-on-surface transition-all"
+          data-path="settings" href="#"><span class="material-symbols-outlined text-[20px]">settings</span><span
+            class="">إعدادات النظام</span></a></nav>
+    </div>
+    <div class="p-space-md flex flex-col gap-space-xs bg-surface-container-low">
+      <div class="flex items-center justify-between text-on-surface-variant"><span
+          class="font-label-sm text-label-sm">حالة السيرفر</span><span
+          class="flex items-center gap-1 font-label-sm text-label-sm text-secondary"><span
+            class="w-2 h-2 rounded-full bg-secondary"></span>متصل</span></div>
+      <div class="pt-2">
+        <p class="font-code-sm text-code-sm text-outline text-center uppercase tracking-widest">POWERED BY orcaXTECH
+        </p>
+      </div>
+    </div>
+  </aside>
+  <div class="pr-72">
+    <header
+      class="fixed top-0 right-72 left-0 h-16 bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 flex items-center justify-between px-space-lg">
+      <div class="flex items-center gap-space-sm flex-1 max-w-md">
+        <div class="relative w-full"><span
+            class="material-symbols-outlined absolute inset-y-0 right-3 flex items-center pointer-events-none text-outline text-[20px]">search</span><input
+            class="w-full h-10 pr-10 pl-4 rounded-lg bg-surface-container-lowest text-on-surface font-body-md text-body-md placeholder:text-outline focus:outline-none focus:ring-2 focus:ring-primary shadow-sm"
+            placeholder="البحث عن مشترك، MAC Address، أو رقم هاتف..." type="search"></div>
+      </div>
+      <div class="flex items-center gap-space-md">
+        <div class="flex items-center gap-2"><button aria-label="الإشعارات"
+            class="w-10 h-10 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors relative"
+            type="button"><span class="material-symbols-outlined text-[22px]">notifications</span><span
+              class="absolute top-2 left-2 w-2 h-2 rounded-full bg-error"></span></button><button
+            aria-label="التحديث السريع"
+            class="w-10 h-10 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors"
+            type="button"><span class="material-symbols-outlined text-[22px]">sync</span></button></div>
+        <div class="h-6 w-px bg-outline-variant"></div>
+        <div class="flex items-center gap-space-sm">
+          <div class="flex flex-col text-left"><span
+              class="font-label-md text-label-md text-on-surface font-semibold text-right">مسؤول النظام</span><span
+              class="font-label-sm text-label-sm text-outline text-right">الدعم الفني المتقدم</span></div>
+          <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span
+              class="material-symbols-outlined text-on-primary text-[18px]">person</span></div>
+        </div>
+      </div>
+    </header>
+    <main class="w-full pt-16 bg-background min-h-screen px-space-lg py-space-md">
+      <div class="flex flex-col w-full">
+        <!-- Sub-bar: Overview Stats & Channel Gateway -->
+
+        <!-- 3-Column Unified Workspace -->
+        <div class="grid grid-cols-12 gap-space-sm items-start">
+          <!-- ==============================================
+         1. RIGHTMOST COLUMN (Conversation List, ~330px)
+         ============================================== -->
+          <aside
+            class="col-span-12 lg:col-span-4 xl:col-span-3 flex flex-col bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden min-h-[740px] max-h-[820px]">
+            <!-- Header -->
+            <div class="p-space-sm bg-surface-container-lowest">
+              <div class="flex items-center justify-between mb-3">
+                <div class="flex items-center gap-2">
+                  <h1 class="font-headline-sm text-headline-sm text-on-surface font-semibold">صندوق المحادثات</h1><span
+                    class="px-2 py-0.5 rounded-full bg-surface-container text-on-surface font-code-sm text-[11px] font-medium">24</span>
+                </div><span
+                  class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#ecfdf5] text-[#065f46] font-label-sm text-[11px]"><span
+                    class="w-1.5 h-1.5 rounded-full bg-[#10b981]"></span>واتساب متصل</span>
+              </div>
+              <div class="relative w-full mb-2.5"><span
+                  class="material-symbols-outlined absolute inset-y-0 right-3 flex items-center pointer-events-none text-outline text-[18px]">search</span><input
+                  class="w-full h-9 pr-9 pl-3 rounded-lg bg-surface-container-low text-on-surface font-body-sm text-body-sm placeholder:text-outline focus:outline-none focus:bg-surface-container-lowest focus:ring-1 focus:ring-primary transition-all"
+                  placeholder="بحث عن محادثة أو رقم هاتف..." type="search"></div>
+              <div class="flex items-center gap-1 p-1 bg-surface-container-low rounded-lg font-label-sm text-[12px]">
+                <button
+                  class="flex-1 py-1 px-2 rounded bg-surface-container-lowest text-primary font-semibold shadow-xs flex items-center justify-center gap-1"
+                  type="button"><span class="">الكل</span><span
+                    class="px-1.5 py-0.2 rounded-full bg-primary-fixed text-on-primary-fixed font-code-sm text-[10px]">18</span></button><button
+                  class="flex-1 py-1 px-2 rounded text-on-surface-variant hover:text-on-surface flex items-center justify-center gap-1 transition-colors"
+                  type="button"><span class="">غير مقروء</span><span
+                    class="px-1.5 py-0.2 rounded-full bg-error-container text-on-error-container font-code-sm text-[10px] font-bold">4</span></button><button
+                  class="flex-1 py-1 px-2 rounded text-on-surface-variant hover:text-on-surface flex items-center justify-center gap-1 transition-colors"
+                  type="button"><span class="">يحتاج رد</span><span
+                    class="px-1.5 py-0.2 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-code-sm text-[10px] font-bold">7</span></button>
+              </div>
+            </div>
+            <!-- Conversations Scrollable Area -->
+            <div class="flex-1 overflow-y-auto divide-y divide-surface-container/60">
+              <!-- Active Conversation: Omar Mansour -->
+              <div class="p-3 bg-surface-container/70 cursor-pointer relative transition-all">
+                <div class="absolute inset-y-0 right-0 w-1 bg-primary rounded-r"></div>
+                <div class="flex items-start gap-2.5">
+                  <div class="relative shrink-0">
+                    <div
+                      class="w-11 h-11 rounded-full bg-primary flex items-center justify-center text-on-primary font-headline-sm text-headline-sm">
+                      ع
+                    </div>
+                    <span
+                      class="absolute -bottom-0.5 -left-0.5 w-3.5 h-3.5 rounded-full bg-[#10b981] ring-2 ring-surface-container-lowest flex items-center justify-center"></span>
+                  </div>
+                  <div class="flex-1 min-w-0">
+                    <div class="flex items-baseline justify-between mb-0.5">
+                      <span class="font-headline-sm text-headline-sm text-on-surface truncate">عمر منصور</span>
+                      <span class="font-code-sm text-[11px] text-primary font-medium shrink-0">منذ 10 د</span>
+                    </div>
+                    <div class="flex items-center gap-1.5 text-outline font-code-sm text-[11px] mb-1">
+                      <span class="text-on-surface-variant font-medium" dir="ltr">+1 (832) 555-0194</span>
+                      <span class="">•</span>
+                      <span class="text-outline">Houston, TX</span>
+                    </div>
+                    <p class="font-body-sm text-body-sm text-on-surface font-medium truncate mb-2">
+                      تمام، هل تم تفعيل التطبيق على الشاشة؟
+                    </p>
+                    <div class="flex items-center justify-between">
+                      <span
+                        class="inline-flex items-center px-2 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-[11px] font-semibold">
+                        يحتاج رد
+                      </span>
+                      <div class="flex items-center gap-1 text-primary">
+                        <span class="material-symbols-outlined text-[16px]">done_all</span>
+                        <span class="font-code-sm text-[10px] font-semibold">#ORD-7721</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Item 2: Layla Nasser -->
+              <div
+                class="p-3 bg-surface-container-lowest hover:bg-surface-container-low/60 cursor-pointer transition-colors">
+                <div class="flex items-start gap-2.5">
+                  <div class="relative shrink-0">
+                    <div
+                      class="w-11 h-11 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface-variant font-headline-sm text-headline-sm">
+                      ل
+                    </div>
+                    <span
+                      class="absolute -bottom-0.5 -left-0.5 w-3.5 h-3.5 rounded-full bg-[#10b981] ring-2 ring-surface-container-lowest"></span>
+                  </div>
+                  <div class="flex-1 min-w-0">
+                    <div class="flex items-baseline justify-between mb-0.5">
+                      <span class="font-headline-sm text-headline-sm text-on-surface truncate">ليلى ناصر</span>
+                      <span class="font-code-sm text-[11px] text-outline shrink-0">منذ 25 د</span>
+                    </div>
+                    <div class="flex items-center gap-1.5 text-outline font-code-sm text-[11px] mb-1">
+                      <span class="text-on-surface-variant" dir="ltr">+1 (312) 555-8472</span>
+                      <span class="">•</span>
+                      <span class="">Chicago, IL</span>
+                    </div>
+                    <p class="font-body-sm text-body-sm text-on-surface-variant truncate mb-2">
+                      أريد تجديد باقة VIP السنوية لحسابين قبل انتهاء العرض...
+                    </p>
+                    <div class="flex items-center justify-between">
+                      <span
+                        class="inline-flex items-center px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-[11px] font-semibold">
+                        طلب تجديد
+                      </span>
+                      <span
+                        class="w-5 h-5 rounded-full bg-primary text-on-primary font-code-sm text-[11px] flex items-center justify-center font-bold">
+                        2
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Item 3: Youssef Haddad -->
+              <div
+                class="p-3 bg-surface-container-lowest hover:bg-surface-container-low/60 cursor-pointer transition-colors">
+                <div class="flex items-start gap-2.5">
+                  <div class="relative shrink-0">
+                    <div
+                      class="w-11 h-11 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface-variant font-headline-sm text-headline-sm">
+                      ي
+                    </div>
+                  </div>
+                  <div class="flex-1 min-w-0">
+                    <div class="flex items-baseline justify-between mb-0.5">
+                      <span class="font-headline-sm text-headline-sm text-on-surface truncate">يوسف حداد</span>
+                      <span class="font-code-sm text-[11px] text-outline shrink-0">منذ ساعتين</span>
+                    </div>
+                    <div class="flex items-center gap-1.5 text-outline font-code-sm text-[11px] mb-1">
+                      <span class="text-on-surface-variant" dir="ltr">+1 (718) 555-0192</span>
+                      <span class="">•</span>
+                      <span class="">Brooklyn, NY</span>
+                    </div>
+                    <p class="font-body-sm text-body-sm text-on-surface-variant truncate mb-2">
+                      شكراً لك، القنوات تعمل بجودة ممتازة الآن على Apple TV
+                    </p>
+                    <div class="flex items-center justify-between">
+                      <span
+                        class="inline-flex items-center px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-[11px]">
+                        مكتمل الدعم
+                      </span>
+                      <span class="material-symbols-outlined text-primary text-[16px]">done_all</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Item 4: Fatima Al-Sayed -->
+              <div
+                class="p-3 bg-surface-container-lowest hover:bg-surface-container-low/60 cursor-pointer transition-colors">
+                <div class="flex items-start gap-2.5">
+                  <div class="relative shrink-0">
+                    <div
+                      class="w-11 h-11 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface-variant font-headline-sm text-headline-sm">
+                      ف
+                    </div>
+                    <span
+                      class="absolute -bottom-0.5 -left-0.5 w-3.5 h-3.5 rounded-full bg-[#10b981] ring-2 ring-surface-container-lowest"></span>
+                  </div>
+                  <div class="flex-1 min-w-0">
+                    <div class="flex items-baseline justify-between mb-0.5">
+                      <span class="font-headline-sm text-headline-sm text-on-surface truncate">فاطمة السيد</span>
+                      <span class="font-code-sm text-[11px] text-outline shrink-0">منذ 4 ساعات</span>
+                    </div>
+                    <div class="flex items-center gap-1.5 text-outline font-code-sm text-[11px] mb-1">
+                      <span class="text-on-surface-variant" dir="ltr">+1 (313) 555-7391</span>
+                      <span class="">•</span>
+                      <span class="">Dearborn, MI</span>
+                    </div>
+                    <p class="font-body-sm text-body-sm text-on-surface-variant truncate mb-2">
+                      هل يوجد حل لمشكلة انقطاع الصوت في القناة الرياضية؟
+                    </p>
+                    <div class="flex items-center justify-between">
+                      <span
+                        class="inline-flex items-center px-2 py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-[11px] font-semibold">
+                        مشكلة صوت
+                      </span>
+                      <span
+                        class="w-5 h-5 rounded-full bg-primary text-on-primary font-code-sm text-[11px] flex items-center justify-center font-bold">
+                        1
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Item 5: Tariq Al-Shami -->
+              <div
+                class="p-3 bg-surface-container-lowest hover:bg-surface-container-low/60 cursor-pointer transition-colors">
+                <div class="flex items-start gap-2.5">
+                  <div class="relative shrink-0">
+                    <div
+                      class="w-11 h-11 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface-variant font-headline-sm text-headline-sm">
+                      ط
+                    </div>
+                  </div>
+                  <div class="flex-1 min-w-0">
+                    <div class="flex items-baseline justify-between mb-0.5">
+                      <span class="font-headline-sm text-headline-sm text-on-surface truncate">طارق الشامي</span>
+                      <span class="font-code-sm text-[11px] text-outline shrink-0">أمس</span>
+                    </div>
+                    <div class="flex items-center gap-1.5 text-outline font-code-sm text-[11px] mb-1">
+                      <span class="text-on-surface-variant" dir="ltr">+1 (973) 555-4812</span>
+                      <span class="">•</span>
+                      <span class="">Paterson, NJ</span>
+                    </div>
+                    <p class="font-body-sm text-body-sm text-on-surface-variant truncate mb-2">
+                      تم تحويل المبلغ عبر Zelle وأرسلت إيصال الدفع
+                    </p>
+                    <div class="flex items-center justify-between">
+                      <span
+                        class="inline-flex items-center px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface font-label-sm text-[11px]">
+                        تأكيد سداد
+                      </span>
+                      <span class="material-symbols-outlined text-outline text-[16px]">done</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </aside>
+          <!-- ==============================================
+         2. MIDDLE COLUMN (Active Conversation Thread)
+         ============================================== -->
+          <main
+            class="col-span-12 lg:col-span-8 xl:col-span-6 flex flex-col bg-surface-container-lowest rounded-xl shadow-sm overflow-hidden min-h-[740px] max-h-[820px]">
+            <!-- Chat Header -->
+            <header class="p-space-sm bg-surface-container-lowest flex items-center justify-between shadow-xs">
+              <div class="flex items-center gap-space-sm">
+                <div class="relative">
+                  <div
+                    class="w-11 h-11 rounded-full bg-primary-container text-on-primary flex items-center justify-center font-headline-sm text-headline-sm shadow-sm">
+                    ع
+                  </div>
+                  <span
+                    class="absolute -bottom-0.5 -left-0.5 w-3.5 h-3.5 rounded-full bg-[#10b981] ring-2 ring-surface-container-lowest"></span>
+                </div>
+                <div class="flex flex-col">
+                  <div class="flex items-center gap-2">
+                    <h2 class="font-headline-sm text-headline-sm text-on-surface">عمر منصور</h2>
+                    <span
+                      class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#ecfdf5] text-[#065f46] font-code-sm text-[11px]">
+                      <span class="w-1.5 h-1.5 rounded-full bg-[#10b981]"></span>
+                      متصل الآن (واتساب)
+                    </span>
+                  </div>
+                  <div class="flex items-center gap-2 text-outline font-code-sm text-code-sm">
+                    <span class="text-on-surface-variant font-medium" dir="ltr">+1 (832) 555-0194</span>
+                    <span class="">•</span>
+                    <span class="flex items-center gap-0.5">
+                      <span class="material-symbols-outlined text-[15px]">location_on</span>
+                      Houston, TX
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="flex items-center gap-2">
+                <!-- Associated Order Pill -->
+                <a class="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-surface-container-low hover:bg-surface-container text-primary font-label-sm text-label-sm font-semibold transition-colors"
+                  href="#">
+                  <span class="material-symbols-outlined text-[18px]">receipt_long</span>
+                  <span class="font-code-sm">#ORD-7721</span>
+                </a>
+                <span
+                  class="hidden sm:inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-primary-fixed text-on-primary-fixed font-label-sm text-label-sm font-medium">
+                  باقة بريميوم 4K
+                </span>
+                <button
+                  class="w-9 h-9 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface-variant hover:text-on-surface flex items-center justify-center transition-colors"
+                  title="خيارات إضافية" type="button">
+                  <span class="material-symbols-outlined text-[20px]">more_vert</span>
+                </button>
+              </div>
+            </header>
+            <!-- Chat Messages Scroll Container -->
+            <div class="flex-1 overflow-y-auto p-space-md space-y-4 bg-background" id="chatThread">
+              <!-- Date Marker -->
+              <div class="flex items-center justify-center my-1">
+                <span
+                  class="px-3 py-1 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-[11px] shadow-xs">
+                  اليوم، 10:30 ص
+                </span>
+              </div>
+              <!-- Message 1: Customer Incoming -->
+              <div class="flex flex-col items-start max-w-[85%]">
+                <div class="bg-surface-container-lowest text-on-surface p-3.5 rounded-2xl rounded-tr-xs shadow-sm">
+                  <p class="font-body-md text-body-md leading-relaxed">
+                    السلام عليكم، قمت بتنزيل تطبيق IBO Player Pro على شاشة LG في غرفة المعيشة، وظهر لي MAC Address و
+                    Device Key، كيف يمكنني تفعيل الاشتراك؟
+                  </p>
+                </div>
+                <div class="flex items-center gap-1 mt-1 mr-2 font-code-sm text-[11px] text-outline">
+                  <span class="">10:32 ص</span>
+                  <span class="">•</span>
+                  <span class="text-[#25D366] font-medium">واتساب العميل</span>
+                </div>
+              </div>
+              <!-- Message 2: Agent Outgoing -->
+              <div class="flex flex-col items-end mr-auto max-w-[85%]">
+                <div class="bg-primary text-on-primary p-3.5 rounded-2xl rounded-tl-xs shadow-sm">
+                  <p class="font-body-md text-body-md leading-relaxed">
+                    أهلاً بك أستاذ عمر! وعليكم السلام ورحمة الله. تفضل بإرسال الـ MAC Address ومفتاح الجهاز وسنقوم
+                    بربطها فوراً على سيرفر النخبة.
+                  </p>
+                </div>
+                <div class="flex items-center gap-1.5 mt-1 ml-2 font-code-sm text-[11px] text-outline">
+                  <span class="">10:35 ص</span>
+                  <span class="material-symbols-outlined text-primary text-[16px]">done_all</span>
+                  <span class="">طارق المنصور (الدعم الفني)</span>
+                </div>
+              </div>
+              <!-- Message 3: Customer Incoming with Hardware Creds -->
+              <div class="flex flex-col items-start max-w-[85%]">
+                <div class="bg-surface-container-lowest text-on-surface p-3.5 rounded-2xl rounded-tr-xs shadow-sm">
+                  <p class="font-body-md text-body-md leading-relaxed mb-2.5">
+                    تفضل البيانات الظاهرة على الشاشة:
+                  </p>
+                  <div class="p-2.5 rounded-lg bg-surface-container-low space-y-1.5 font-code-sm text-code-sm">
+                    <div class="flex items-center justify-between">
+                      <span class="text-outline">MAC Address:</span>
+                      <span class="font-semibold text-primary select-all" dir="ltr">48:A4:93:BC:90:E2</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                      <span class="text-outline">Device Key:</span>
+                      <span class="font-semibold text-on-surface select-all" dir="ltr">9842-DK-LG</span>
+                    </div>
+                  </div>
+                  <p class="font-body-md text-body-md leading-relaxed mt-2.5">
+                    هل يحتاج إعادة تشغيل الشاشة بعد التفعيل؟
+                  </p>
+                </div>
+                <div class="flex items-center gap-1 mt-1 mr-2 font-code-sm text-[11px] text-outline">
+                  <span class="">10:41 ص</span>
+                </div>
+              </div>
+              <!-- Message 4: Agent Outgoing Confirmation -->
+              <div class="flex flex-col items-end mr-auto max-w-[85%]">
+                <div class="bg-primary text-on-primary p-3.5 rounded-2xl rounded-tl-xs shadow-sm">
+                  <p class="font-body-md text-body-md leading-relaxed">
+                    تم إدخال البيانات في النظام وربط الجهاز بنجاح بالطلب رقم <span
+                      class="underline font-code-sm font-semibold">#ORD-7721</span>. تم تفعيل الباقة الآن بالكامل.
+                  </p>
+                </div>
+                <div class="flex items-center gap-1.5 mt-1 ml-2 font-code-sm text-[11px] text-outline">
+                  <span class="">10:44 ص</span>
+                  <span class="material-symbols-outlined text-primary text-[16px]">done_all</span>
+                </div>
+              </div>
+              <!-- Message 5: Customer Incoming (Requires Reply) -->
+              <div class="flex flex-col items-start max-w-[85%]">
+                <div
+                  class="bg-surface-container-lowest text-on-surface p-3.5 rounded-2xl rounded-tr-xs shadow-sm relative ring-2 ring-primary-fixed">
+                  <p class="font-body-md text-body-md leading-relaxed">
+                    ممتاز جداً! شكراً جزيلاً. هل الروابط الخاصة بقنوات المباريات المشفرة تعمل بنفس الدقة فوراً؟
+                  </p>
+                </div>
+                <div class="flex items-center gap-1 mt-1 mr-2 font-code-sm text-[11px] text-primary font-medium">
+                  <span class="">10:48 ص</span>
+                  <span class="">•</span>
+                  <span class="flex items-center gap-1">
+                    <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+                    بانتظار الرد
+                  </span>
+                </div>
+              </div>
+            </div>
+            <!-- AI Support Suggested Reply Dock -->
+            <section
+              class="px-space-md py-2 bg-surface-container-low border-t border-surface-container/60 flex items-center justify-between gap-2">
+              <div class="flex items-center gap-2 overflow-hidden flex-1"><span
+                  class="material-symbols-outlined text-primary text-[18px] shrink-0">auto_awesome</span>
+                <p class="font-body-sm text-[12px] text-on-surface truncate"
+                  title="نعم أستاذ عمر، جميع قنوات البث المباشر وقنوات المباريات بدقة 4K تعمل تلقائياً الآن دون الحاجة لأي إعدادات إضافية.">
+                  <span class="text-primary font-medium">اقتراح ذكي:</span> نعم أستاذ عمر، جميع قنوات البث المباشر
+                  وقنوات المباريات بدقة 4K تعمل تلقائياً...</p>
+              </div>
+              <div class="flex items-center gap-1.5 shrink-0"><button
+                  class="h-7 px-2.5 rounded bg-primary-fixed hover:bg-primary text-on-primary-fixed hover:text-on-primary font-label-sm text-[11px] font-semibold flex items-center gap-1 transition-colors"
+                  onclick="insertAiResponse()" type="button"><span
+                    class="material-symbols-outlined text-[14px]">send</span><span class="">إدراج</span></button><button
+                  class="h-7 px-2 rounded bg-surface-container hover:bg-surface-container-high text-on-surface-variant font-label-sm text-[11px] flex items-center gap-1 transition-colors"
+                  onclick="editAiResponse()" title="تعديل قبل الإرسال" type="button"><span
+                    class="material-symbols-outlined text-[14px]">edit</span><span class="">تعديل</span></button></div>
+            </section>
+            <!-- Bottom Composer Area -->
+            <footer class="p-space-sm bg-surface-container-lowest">
+              <!-- Composer Quick Tools Toolbar -->
+              <div class="flex items-center justify-between mb-2">
+                <div class="flex items-center gap-1">
+                  <button
+                    class="w-8 h-8 rounded-lg hover:bg-surface-container text-on-surface-variant flex items-center justify-center transition-colors"
+                    title="ردود جاهزة (Canned)" type="button">
+                    <span class="material-symbols-outlined text-[20px]">bolt</span>
+                  </button>
+                  <button
+                    class="w-8 h-8 rounded-lg hover:bg-surface-container text-on-surface-variant flex items-center justify-center transition-colors"
+                    title="إرفاق ملف أو لقطة شاشة" type="button">
+                    <span class="material-symbols-outlined text-[20px]">attach_file</span>
+                  </button>
+                  <button
+                    class="w-8 h-8 rounded-lg hover:bg-surface-container text-on-surface-variant flex items-center justify-center transition-colors"
+                    title="رموز تعبيرية" type="button">
+                    <span class="material-symbols-outlined text-[20px]">mood</span>
+                  </button>
+                  <button
+                    class="w-8 h-8 rounded-lg hover:bg-surface-container text-on-surface-variant flex items-center justify-center transition-colors"
+                    title="تسجيل رسالة صوتية" type="button">
+                    <span class="material-symbols-outlined text-[20px]">mic</span>
+                  </button>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="font-code-sm text-[11px] text-outline">قناة الإرسال:</span>
+                  <span class="inline-flex items-center gap-1 font-label-sm text-label-sm font-semibold text-[#065f46]">
+                    <span class="w-2 h-2 rounded-full bg-[#10b981]"></span>
+                    واتساب رسمي
+                  </span>
+                </div>
+              </div>
+              <!-- Input Box & Send Button -->
+              <div class="flex items-center gap-2">
+                <div class="flex-1 relative">
+                  <input
+                    class="w-full h-11 px-3.5 rounded-lg bg-surface-container-low text-on-surface font-body-md text-body-md placeholder:text-outline focus:outline-none focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary shadow-xs transition-all"
+                    id="messageInput" placeholder="اكتب ردك هنا للأستاذ عمر منصور... (أو اضغط Tab لتطبيق الرد الذكي)"
+                    type="text">
+                </div>
+                <button
+                  class="h-11 px-5 rounded-lg bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md font-semibold flex items-center gap-2 shadow-sm transition-colors shrink-0"
+                  onclick="sendMessage()" type="button">
+                  <span class="">إرسال</span>
+                  <span class="material-symbols-outlined text-[18px] rtl:-scale-x-100">send</span>
+                </button>
+              </div>
+            </footer>
+          </main>
+          <!-- ==============================================
+         3. LEFTMOST COLUMN (Customer Context Panel, ~300px)
+         ============================================== -->
+          <aside
+            class="col-span-12 lg:col-span-12 xl:col-span-3 bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/40 overflow-hidden flex flex-col">
+            <div class="p-space-sm border-b border-surface-container/80">
+              <div class="flex items-start justify-between mb-3">
+                <div>
+                  <span class="font-code-sm text-[11px] text-outline uppercase tracking-wider">الملف الشخصي</span>
+                  <h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">عمر منصور</h3>
+                  <span class="font-code-sm text-code-sm text-primary font-semibold">Omar Mansour</span>
+                </div>
+                <div class="w-10 h-10 rounded-xl bg-surface-container flex items-center justify-center text-primary">
+                  <span class="material-symbols-outlined text-[24px]">account_circle</span>
+                </div>
+              </div>
+              <div class="space-y-2 font-body-sm text-body-sm text-on-surface-variant">
+                <div class="flex items-center justify-between p-2 rounded-lg bg-surface-container-low">
+                  <div class="flex items-center gap-1.5">
+                    <span class="material-symbols-outlined text-[18px] text-outline">call</span>
+                    <span class="font-code-sm text-on-surface font-medium" dir="ltr">+1 (832) 555-0194</span>
+                  </div>
+                  <div class="flex items-center gap-1">
+                    <button
+                      class="w-7 h-7 rounded-md bg-[#25D366]/15 text-[#065f46] flex items-center justify-center hover:bg-[#25D366]/30 transition-colors"
+                      title="محادثة واتساب" type="button">
+                      <span class="material-symbols-outlined text-[16px]">chat</span>
+                    </button>
+                    <button
+                      class="w-7 h-7 rounded-md bg-surface-container text-on-surface-variant flex items-center justify-center hover:bg-surface-container-high transition-colors"
+                      title="اتصال" type="button">
+                      <span class="material-symbols-outlined text-[16px]">phone</span>
+                    </button>
+                  </div>
+                </div>
+                <div class="flex items-center gap-2 px-2">
+                  <span class="material-symbols-outlined text-[18px] text-outline">mail</span>
+                  <span class="font-code-sm text-on-surface truncate" dir="ltr">omar.mansour@gmail.com</span>
+                </div>
+                <div class="flex items-center gap-2 px-2">
+                  <span class="material-symbols-outlined text-[18px] text-outline">location_on</span>
+                  <span class="text-on-surface">Houston, Texas</span>
+                </div>
+              </div>
+            </div>
+            <div class="divide-y divide-surface-container/80">
+              <details class="group">
+                <summary
+                  class="p-space-sm flex items-center justify-between cursor-pointer list-none select-none hover:bg-surface-container-low transition-colors">
+                  <div class="flex items-center gap-2">
+                    <span
+                      class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-[#ecfdf5] text-[#065f46] font-code-sm text-[10px] font-semibold">
+                      <span class="w-1.5 h-1.5 rounded-full bg-[#10b981]"></span>
+                      نشط
+                    </span>
+                    <span class="font-label-md text-label-md font-semibold text-on-surface">orca VIP 4K</span>
+                    <span class="font-code-sm text-[11px] text-outline">· ينتهي 15 Nov 2025</span>
+                  </div>
+                  <span
+                    class="material-symbols-outlined text-outline text-[18px] transition-transform group-open:rotate-180">expand_more</span>
+                </summary>
+                <div class="px-space-sm pb-space-sm pt-1 bg-surface-container-low/40 space-y-2 text-body-sm">
+                  <div
+                    class="p-2.5 rounded-lg bg-surface-container-lowest border border-outline-variant/30 space-y-1.5 font-code-sm text-code-sm">
+                    <div class="flex items-center justify-between text-on-surface-variant">
+                      <span class="">تاريخ البدء:</span>
+                      <span class="font-medium text-on-surface" dir="ltr">15 Nov 2024</span>
+                    </div>
+                    <div class="flex items-center justify-between text-on-surface-variant">
+                      <span class="">تاريخ الانتهاء:</span>
+                      <span class="font-medium text-on-surface" dir="ltr">15 Nov 2025</span>
+                    </div>
+                    <div class="flex items-center justify-between text-on-surface-variant">
+                      <span class="">السيرفر المخصص:</span>
+                      <span class="text-primary font-semibold">US-CENTRAL-01</span>
+                    </div>
+                    <div class="flex items-center justify-between text-on-surface-variant">
+                      <span class="">الأيام المتبقية:</span>
+                      <span class="text-secondary font-semibold">312 يوم</span>
+                    </div>
+                  </div>
+                </div>
+              </details>
+              <details class="group">
+                <summary
+                  class="p-space-sm flex items-center justify-between cursor-pointer list-none select-none hover:bg-surface-container-low transition-colors">
+                  <div class="flex items-center gap-2">
+                    <span class="font-label-md text-label-md font-semibold text-on-surface">التصنيفات والملاحظات</span>
+                    <span
+                      class="px-1.5 py-0.2 rounded-full bg-surface-container text-on-surface-variant font-code-sm text-[10px]">3</span>
+                  </div>
+                  <span
+                    class="material-symbols-outlined text-outline text-[18px] transition-transform group-open:rotate-180">expand_more</span>
+                </summary>
+                <div class="px-space-sm pb-space-sm pt-1 bg-surface-container-low/40 space-y-2.5">
+                  <div class="flex flex-wrap gap-1.5">
+                    <span
+                      class="px-2 py-0.5 rounded-md bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-[11px] font-semibold">عميل
+                      VIP</span>
+                    <span
+                      class="px-2 py-0.5 rounded-md bg-primary-fixed text-on-primary-fixed font-label-sm text-[11px] font-semibold">يحتاج
+                      متابعة</span>
+                    <span
+                      class="px-2 py-0.5 rounded-md bg-secondary-container text-on-secondary-container font-label-sm text-[11px] font-semibold">مهتم
+                      بـ 4K Sports</span>
+                    <button
+                      class="px-2 py-0.5 rounded-md border border-dashed border-outline-variant hover:border-primary text-outline hover:text-primary font-label-sm text-[11px] transition-colors"
+                      type="button">+ تصنيف</button>
+                  </div>
+                  <div
+                    class="p-2.5 rounded-lg bg-surface-container-lowest border border-outline-variant/30 font-body-sm text-body-sm">
+                    <p class="text-on-surface mb-1.5 leading-relaxed text-[12px]">يفضل التواصل دائماً عبر واتساب. تم
+                      تفعيل شاشة الصالة بنجاح، وطلب إشعاره عند إضافة القنوات الوثائقية الجديدة.</p>
+                    <div class="flex items-center justify-between font-code-sm text-[10px] text-outline">
+                      <span class="">طارق المنصور</span>
+                      <span class="">اليوم 10:45 ص</span>
+                    </div>
+                  </div>
+                </div>
+              </details>
+            </div>
+          </aside>
+        </div>
+      </div>
+      <script>
+        function insertAiResponse() {
+          const text = "نعم أستاذ عمر، جميع قنوات البث المباشر وقنوات المباريات بدقة 4K تعمل تلقائياً الآن دون الحاجة لأي إعدادات إضافية. يمكنك إعادة تشغيل التطبيق بالضغط على زر Reload للتمتع بالمشاهدة فوراً!";
+          appendMessage(text, 'outgoing');
+        }
+
+        function editAiResponse() {
+          const text = "نعم أستاذ عمر، جميع قنوات البث المباشر وقنوات المباريات بدقة 4K تعمل تلقائياً الآن دون الحاجة لأي إعدادات إضافية. يمكنك إعادة تشغيل التطبيق بالضغط على زر Reload للتمتع بالمشاهدة فوراً!";
+          const input = document.getElementById('messageInput');
+          if (input) {
+            input.value = text;
+            input.focus();
+          }
+        }
+
+        function sendMessage() {
+          const input = document.getElementById('messageInput');
+          if (input && input.value.trim() !== '') {
+            appendMessage(input.value.trim(), 'outgoing');
+            input.value = '';
+          }
+        }
+
+        function appendMessage(content, type) {
+          const thread = document.getElementById('chatThread');
+          if (!thread) return;
+
+          const time = new Date().toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' });
+          const msgDiv = document.createElement('div');
+
+          if (type === 'outgoing') {
+            msgDiv.className = "flex flex-col items-end mr-auto max-w-[85%]";
+            msgDiv.innerHTML = `
+        <div class="bg-primary text-on-primary p-3.5 rounded-2xl rounded-tl-xs shadow-sm">
+          <p class="font-body-md text-body-md leading-relaxed">${content}</p>
+        </div>
+        <div class="flex items-center gap-1.5 mt-1 ml-2 font-code-sm text-[11px] text-outline">
+          <span>${time}</span>
+          <span class="material-symbols-outlined text-primary text-[16px]">done_all</span>
+          <span>أنت (المسؤول)</span>
+        </div>
+      `;
+          }
+
+          thread.appendChild(msgDiv);
+          thread.scrollTop = thread.scrollHeight;
+        }
+
+        document.addEventListener('keydown', function (e) {
+          if (e.key === 'Tab' && document.activeElement.id === 'messageInput' && !document.activeElement.value) {
+            e.preventDefault();
+            editAiResponse();
+          }
+          if (e.key === 'Enter' && document.activeElement.id === 'messageInput') {
+            e.preventDefault();
+            sendMessage();
+          }
+        });
+      </script>
+    </main>
+  </div>
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta content="web_dashboard" name="shell-type">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    rel="stylesheet">
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+  <link
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap"
+    rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+    rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+    rel="stylesheet">
+  <style>
+    @layer base {
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        overscroll-behavior: none;
+      }
+
+      main>:first-child {
+        margin-top: 0 !important;
+      }
+
+      main>:last-child {
+        margin-bottom: 0 !important;
+      }
+    }
+
+    ::-webkit-scrollbar {
+      display: none;
+    }
+  </style>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script
+    id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-primary": "#ffffff", "on-tertiary-fixed": "#2a1700", "on-secondary": "#ffffff", "tertiary-fixed-dim": "#ffb95f", "primary-fixed": "#dce1ff", "on-background": "#131b2e", "secondary": "#006c49", "surface-container-lowest": "#ffffff", "primary": "#0037b0", "inverse-primary": "#b7c4ff", "on-tertiary-fixed-variant": "#653e00", "surface-container-highest": "#dae2fd", "on-surface-variant": "#434655", "outline-variant": "#c4c5d7", "on-surface": "#131b2e", "primary-container": "#1d4ed8", "tertiary": "#623c00", "surface-container": "#eaedff", "surface-container-high": "#e2e7ff", "on-secondary-fixed": "#002113", "surface-bright": "#faf8ff", "primary-fixed-dim": "#b7c4ff", "outline": "#747686", "on-error-container": "#93000a", "error-container": "#ffdad6", "on-error": "#ffffff", "on-primary-container": "#cad3ff", "error": "#ba1a1a", "surface-tint": "#2151da", "tertiary-fixed": "#ffddb8", "surface-dim": "#d2d9f4", "on-secondary-fixed-variant": "#005236", "on-primary-fixed": "#001551", "inverse-surface": "#283044", "on-tertiary": "#ffffff", "on-tertiary-container": "#ffcb8f", "surface-variant": "#dae2fd", "inverse-on-surface": "#eef0ff", "on-primary-fixed-variant": "#0039b5", "secondary-fixed-dim": "#4edea3", "surface-container-low": "#f2f3ff", "secondary-container": "#6cf8bb", "background": "#faf8ff", "tertiary-container": "#825100", "secondary-fixed": "#6ffbbe", "surface": "#faf8ff", "on-secondary-container": "#00714d" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "margin-sm": "1rem", "space-sm": "1rem", "space-xl": "3rem", "space-lg": "2rem", "space-xs": "0.5rem", "gutter": "1.5rem", "space-md": "1.5rem", "margin": "2rem", "gutter-sm": "1rem" }, "fontFamily": { "headline-lg-mobile": ["IBM Plex Sans Arabic", "IBM Plex Sans", "sans-serif"], "body-sm": ["IBM Plex Sans Arabic", "IBM Plex Sans", "sans-serif"], "code-sm": ["JetBrains Mono", "monospace"], "label-sm": ["IBM Plex Sans Arabic", "IBM Plex Sans", "sans-serif"], "label-md": ["IBM Plex Sans Arabic", "IBM Plex Sans", "sans-serif"], "headline-sm": ["IBM Plex Sans Arabic", "IBM Plex Sans", "sans-serif"], "body-md": ["IBM Plex Sans Arabic", "IBM Plex Sans", "sans-serif"], "body-lg": ["IBM Plex Sans Arabic", "IBM Plex Sans", "sans-serif"], "headline-md": ["IBM Plex Sans Arabic", "IBM Plex Sans", "sans-serif"], "display": ["IBM Plex Sans Arabic", "IBM Plex Sans", "sans-serif"], "headline-lg": ["IBM Plex Sans Arabic", "IBM Plex Sans", "sans-serif"] }, "fontSize": { "headline-lg-mobile": ["24px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "body-sm": ["12px", { "lineHeight": "20px", "fontWeight": "400" }], "code-sm": ["12px", { "lineHeight": "18px", "fontWeight": "400" }], "label-sm": ["12px", { "lineHeight": "18px", "fontWeight": "500" }], "label-md": ["14px", { "lineHeight": "22px", "fontWeight": "500" }], "headline-sm": ["16px", { "lineHeight": "26px", "fontWeight": "600" }], "body-md": ["14px", { "lineHeight": "24px", "fontWeight": "400" }], "body-lg": ["16px", { "lineHeight": "26px", "fontWeight": "400" }], "headline-md": ["20px", { "lineHeight": "30px", "fontWeight": "600" }], "display": ["36px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "headline-lg": ["28px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }] } } } }</script>
+</head>
+
+<body class="bg-background font-body-md text-body-md text-on-surface antialiased min-h-screen">
+  <aside
+    class="fixed right-0 top-0 h-full w-72 bg-surface-container-lowest shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-50 flex flex-col justify-between select-none">
+    <div class="flex flex-col flex-1 overflow-y-auto">
+      <div class="h-16 px-space-md flex items-center justify-between gap-space-xs bg-surface-container-lowest">
+        <div class="flex items-center gap-space-xs"><img alt="Minimalist modern logo for orca TV with no Arabic text. Crisp geometric app icon featuring an orca fin and play symbol, paired cleanly with the bold modern typography 'orca TV' in English only.. Brand logo. - Primary color: #1d4ed8
+- Font: ibmPlexSans
+- Mode: light
+- Roundness: rounded-md
+" class="h-8 w-auto object-contain"
+            src="https://lh3.googleusercontent.com/aida/AEtjO1UFAkVUAUEhkQnV3zyF-bfA9H_1j2fKqrnlPv2t3rGjALDe90zPvdPnxKCirAw75g65Uq7G09Zsz9Aa8u7BIDvgruf4WQVu34rmlJFQcvgW1NYeOWMF7lZAWSlVBbfOHaccjwgiaJJMGNYnyEc_wwiXyr2jSHDdH4o-kDSK70D88Rfbpr56DkGqU8FgmbFJgk3S405pvrxM92_mad2O0VBZESeWLraIqGm8owuuPcJb76e2H1OWa_Xebw">
+          <div class="flex flex-col"><span
+              class="font-headline-sm text-headline-sm text-on-surface tracking-tight leading-none">orca
+              CRM</span><span
+              class="font-label-sm text-[10px] text-on-surface-variant font-code-sm uppercase">Enterprise OS</span>
+          </div>
+        </div>
+        <div class="w-2 h-2 rounded-full bg-secondary" title="النظام نشط"></div>
+      </div>
+      <div class="px-space-md py-space-xs"><span
+          class="font-label-sm text-label-sm text-outline uppercase tracking-wider px-space-xs">القائمة الرئيسية</span>
+      </div>
+      <nav class="flex-1 px-space-sm space-y-1"
+        data-active-classes="bg-primary-container text-on-primary font-label-md"><a
+          class="flex items-center gap-space-xs px-space-sm py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"
+          data-path="dashboard" href="#"><span class="material-symbols-outlined text-[20px]">dashboard</span><span
+            class="font-label-md text-label-md">لوحة التحكم</span></a><a
+          class="flex items-center gap-space-xs px-space-sm py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"
+          data-path="leads" href="#"><span class="material-symbols-outlined text-[20px]">contact_phone</span><span
+            class="font-label-md text-label-md">العملاء المحتملون</span></a><a
+          class="flex items-center gap-space-xs px-space-sm py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"
+          data-path="orders" href="#"><span class="material-symbols-outlined text-[20px]">shopping_cart</span><span
+            class="font-label-md text-label-md">الطلبات</span></a><a
+          class="flex items-center gap-space-xs px-space-sm py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"
+          data-path="subscribers" href="#"><span class="material-symbols-outlined text-[20px]">group</span><span
+            class="font-label-md text-label-md">المشتركون والاشتراكات</span></a><a
+          class="flex items-center gap-space-xs px-space-sm py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"
+          data-path="subscriber-map" href="#"><span class="material-symbols-outlined text-[20px]">map</span><span
+            class="font-label-md text-label-md">خريطة المشتركين</span></a><a
+          class="flex items-center gap-space-xs px-space-sm py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"
+          data-path="inbox" href="#"><span class="material-symbols-outlined text-[20px]">forum</span><span
+            class="font-label-md text-label-md">المحادثات الموحدة</span></a><a
+          class="flex items-center gap-space-xs px-space-sm py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"
+          data-path="staff-performance" href="#"><span
+            class="material-symbols-outlined text-[20px]">leaderboard</span><span
+            class="font-label-md text-label-md">أداء الموظفين</span></a><a
+          class="flex items-center gap-space-xs px-space-sm py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"
+          data-path="notifications" href="#"><span
+            class="material-symbols-outlined text-[20px]">notifications</span><span
+            class="font-label-md text-label-md flex-1">الإشعارات</span><span
+            class="px-1.5 py-0.5 rounded-full bg-error text-on-error font-label-sm text-[10px]">جديد</span></a><a
+          class="flex items-center gap-space-xs px-space-sm py-2.5 rounded-lg bg-primary-container text-on-primary font-label-md transition-colors shadow-sm"
+          data-path="settings" href="#"><span class="material-symbols-outlined text-[20px]">tune</span><span
+            class="font-label-md text-label-md">إعدادات النظام</span></a></nav>
+    </div>
+    <div class="p-space-md bg-surface-container-low/60 flex flex-col gap-space-xs">
+      <div class="flex items-center justify-between font-label-sm text-label-sm text-on-surface-variant">
+        <div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-secondary inline-block"></span><span
+            class="text-secondary font-medium">حالة السيرفر: متصل</span></div><span
+          class="font-code-sm text-code-sm text-outline">99.98%</span>
+      </div>
+      <div class="text-center font-code-sm text-code-sm text-outline tracking-wider uppercase pt-space-xs">POWERED BY
+        orcaXTECH</div>
+    </div>
+  </aside>
+  <div class="pr-72">
+    <header
+      class="fixed top-0 right-72 left-0 h-16 bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-40 flex items-center justify-between px-space-lg">
+      <div class="flex items-center gap-space-md flex-1 max-w-lg">
+        <div class="relative w-full"><span
+            class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]">search</span><input
+            class="w-full h-10 pr-10 pl-space-md bg-surface-container-low rounded-lg font-body-sm text-body-sm text-on-surface placeholder:text-outline focus:outline-none focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary-container transition-all"
+            placeholder="البحث السريع عن مشترك، جهاز، عنوان MAC أو رقم هاتف..." type="search"></div>
+      </div>
+      <div class="flex items-center gap-space-md">
+        <div class="flex items-center gap-space-xs"><button
+            class="w-10 h-10 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors relative"
+            type="button"><span class="material-symbols-outlined text-[22px]">notifications</span><span
+              class="absolute top-2 left-2 w-2 h-2 rounded-full bg-error"></span></button><button
+            class="w-10 h-10 rounded-lg flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors"
+            type="button"><span class="material-symbols-outlined text-[22px]">sync</span></button></div>
+        <div class="h-6 w-px bg-surface-container-high"></div>
+        <div class="flex items-center gap-space-xs pl-space-xs">
+          <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span
+              class="material-symbols-outlined text-on-primary text-[18px]">person</span></div>
+          <div class="flex flex-col text-right"><span
+              class="font-label-md text-label-md text-on-surface font-semibold leading-tight">مسؤول النظام</span><span
+              class="font-body-sm text-[11px] text-on-surface-variant leading-none">الإدارة العليا</span></div>
+        </div>
+      </div>
+    </header>
+    <main class="w-full pt-16 bg-background min-h-screen px-space-lg py-space-md">
+      <div class="flex flex-col w-full space-y-space-md">
+        <!-- PAGE HEADER & BREADCRUMB -->
+        <div class="flex flex-col gap-space-xs">
+          <div class="flex items-center gap-2 text-on-surface-variant font-label-sm text-label-sm">
+            <span class="hover:text-primary transition-colors cursor-pointer">لوحة الإدارة</span>
+            <span class="material-symbols-outlined text-[16px] text-outline rotate-180">chevron_left</span>
+            <span class="text-on-surface font-medium">إعدادات النظام</span>
+          </div>
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-space-sm pt-1">
+            <div>
+              <h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">الإعدادات</h1>
+              <p class="font-body-md text-body-md text-on-surface-variant">إدارة أعضاء الفريق، الصلاحيات المخصصة،
+                وتكاملات النظام الفورية</p>
+            </div>
+
+          </div>
+        </div>
+        <!-- HORIZONTAL SUB-TAB NAVIGATION -->
+        <div class="w-full bg-surface-container-lowest rounded-xl p-1.5 shadow-sm">
+          <nav aria-label="أقسام الإعدادات" class="flex items-center gap-2 overflow-x-auto"><button
+              class="flex items-center gap-2 px-space-md py-2.5 rounded-lg bg-primary-container text-on-primary font-label-md text-label-md transition-all shadow-sm"
+              type="button"><span class="material-symbols-outlined text-[18px]">manage_accounts</span><span
+                class="">الفريق والصلاحيات</span><span
+                class="px-2 py-0.5 rounded-full bg-on-primary/20 text-on-primary font-code-sm text-code-sm">5</span></button><button
+              class="flex items-center gap-2 px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-label-md text-label-md transition-all"
+              type="button"><span class="material-symbols-outlined text-[18px]">domain</span><span class="">بيانات
+                الشركة</span></button><button
+              class="flex items-center gap-2 px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-label-md text-label-md transition-all"
+              type="button"><span class="material-symbols-outlined text-[18px]">hub</span><span class="">الربط
+                والتكاملات</span></button><button
+              class="flex items-center gap-2 px-space-md py-2.5 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-label-md text-label-md transition-all"
+              type="button"><span class="material-symbols-outlined text-[18px]">shield</span><span class="">سجل الأنشطة
+                والأمان</span></button></nav>
+        </div>
+        <!-- SECTION 1: TEAM MEMBERS & ROLES -->
+        <section aria-labelledby="team-heading" class="flex flex-col space-y-space-sm">
+          <!-- Section Toolbar -->
+          <div
+            class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm bg-surface-container-lowest p-space-md rounded-xl shadow-sm">
+            <div class="flex items-center gap-space-xs">
+              <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary-container">
+                <span class="material-symbols-outlined text-[24px]">group</span>
+              </div>
+              <div>
+                <h2 class="font-headline-sm text-headline-sm text-on-surface" id="team-heading">أعضاء الفريق</h2>
+                <span class="font-label-sm text-label-sm text-on-surface-variant">5 مستخدمين مفعلين في منظومة orca
+                  CRM</span>
+              </div>
+            </div>
+            <div class="flex flex-wrap items-center gap-space-xs">
+              <!-- Search Input -->
+              <div class="relative min-w-[240px] flex-1 sm:flex-initial">
+                <span
+                  class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-outline text-[18px]">search</span>
+                <input
+                  class="w-full h-10 pr-9 pl- space-sm bg-surface-container-low text-on-surface placeholder:text-outline font-body-sm text-body-sm rounded-lg focus:outline-none focus:bg-surface-container-lowest transition-all"
+                  id="team-search" placeholder="بحث عن موظف بالاسم أو البريد..." type="search">
+              </div>
+              <!-- Filter Dropdown Trigger -->
+              <button
+                class="h-10 px-3 rounded-lg bg-surface-container-low text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-label-md text-label-md flex items-center gap-1.5 transition-colors"
+                type="button">
+                <span class="material-symbols-outlined text-[18px]">filter_list</span>
+                <span class="">تصفية الأدوار</span>
+              </button>
+              <!-- Primary Action -->
+              <button
+                class="h-10 px-space-md rounded-lg bg-primary-container text-on-primary font-label-md text-label-md flex items-center gap-1.5 hover:bg-primary transition-all shadow-sm"
+                type="button">
+                <span class="material-symbols-outlined text-[20px]">person_add</span>
+                <span class="">إضافة عضو جديد</span>
+              </button>
+            </div>
+          </div>
+          <!-- Team Members List (Card Rows) -->
+          <div class="flex flex-col gap-2.5">
+            <!-- Member 1: Tariq Al-Mansour (Admin) -->
+            <article
+              class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm hover:bg-surface-container-low/80 transition-all flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+              <div class="flex items-center gap-space-md min-w-0">
+                <div class="relative flex-shrink-0">
+                  <div
+                    class="w-12 h-12 rounded-xl bg-gradient-to-br from-primary to-primary-container text-on-primary flex items-center justify-center font-headline-sm text-headline-sm shadow-sm">
+                    ط.م</div><span
+                    class="absolute -bottom-1 -left-1 w-3.5 h-3.5 rounded-full bg-secondary ring-2 ring-surface-container-lowest"
+                    title="متصل الآن"></span>
+                </div>
+                <div class="flex flex-col min-w-0">
+                  <div class="flex items-center gap-2 flex-wrap">
+                    <h3 class="font-headline-sm text-headline-sm text-on-surface truncate">طارق المنصور</h3><span
+                      class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-primary/10 text-primary-container font-label-sm text-label-sm font-semibold"><span
+                        class="material-symbols-outlined text-[14px]">shield_person</span><span
+                        class="">مدير</span></span>
+                  </div>
+                  <div class="flex items-center gap-3 mt-1 flex-wrap">
+                    <div class="flex items-center gap-1 text-on-surface-variant font-code-sm text-code-sm"><span
+                        class="material-symbols-outlined text-[14px] text-outline">mail</span><span
+                        class="select-all">tariq.mansour@orcacrm.io</span></div><span
+                      class="text-outline-variant">•</span>
+                    <div class="flex items-center gap-1.5 font-label-sm text-label-sm text-secondary font-medium"><span
+                        class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></span><span class="">متصل
+                        الآن</span></div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="flex items-center justify-between md:justify-end gap-space-md pt-2 md:pt-0 border-t border-surface-container md:border-t-0">
+                <div class="flex items-center gap-3 bg-surface-container-low px-3.5 py-2 rounded-lg">
+                  <div class="flex flex-col text-right"><span
+                      class="font-label-sm text-label-sm text-on-surface font-medium">حساب مفعل</span><span
+                      class="font-body-sm text-[11px] text-outline">صلاحية الدخول نشطة</span></div><label
+                    class="relative inline-flex items-center cursor-pointer"><input checked="" class="sr-only peer"
+                      type="checkbox">
+                    <div
+                      class="w-9 h-5 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:-translate-x-full rtl:peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-secondary">
+                    </div>
+                  </label>
+                </div>
+                <div class="relative flex items-center"><button aria-label="إجراءات طارق المنصور"
+                    class="w-9 h-9 rounded-lg bg-surface-container-low hover:bg-surface-container flex items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors"
+                    type="button"><span class="material-symbols-outlined text-[20px]">more_vert</span></button></div>
+              </div>
+            </article>
+            <!-- Member 2: Sara Odeh (Sales Supervisor) -->
+            <article
+              class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm hover:bg-surface-container-low/80 transition-all flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+              <div class="flex items-center gap-space-md min-w-0">
+                <div class="relative flex-shrink-0">
+                  <div
+                    class="w-12 h-12 rounded-xl bg-surface-container-highest text-primary-container flex items-center justify-center font-headline-sm text-headline-sm font-semibold">
+                    س.ع</div><span
+                    class="absolute -bottom-1 -left-1 w-3.5 h-3.5 rounded-full bg-secondary ring-2 ring-surface-container-lowest"
+                    title="نشطة مؤخراً"></span>
+                </div>
+                <div class="flex flex-col min-w-0">
+                  <div class="flex items-center gap-2 flex-wrap">
+                    <h3 class="font-headline-sm text-headline-sm text-on-surface truncate">سارة عودة</h3><span
+                      class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-primary-fixed text-on-primary-fixed-variant font-label-sm text-label-sm font-medium"><span
+                        class="material-symbols-outlined text-[14px]">supervisor_account</span><span class="">مشرف
+                        مبيعات</span></span>
+                  </div>
+                  <div class="flex items-center gap-3 mt-1 flex-wrap">
+                    <div class="flex items-center gap-1 text-on-surface-variant font-code-sm text-code-sm"><span
+                        class="material-symbols-outlined text-[14px] text-outline">mail</span><span
+                        class="select-all">sara.odeh@orcacrm.io</span></div><span
+                      class="text-outline-variant">•</span>
+                    <div class="flex items-center gap-1 font-label-sm text-label-sm text-on-surface-variant"><span
+                        class="material-symbols-outlined text-[14px] text-secondary">check_circle</span><span
+                        class="">آخر ظهور: منذ 10 دقائق</span></div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="flex items-center justify-between md:justify-end gap-space-md pt-2 md:pt-0 border-t border-surface-container md:border-t-0">
+                <div class="flex items-center gap-3 bg-surface-container-low px-3.5 py-2 rounded-lg">
+                  <div class="flex flex-col text-right"><span
+                      class="font-label-sm text-label-sm text-on-surface font-medium">حساب مفعل</span><span
+                      class="font-body-sm text-[11px] text-outline">صلاحية الدخول نشطة</span></div><label
+                    class="relative inline-flex items-center cursor-pointer"><input checked="" class="sr-only peer"
+                      type="checkbox">
+                    <div
+                      class="w-9 h-5 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:-translate-x-full rtl:peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-secondary">
+                    </div>
+                  </label>
+                </div>
+                <div class="relative flex items-center"><button aria-label="إجراءات سارة عودة"
+                    class="w-9 h-9 rounded-lg bg-surface-container-low hover:bg-surface-container flex items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors"
+                    type="button"><span class="material-symbols-outlined text-[20px]">more_vert</span></button></div>
+              </div>
+            </article>
+            <!-- Member 3: Karim Mansour (Sales Rep) -->
+            <article
+              class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm hover:bg-surface-container-low/80 transition-all flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+              <div class="flex items-center gap-space-md min-w-0">
+                <div class="relative flex-shrink-0">
+                  <div
+                    class="w-12 h-12 rounded-xl bg-surface-container-high text-on-surface-variant flex items-center justify-center font-headline-sm text-headline-sm font-semibold">
+                    ك.م</div><span
+                    class="absolute -bottom-1 -left-1 w-3.5 h-3.5 rounded-full bg-secondary ring-2 ring-surface-container-lowest"
+                    title="نشط مؤخراً"></span>
+                </div>
+                <div class="flex flex-col min-w-0">
+                  <div class="flex items-center gap-2 flex-wrap">
+                    <h3 class="font-headline-sm text-headline-sm text-on-surface truncate">كريم منصور</h3><span
+                      class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-surface-container-high text-on-surface font-label-sm text-label-sm font-medium"><span
+                        class="material-symbols-outlined text-[14px]">support_agent</span><span class="">موظف
+                        مبيعات</span></span>
+                  </div>
+                  <div class="flex items-center gap-3 mt-1 flex-wrap">
+                    <div class="flex items-center gap-1 text-on-surface-variant font-code-sm text-code-sm"><span
+                        class="material-symbols-outlined text-[14px] text-outline">mail</span><span
+                        class="select-all">karim.m@orcacrm.io</span></div><span
+                      class="text-outline-variant">•</span>
+                    <div class="flex items-center gap-1 font-label-sm text-label-sm text-on-surface-variant"><span
+                        class="material-symbols-outlined text-[14px] text-outline">schedule</span><span class="">آخر
+                        ظهور: منذ 25 دقيقة</span></div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="flex items-center justify-between md:justify-end gap-space-md pt-2 md:pt-0 border-t border-surface-container md:border-t-0">
+                <div class="flex items-center gap-3 bg-surface-container-low px-3.5 py-2 rounded-lg">
+                  <div class="flex flex-col text-right"><span
+                      class="font-label-sm text-label-sm text-on-surface font-medium">حساب مفعل</span><span
+                      class="font-body-sm text-[11px] text-outline">صلاحية الدخول نشطة</span></div><label
+                    class="relative inline-flex items-center cursor-pointer"><input checked="" class="sr-only peer"
+                      type="checkbox">
+                    <div
+                      class="w-9 h-5 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:-translate-x-full rtl:peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-secondary">
+                    </div>
+                  </label>
+                </div>
+                <div class="relative flex items-center"><button aria-label="إجراءات كريم منصور"
+                    class="w-9 h-9 rounded-lg bg-surface-container-low hover:bg-surface-container flex items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors"
+                    type="button"><span class="material-symbols-outlined text-[20px]">more_vert</span></button></div>
+              </div>
+            </article>
+            <!-- Member 4: Rania Khoury (Sales Rep) -->
+            <article
+              class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm hover:bg-surface-container-low/80 transition-all flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+              <div class="flex items-center gap-space-md min-w-0">
+                <div class="relative flex-shrink-0">
+                  <div
+                    class="w-12 h-12 rounded-xl bg-surface-container-high text-on-surface-variant flex items-center justify-center font-headline-sm text-headline-sm font-semibold">
+                    ر.خ</div><span
+                    class="absolute -bottom-1 -left-1 w-3.5 h-3.5 rounded-full bg-outline-variant ring-2 ring-surface-container-lowest"
+                    title="غير متصلة حالياً"></span>
+                </div>
+                <div class="flex flex-col min-w-0">
+                  <div class="flex items-center gap-2 flex-wrap">
+                    <h3 class="font-headline-sm text-headline-sm text-on-surface truncate">رانيا خوري</h3><span
+                      class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-surface-container-high text-on-surface font-label-sm text-label-sm font-medium"><span
+                        class="material-symbols-outlined text-[14px]">support_agent</span><span class="">موظف
+                        مبيعات</span></span>
+                  </div>
+                  <div class="flex items-center gap-3 mt-1 flex-wrap">
+                    <div class="flex items-center gap-1 text-on-surface-variant font-code-sm text-code-sm"><span
+                        class="material-symbols-outlined text-[14px] text-outline">mail</span><span
+                        class="select-all">rania.k@orcacrm.io</span></div><span
+                      class="text-outline-variant">•</span>
+                    <div class="flex items-center gap-1 font-label-sm text-label-sm text-on-surface-variant"><span
+                        class="material-symbols-outlined text-[14px] text-outline">history</span><span class="">آخر
+                        ظهور: اليوم 09:30 ص</span></div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="flex items-center justify-between md:justify-end gap-space-md pt-2 md:pt-0 border-t border-surface-container md:border-t-0">
+                <div class="flex items-center gap-3 bg-surface-container-low px-3.5 py-2 rounded-lg">
+                  <div class="flex flex-col text-right"><span
+                      class="font-label-sm text-label-sm text-on-surface font-medium">حساب مفعل</span><span
+                      class="font-body-sm text-[11px] text-outline">صلاحية الدخول نشطة</span></div><label
+                    class="relative inline-flex items-center cursor-pointer"><input checked="" class="sr-only peer"
+                      type="checkbox">
+                    <div
+                      class="w-9 h-5 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:-translate-x-full rtl:peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-secondary">
+                    </div>
+                  </label>
+                </div>
+                <div class="relative flex items-center"><button aria-label="إجراءات رانيا خوري"
+                    class="w-9 h-9 rounded-lg bg-surface-container-low hover:bg-surface-container flex items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors"
+                    type="button"><span class="material-symbols-outlined text-[20px]">more_vert</span></button></div>
+              </div>
+            </article>
+            <!-- Member 5: Hassan Ali (Technical Support) -->
+            <article
+              class="bg-surface-container-lowest p-space-md rounded-xl shadow-sm hover:bg-surface-container-low/80 transition-all flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+              <div class="flex items-center gap-space-md min-w-0">
+                <div class="relative flex-shrink-0">
+                  <div
+                    class="w-12 h-12 rounded-xl bg-tertiary-fixed text-on-tertiary-fixed-variant flex items-center justify-center font-headline-sm text-headline-sm font-semibold">
+                    ح.ع</div><span
+                    class="absolute -bottom-1 -left-1 w-3.5 h-3.5 rounded-full bg-outline-variant ring-2 ring-surface-container-lowest"
+                    title="غير متصل حالياً"></span>
+                </div>
+                <div class="flex flex-col min-w-0">
+                  <div class="flex items-center gap-2 flex-wrap">
+                    <h3 class="font-headline-sm text-headline-sm text-on-surface truncate">حسن علي</h3><span
+                      class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-tertiary-fixed-dim/30 text-tertiary-container font-label-sm text-label-sm font-semibold"><span
+                        class="material-symbols-outlined text-[14px]">build</span><span class="">دعم فني</span></span>
+                  </div>
+                  <div class="flex items-center gap-3 mt-1 flex-wrap">
+                    <div class="flex items-center gap-1 text-on-surface-variant font-code-sm text-code-sm"><span
+                        class="material-symbols-outlined text-[14px] text-outline">mail</span><span
+                        class="select-all">hassan.ali@orcacrm.io</span></div><span
+                      class="text-outline-variant">•</span>
+                    <div class="flex items-center gap-1 font-label-sm text-label-sm text-on-surface-variant"><span
+                        class="material-symbols-outlined text-[14px] text-outline">schedule</span><span class="">آخر
+                        ظهور: منذ ساعة</span></div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="flex items-center justify-between md:justify-end gap-space-md pt-2 md:pt-0 border-t border-surface-container md:border-t-0">
+                <div class="flex items-center gap-3 bg-surface-container-low px-3.5 py-2 rounded-lg">
+                  <div class="flex flex-col text-right"><span
+                      class="font-label-sm text-label-sm text-on-surface font-medium">حساب مفعل</span><span
+                      class="font-body-sm text-[11px] text-outline">صلاحية الدخول نشطة</span></div><label
+                    class="relative inline-flex items-center cursor-pointer"><input checked="" class="sr-only peer"
+                      type="checkbox">
+                    <div
+                      class="w-9 h-5 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:-translate-x-full rtl:peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-secondary">
+                    </div>
+                  </label>
+                </div>
+                <div class="relative flex items-center"><button aria-label="إجراءات حسن علي"
+                    class="w-9 h-9 rounded-lg bg-surface-container-low hover:bg-surface-container flex items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors"
+                    type="button"><span class="material-symbols-outlined text-[20px]">more_vert</span></button></div>
+              </div>
+            </article>
+          </div>
+          <!-- Role Permissions Legend / Overview Bar -->
+          <div class="bg-surface-container-low rounded-xl p-space-md shadow-sm">
+            <div class="flex items-center justify-between pb-3">
+              <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary-container text-[20px]">verified_user</span>
+                <h3 class="font-headline-sm text-headline-sm text-on-surface">مستويات الصلاحيات المطبقة في النظام</h3>
+              </div>
+              <button
+                class="text-primary-container hover:text-primary font-label-sm text-label-sm font-semibold flex items-center gap-1"
+                type="button">
+                <span class="">تعديل مصفوفة الصلاحيات</span>
+                <span class="material-symbols-outlined text-[16px] rotate-180">arrow_back</span>
+              </button>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-sm pt-2">
+              <!-- Legend Item 1 -->
+              <div class="bg-surface-container-lowest p-space-sm rounded-lg flex flex-col gap-1.5 shadow-sm">
+                <div class="flex items-center gap-2">
+                  <span class="w-2.5 h-2.5 rounded-full bg-primary-container"></span>
+                  <span class="font-label-md text-label-md text-on-surface font-semibold">مدير النظام</span>
+                </div>
+                <p class="font-body-sm text-body-sm text-on-surface-variant">صلاحيات كاملة، إدارة الفواتير، إعدادات
+                  المشتركين وسجلات الأمان والموظفين.</p>
+              </div>
+              <!-- Legend Item 2 -->
+              <div class="bg-surface-container-lowest p-space-sm rounded-lg flex flex-col gap-1.5 shadow-sm">
+                <div class="flex items-center gap-2">
+                  <span class="w-2.5 h-2.5 rounded-full bg-primary"></span>
+                  <span class="font-label-md text-label-md text-on-surface font-semibold">مشرف مبيعات</span>
+                </div>
+                <p class="font-body-sm text-body-sm text-on-surface-variant">توزيع العملاء المحتملين، مراقبة تقارير
+                  المبيعات، ومتابعة سجل المحادثات الجماعي.</p>
+              </div>
+              <!-- Legend Item 3 -->
+              <div class="bg-surface-container-lowest p-space-sm rounded-lg flex flex-col gap-1.5 shadow-sm">
+                <div class="flex items-center gap-2">
+                  <span class="w-2.5 h-2.5 rounded-full bg-surface-dim"></span>
+                  <span class="font-label-md text-label-md text-on-surface font-semibold">موظف مبيعات</span>
+                </div>
+                <p class="font-body-sm text-body-sm text-on-surface-variant">إدارة المحادثات المباشرة، إنشاء الطلبات
+                  الجديدة والتجديد، ومتابعة العميل المحال.</p>
+              </div>
+              <!-- Legend Item 4 -->
+              <div class="bg-surface-container-lowest p-space-sm rounded-lg flex flex-col gap-1.5 shadow-sm">
+                <div class="flex items-center gap-2">
+                  <span class="w-2.5 h-2.5 rounded-full bg-tertiary-fixed-dim"></span>
+                  <span class="font-label-md text-label-md text-on-surface font-semibold">دعم فني</span>
+                </div>
+                <p class="font-body-sm text-body-sm text-on-surface-variant">فحص السيرفرات وبيانات أجهزة المشتركين (MAC
+                  Address)، تحديث الاشتراكات وحل البلاغات.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- SECTION 2: LIVE CLOUD INTEGRATIONS PREVIEW -->
+
+      </div>
+      <script>
+        // Simple instant search filter for team member cards
+        const searchInput = document.getElementById('team-search');
+        if (searchInput) {
+          searchInput.addEventListener('input', function (e) {
+            const term = e.target.value.toLowerCase().trim();
+            const rows = document.querySelectorAll('article');
+            rows.forEach(row => {
+              const text = row.innerText.toLowerCase();
+              if (text.includes(term)) {
+                row.style.display = 'flex';
+              } else {
+                row.style.display = 'none';
+              }
+            });
+          });
+        }
+      </script>
+    </main>
+  </div>
+
+</body>
+
+</html>
