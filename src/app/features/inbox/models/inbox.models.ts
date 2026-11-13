@@ -55,11 +55,22 @@ export interface Conversation {
   linkedPlan?: string;
 }
 
+export interface WhatsAppIncomingCall {
+  callId: string;
+  callerPhone: string;
+  sdpOffer: string;
+  conversationId: string;
+  customerName: string;
+  phoneNumberId: string;
+}
+
+export type CallState = 'idle' | 'ringing' | 'connecting' | 'active' | 'ending';
+
 export interface Message {
   id: string;
   conversationId: string;
   content: string;
-  contentType?: 'text' | 'image' | 'document' | 'audio' | 'template';
+  contentType?: 'text' | 'image' | 'document' | 'audio' | 'template' | 'call';
   fileName?: string;
   fileSize?: string;
   audioDuration?: number;

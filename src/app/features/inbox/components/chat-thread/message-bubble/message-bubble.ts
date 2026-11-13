@@ -85,8 +85,37 @@ import { environment } from '../../../../../../environments/environment';
             </div>
           }
 
+          <!-- WhatsApp Voice Call Record -->
+          @if (isCall()) {
+            <div class="flex items-center gap-3 p-3 rounded-xl bg-surface-container-low border border-border-subtle min-w-[220px]">
+              <div
+                class="w-10 h-10 rounded-full flex items-center justify-center shrink-0"
+                [class.bg-emerald-100]="callData()?.result === 'answered'"
+                [class.text-emerald-600]="callData()?.result === 'answered'"
+                [class.bg-red-100]="callData()?.result !== 'answered'"
+                [class.text-red-600]="callData()?.result !== 'answered'"
+              >
+                <span class="material-symbols-outlined text-[20px]">
+                  {{ callData()?.result === 'answered' ? 'phone_in_talk' : 'phone_missed' }}
+                </span>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="text-xs font-bold text-on-surface">
+                  {{ callData()?.result === 'answered' ? 'مكالمة واتساب صوتية' : 'مكالمة واتساب فائتة' }}
+                </div>
+                <div class="text-[11px] text-outline mt-0.5">
+                  @if (callData()?.result === 'answered') {
+                    المدة: {{ formatAudioTime(callData()?.duration || 0) }}
+                  } @else {
+                    لم يتم الرد
+                  }
+                </div>
+              </div>
+            </div>
+          }
+
           <!-- Message Text (When not pure media or when text is present) -->
-          @if (!isAudio() && !isDocument() && (!isImage() || isNonUrlText())) {
+          @if (!isCall() && !isAudio() && !isDocument() && (!isImage() || isNonUrlText())) {
             <p class="font-body-md text-body-md leading-relaxed whitespace-pre-line text-on-surface">
               {{ message().content }}
             </p>
@@ -290,8 +319,22 @@ export class MessageBubbleComponent {
     return '';
   });
 
+  isCall = computed(() => {
+    return this.message().contentType === 'call';
+  });
+
+  callData = computed(() => {
+    if (!this.isCall()) return null;
+    try {
+      return JSON.parse(this.message().content);
+    } catch {
+      return { duration: 0, result: 'missed' };
+    }
+  });
+
   isImage = computed(() => {
     const m = this.message();
+    if (m.contentType === 'call') return false;
     const c = (m.content || '').trim();
     if (c.startsWith('[') && c.endsWith(']')) {
       return false;
@@ -307,6 +350,7 @@ export class MessageBubbleComponent {
 
   isAudio = computed(() => {
     const m = this.message();
+    if (m.contentType === 'call') return false;
     const c = (m.content || '').trim();
     if (c.startsWith('[') && c.endsWith(']')) {
       return false;
@@ -320,6 +364,7 @@ export class MessageBubbleComponent {
 
   isDocument = computed(() => {
     const m = this.message();
+    if (m.contentType === 'call') return false;
     const c = (m.content || '').trim();
     if (c.startsWith('[') && c.endsWith(']')) {
       return false;

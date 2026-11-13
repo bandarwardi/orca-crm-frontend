@@ -11,11 +11,13 @@ import { NotificationsStore } from '../../features/notifications/store/notificat
 import { NotificationItem } from '../../features/notifications/models/notifications.models';
 import { RingCentralSoftphone } from '../../shared/components/ringcentral-softphone/ringcentral-softphone';
 import { RingCentralWidgetService } from '../../core/services/ringcentral-widget.service';
+import { CallNotificationComponent } from '../../shared/components/call-notification/call-notification';
+import { InboxSocketService } from '../../core/services/inbox-socket.service';
 
 @Component({
   selector: 'app-shell',
   standalone: true,
-  imports: [CommonModule, RouterModule, Avatar, GlobalSearchComponent, RingCentralSoftphone],
+  imports: [CommonModule, RouterModule, Avatar, GlobalSearchComponent, RingCentralSoftphone, CallNotificationComponent],
   template: `
     <div class="bg-canvas font-body-md text-on-surface antialiased h-screen w-full flex flex-row overflow-hidden relative" dir="rtl">
       <!-- Mobile Backdrop Overlay -->
@@ -327,6 +329,9 @@ import { RingCentralWidgetService } from '../../core/services/ringcentral-widget
 
       <!-- RingCentral Softphone Floating Widget -->
       <app-ringcentral-softphone></app-ringcentral-softphone>
+
+      <!-- WhatsApp WebRTC Incoming & Active Call Floating Banner -->
+      <app-call-notification></app-call-notification>
     </div>
   `
 })
@@ -337,6 +342,7 @@ export class AppShell implements OnInit {
   readonly inboxStore = inject(InboxStore);
   readonly notificationsStore = inject(NotificationsStore);
   readonly rcService = inject(RingCentralWidgetService);
+  readonly socketService = inject(InboxSocketService);
   private router = inject(Router);
 
   isSidebarOpen = signal(false);
@@ -379,6 +385,12 @@ export class AppShell implements OnInit {
     this.leadsStore.loadLeads();
     this.inboxStore.loadConversations();
     this.notificationsStore.loadNotifications();
+
+    const token = this.authStore.userToken() || '';
+    const tenantId = this.authStore.tenantId() || '';
+    if (token) {
+      this.socketService.connect(token, tenantId);
+    }
   }
 
   toggleSidebar(): void {

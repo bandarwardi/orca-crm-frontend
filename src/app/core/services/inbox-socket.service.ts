@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { io, Socket } from 'socket.io-client';
 import { environment } from '../../../environments/environment';
+import { WhatsAppIncomingCall } from '../../features/inbox/models/inbox.models';
 
 @Injectable({ providedIn: 'root' })
 export class InboxSocketService {
@@ -15,6 +16,8 @@ export class InboxSocketService {
     status: string;
     conversationId?: string;
   }>();
+  onIncomingCall$ = new Subject<WhatsAppIncomingCall>();
+  onCallEnded$ = new Subject<{ callId: string; duration?: number }>();
 
   connect(token: string, tenantId: string): void {
     if (this.socket) {
@@ -48,6 +51,16 @@ export class InboxSocketService {
     this.socket.on('message_status_updated', (data) => {
       console.log('[InboxSocketService] Message status updated:', data);
       this.onMessageStatusUpdated$.next(data);
+    });
+
+    this.socket.on('call_incoming', (data: WhatsAppIncomingCall) => {
+      console.log('[InboxSocketService] Incoming WhatsApp call:', data);
+      this.onIncomingCall$.next(data);
+    });
+
+    this.socket.on('call_ended', (data: { callId: string; duration?: number }) => {
+      console.log('[InboxSocketService] WhatsApp call ended:', data);
+      this.onCallEnded$.next(data);
     });
     
     this.socket.on('disconnect', () => {

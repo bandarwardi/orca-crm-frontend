@@ -14,6 +14,7 @@ import {
 } from '@ngrx/signals';
 import { InboxSocketService } from '../../../core/services/inbox-socket.service';
 import { RingCentralWidgetService } from '../../../core/services/ringcentral-widget.service';
+import { WebRtcCallService } from '../../../core/services/webrtc-call.service';
 import {
   AiSuggestion,
   Conversation,
@@ -23,6 +24,7 @@ import {
   MessagingChannel,
   RingCentralCall,
   WhatsAppTemplate,
+  WhatsAppIncomingCall,
 } from '../models/inbox.models';
 import { WhatsAppApiService, WhatsAppAccount } from '../../../core/services/api/whatsapp-api.service';
 import {
@@ -98,6 +100,9 @@ export interface InboxState {
 
   // New Chat Modal
   isNewChatModalOpen: boolean;
+
+  // WhatsApp Calling
+  activeCall: WhatsAppIncomingCall | null;
 }
 
 const initialConversations: Conversation[] = [];
@@ -123,6 +128,7 @@ export const InboxStore = signalStore(
     selectedWhatsAppAccountId: 'all',
     isWhatsAppAccountsLoading: false,
     isNewChatModalOpen: false,
+    activeCall: null,
   }),
   withComputed(store => {
     const totalCount = computed(() => store.conversations().length);
@@ -206,8 +212,20 @@ export const InboxStore = signalStore(
     store,
     api = inject(InboxApiService),
     rcWidget = inject(RingCentralWidgetService),
-    whatsAppApi = inject(WhatsAppApiService)
+    whatsAppApi = inject(WhatsAppApiService),
+    webRtcService = inject(WebRtcCallService)
   ) => ({
+    setActiveCall(call: WhatsAppIncomingCall | null): void {
+      patchState(store, { activeCall: call });
+      if (call) {
+        webRtcService.notifyIncomingCall(call);
+      }
+    },
+
+    clearActiveCall(): void {
+      patchState(store, { activeCall: null });
+    },
+
     setSelectedWhatsAppAccount(accountId: string): void {
       patchState(store, { selectedWhatsAppAccountId: accountId });
     },
@@ -1104,6 +1122,7 @@ export const InboxStore = signalStore(
       store,
       socketService = inject(InboxSocketService),
       rcWidget = inject(RingCentralWidgetService),
+      webRtcService = inject(WebRtcCallService),
     ) {
       rcWidget.callEnd$.subscribe((call: RingCentralCall) => {
         const activeId = store.activeConversationId();
@@ -1317,6 +1336,16 @@ export const InboxStore = signalStore(
 
           return { ...state, conversations: updatedConversations, messages: newMessages };
         });
+      });
+
+      // الاستماع لأحداث مكالمات واتساب الواردة
+      socketService.onIncomingCall$.subscribe(call => {
+        store.setActiveCall(call);
+      });
+
+      socketService.onCallEnded$.subscribe(({ callId }) => {
+        webRtcService.onRemoteCallEnded(callId);
+        store.clearActiveCall();
       });
     },
   }),
