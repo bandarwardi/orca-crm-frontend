@@ -27,6 +27,7 @@ export class Settings implements OnInit {
 
   // WhatsApp form & token visibility state
   showAccessToken = signal<boolean>(false);
+  showAppSecret = signal<boolean>(false);
 
   // Form for adding a new team member
   addMemberForm = this.fb.group({
@@ -315,6 +316,10 @@ export class Settings implements OnInit {
     this.showAccessToken.update((v) => !v);
   }
 
+  toggleShowAppSecret(): void {
+    this.showAppSecret.update((v) => !v);
+  }
+
   openAddWhatsAppModal(): void {
     const isFirstAccount = this.store.whatsappAccounts().length === 0;
     this.whatsappForm.reset({
@@ -329,6 +334,7 @@ export class Settings implements OnInit {
       status: 'active'
     });
     this.showAccessToken.set(false);
+    this.showAppSecret.set(false);
     this.store.openAddWhatsAppModal();
   }
 
@@ -349,6 +355,7 @@ export class Settings implements OnInit {
       status: acc.status === 'unverified' ? 'active' : acc.status
     });
     this.showAccessToken.set(false);
+    this.showAppSecret.set(false);
     this.store.openEditWhatsAppModal(acc);
   }
 

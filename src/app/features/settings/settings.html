@@ -1363,13 +1363,19 @@
         }
       </div>
 
-      <!-- Field: App Secret (Optional for HMAC Webhook validation) -->
+      <!-- Field: App Secret (with visibility toggle) -->
       <div>
-        <label class="block font-label-md text-xs font-semibold text-on-surface mb-1">
-          المفتاح السري للتطبيق (App Secret) <span class="text-outline text-[11px] font-normal">(للتحقق من توقيع HMAC
-            Webhook)</span>
-        </label>
-        <input type="password" formControlName="app_secret" placeholder="••••••••••••••••" dir="ltr"
+        <div class="flex items-center justify-between mb-1">
+          <label class="block font-label-md text-xs font-semibold text-on-surface">
+            المفتاح السري للتطبيق (App Secret) <span class="text-outline text-[11px] font-normal">(للتحقق من توقيع HMAC Webhook)</span>
+          </label>
+          <button type="button" (click)="toggleShowAppSecret()"
+            class="text-xs text-primary-container hover:underline cursor-pointer flex items-center gap-1">
+            <span class="material-symbols-outlined text-[14px]">{{ showAppSecret() ? 'visibility_off' : 'visibility' }}</span>
+            <span>{{ showAppSecret() ? 'إخفاء' : 'إظهار' }}</span>
+          </button>
+        </div>
+        <input [type]="showAppSecret() ? 'text' : 'password'" formControlName="app_secret" placeholder="••••••••••••••••" dir="ltr"
           class="w-full h-10 px-3 rounded-lg border border-surface-container-high bg-surface-container-low/40 text-on-surface focus:outline-none focus:border-primary-container text-body-md transition-colors text-left font-mono" />
       </div>
 
