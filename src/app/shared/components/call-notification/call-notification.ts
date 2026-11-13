@@ -34,10 +34,11 @@ import { WebRtcCallService } from '../../../core/services/webrtc-call.service';
             >
               <span class="material-symbols-outlined text-2xl">
                 @if (callService.callState() === 'ringing') { call }
+                @else if (callService.callState() === 'calling') { ring_volume }
                 @else if (callService.callState() === 'connecting') { wifi_calling }
                 @else { phone_in_talk }
               </span>
-              @if (callService.callState() === 'ringing') {
+              @if (callService.callState() === 'ringing' || callService.callState() === 'calling') {
                 <span class="absolute inset-0 rounded-full bg-[#25D366] animate-ping opacity-50"></span>
               }
             </div>
@@ -46,6 +47,7 @@ import { WebRtcCallService } from '../../../core/services/webrtc-call.service';
               <div class="flex items-center justify-between">
                 <span class="text-xs font-medium text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">
                   @if (callService.callState() === 'ringing') { مكالمة واتساب واردة }
+                  @else if (callService.callState() === 'calling') { جارٍ الاتصال بالعميل... }
                   @else if (callService.callState() === 'connecting') { جارٍ بدء الاتصال... }
                   @else { مكالمة نشطة }
                 </span>
@@ -96,6 +98,24 @@ import { WebRtcCallService } from '../../../core/services/webrtc-call.service';
                 <span class="material-symbols-outlined text-xl">call</span>
                 <span>رد واستماع</span>
               </button>
+            }
+
+            @if (callService.callState() === 'calling') {
+              <div class="flex-1 flex items-center justify-between gap-3">
+                <div class="flex items-center gap-2 text-on-surface-muted text-sm font-medium">
+                  <span class="material-symbols-outlined text-xl animate-spin text-emerald-600">progress_activity</span>
+                  <span>جارٍ الرنين...</span>
+                </div>
+                <button
+                  type="button"
+                  (click)="onHangup()"
+                  class="flex items-center justify-center gap-1.5 py-2 px-3.5 rounded-xl bg-red-500 hover:bg-red-600 text-white font-medium text-xs transition-colors shadow-xs"
+                  title="إلغاء الاتصال"
+                >
+                  <span class="material-symbols-outlined text-base">call_end</span>
+                  <span>إلغاء</span>
+                </button>
+              </div>
             }
 
             @if (callService.callState() === 'connecting') {

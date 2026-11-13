@@ -64,7 +64,7 @@ export interface WhatsAppIncomingCall {
   phoneNumberId: string;
 }
 
-export type CallState = 'idle' | 'ringing' | 'connecting' | 'active' | 'ending';
+export type CallState = 'idle' | 'ringing' | 'connecting' | 'calling' | 'active' | 'ending';
 
 export interface Message {
   id: string;

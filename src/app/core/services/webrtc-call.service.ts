@@ -47,6 +47,95 @@ export class WebRtcCallService {
   }
 
   /**
+   * بدء مكالمة واتساب صادرة إلى العميل
+   */
+  async startOutboundCall(
+    phoneNumber: string,
+    customerName?: string,
+    phoneNumberId?: string,
+  ): Promise<{ success: boolean; error?: string }> {
+    const cleanPhone = phoneNumber.replace(/[^0-9]/g, '');
+    if (!cleanPhone) {
+      return { success: false, error: 'رقم الهاتف غير صالح' };
+    }
+
+    this.cleanup();
+    this.callState.set('calling');
+    this.activeCallerPhone.set(`+${cleanPhone}`);
+    this.activeCallerName.set(customerName || `+${cleanPhone}`);
+    if (phoneNumberId) {
+      this.activePhoneNumberId.set(phoneNumberId);
+    }
+
+    try {
+      // 1. طلب إذن الميكروفون
+      this.localStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
+
+      // 2. إنشاء RTCPeerConnection مع STUN servers
+      this.peerConnection = new RTCPeerConnection({
+        iceServers: [
+          { urls: 'stun:stun.l.google.com:19302' },
+          { urls: 'stun:stun1.l.google.com:19302' },
+        ],
+      });
+
+      // 3. إعداد تشغيل الصوت الوارد من العميل
+      this.remoteAudio = new Audio();
+      this.remoteAudio.autoplay = true;
+
+      this.peerConnection.ontrack = (event) => {
+        if (event.streams && event.streams[0] && this.remoteAudio) {
+          this.remoteAudio.srcObject = event.streams[0];
+          this.remoteAudio.play().catch(err => console.warn('Audio play autoplay error:', err));
+        }
+      };
+
+      // 4. إضافة مسار الصوت المحلي
+      this.localStream.getTracks().forEach(track => {
+        this.peerConnection!.addTrack(track, this.localStream!);
+      });
+
+      // 5. إنشاء SDP Offer
+      const offer = await this.peerConnection.createOffer();
+      await this.peerConnection.setLocalDescription(offer);
+
+      // 6. انتظار اكتمال تجميع مرشحات ICE
+      const sdpOffer = await this.waitForIceGathering();
+
+      // 7. إرسال طلب الاتصال إلى الـ Backend ثم Meta
+      const res: any = await firstValueFrom(
+        this.http.post(`${environment.apiUrl}/whatsapp/calls/initiate`, {
+          to: cleanPhone,
+          phoneNumberId: phoneNumberId || this.activePhoneNumberId() || undefined,
+          sdpOffer,
+        }),
+      );
+
+      if (res?.success && (res.callId || res.sdpAnswer)) {
+        if (res.callId) {
+          this.activeCallId.set(res.callId);
+        }
+        if (res.sdpAnswer) {
+          await this.peerConnection.setRemoteDescription(
+            new RTCSessionDescription({ type: 'answer', sdp: res.sdpAnswer }),
+          );
+        }
+        this.callState.set('active');
+        this.startDurationTimer();
+        return { success: true };
+      } else {
+        const errorMsg = res?.error || 'فشل الاتصال من Meta';
+        this.cleanup();
+        return { success: false, error: errorMsg };
+      }
+    } catch (err: any) {
+      const errorMsg = err?.error?.error || err?.error?.message || err?.message || 'فشل بدء المكالمة';
+      this.cleanup();
+      return { success: false, error: errorMsg };
+    }
+  }
+
+  /**
    * قبول المكالمة — يطلب الميكروفون ويُنشئ RTCPeerConnection ويرسل SDP Answer
    */
   async answerCall(sdpOffer?: string): Promise<{ success: boolean; error?: string }> {

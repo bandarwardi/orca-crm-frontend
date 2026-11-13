@@ -15,6 +15,7 @@ import { MessageBubbleComponent } from './message-bubble/message-bubble';
 import { AiSuggestionBarComponent } from './ai-suggestion-bar/ai-suggestion-bar';
 import { MessageComposerComponent } from './message-composer/message-composer';
 import { formatThreadDateDivider } from '../../../../core/utils/date-format.util';
+import { WebRtcCallService } from '../../../../core/services/webrtc-call.service';
 
 /**
  * ChatThreadComponent
@@ -114,8 +115,20 @@ import { formatThreadDateDivider } from '../../../../core/utils/date-format.util
             </div>
           </div>
 
-          <!-- Essential Action: Call via RingCentral & Link to Profile -->
+          <!-- Essential Action: Call via WhatsApp / RingCentral & Link to Profile -->
           <div class="flex items-center gap-2 shrink-0">
+            <!-- WhatsApp Outbound Voice Call Button -->
+            <button
+              type="button"
+              (click)="callWhatsAppActiveCustomer()"
+              class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#25D366]/10 hover:bg-[#25D366]/20 text-[#128C7E] font-label-sm text-xs font-bold border border-[#25D366]/30 transition-all active:scale-95 cursor-pointer shadow-2xs"
+              title="بدء مكالمة واتساب صوتية مباشرة عبر المتصفح"
+            >
+              <span class="material-symbols-outlined text-[16px]">phone_in_talk</span>
+              <span>اتصال (واتساب)</span>
+            </button>
+
+            <!-- RingCentral Phone Call Button -->
             <button
               type="button"
               (click)="store.dialActiveCustomer()"
@@ -319,5 +332,18 @@ export class ChatThreadComponent implements AfterViewInit {
   onAiEdit(): void {
     this.store.applyAiSuggestionToComposer();
     this.composerRef?.focusInput();
+  }
+
+  protected readonly webRtcService = inject(WebRtcCallService);
+
+  callWhatsAppActiveCustomer(): void {
+    const conv = this.store.activeConversation();
+    if (!conv?.phone) return;
+    const selectedAccount = this.store.selectedWhatsAppAccount();
+    this.webRtcService.startOutboundCall(
+      conv.phone,
+      conv.contactName,
+      selectedAccount?.phone_number_id,
+    );
   }
 }
